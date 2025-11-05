@@ -1,9 +1,10 @@
 require("dotenv").config();
 const express = require("express");
-const mongoose = require("mongoose");
 const app = express();
 const cors = require("cors");
 const helmet = require("helmet");
+const connectDB = require('./config/db');
+const PORT = process.env.PORT || 5000;
 
 // Import routes 
 const authRoutes = require("./routes/authRoutes");
@@ -18,9 +19,7 @@ app.use(cors());
 app.use(helmet());
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB Connected Successfully!"))
-  .catch(err => console.error("MongoDB Connection Error:", err));
+connectDB(); // calls the external db.js function
 
 // Default route
 app.get("/", (req, res) => {
@@ -34,7 +33,4 @@ app.use("/api/workouts", workoutRoutes);
 app.use("/api/ai", aiRoutes);
 
 // Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(` Server running on port ${PORT}`));
