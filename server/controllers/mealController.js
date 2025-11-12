@@ -14,6 +14,17 @@ exports.addMeal = async (req, res) => {
       fats,
     });
 
+    // Get meals after adding a new one
+    exports.getMeals = async (req, res) => {
+      try {
+        const meals = await Meal.find({ user: req.user.id }).sort({ createdAt: -1 });
+        res.status(200).json(meals);
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error fetching meals' });
+      }
+    };
+
     res.status(201).json(meal);
   } catch (error) {
     res.status(500).json({ message: error.message });
