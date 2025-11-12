@@ -40,6 +40,7 @@ exports.loginUser = async (req, res) => {
           email: user.email,
           token,
         });
+        
       } else {
         res.status(401).json({ message: 'Invalid email or password' });
       }
