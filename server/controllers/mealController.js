@@ -48,3 +48,28 @@ exports.getMealById = async (req, res) => {
     res.status(500).json({ message: 'Error fetching meal' });
   }
 };
+
+// @desc    Update a meal
+// @route   PUT /api/meals/:id
+// @access  Private
+exports.updateMeal = async (req, res) => {
+    try {
+      const meal = await Meal.findOne({ _id: req.params.id, user: req.user.id });
+  
+      if (!meal) {
+        return res.status(404).json({ message: 'Meal not found' });
+      }
+  
+      const updatedMeal = await Meal.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        { new: true }
+      );
+  
+      res.status(200).json(updatedMeal);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error updating meal' });
+    }
+  };
+  
