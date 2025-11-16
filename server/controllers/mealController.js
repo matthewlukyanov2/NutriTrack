@@ -72,4 +72,25 @@ exports.updateMeal = async (req, res) => {
       res.status(500).json({ message: 'Error updating meal' });
     }
   };
+
+// @desc    Delete a meal
+// @route   DELETE /api/meals/:id
+// @access  Private
+exports.deleteMeal = async (req, res) => {
+    try {
+      const meal = await Meal.findOne({ _id: req.params.id, user: req.user.id });
+  
+      if (!meal) {
+        return res.status(404).json({ message: 'Meal not found' });
+      }
+  
+      await meal.deleteOne();
+  
+      res.status(200).json({ message: 'Meal deleted successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error deleting meal' });
+    }
+  };
+  
   
