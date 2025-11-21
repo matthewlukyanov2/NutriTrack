@@ -1,9 +1,18 @@
 const express = require("express");
 const router = express.Router();
+const { protect } = require('../middleware/authMiddleware');
+const {
+  addMeal,
+  getMeals,
+  getMealById,
+  updateMeal,
+  deleteMeal
+} = require('../controllers/mealController');
 
-// Temporary test route
-router.get("/", (req, res) => {
-  res.send("Meal route working!");
-});
+router.post('/', protect, addMeal);
+router.get('/', protect, getMeals);
+router.get('/:id', protect, getMealById);
+router.put('/:id', protect, updateMeal);
+router.delete('/:id', protect, deleteMeal);
 
 module.exports = router;
