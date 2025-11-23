@@ -17,5 +17,9 @@ const workoutSchema = new mongoose.Schema({
   caloriesBurned: {
     type: Number,
     required: true,
-  }
-});
+  },
+},
+{ timestamps: true }
+);
+
+module.exports = mongoose.model("Workout", workoutSchema);
