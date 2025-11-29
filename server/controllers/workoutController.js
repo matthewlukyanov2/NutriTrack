@@ -23,6 +23,7 @@ exports.addWorkout = async (req, res) => {
   // @desc    Get all workouts for user
   // @route   GET /api/workouts
   // @access  Private
+  
 exports.getWorkouts = async (req, res) => {
     try {
       const workouts = await Workout.find({ user: req.user.id }).sort({ createdAt: -1 });
