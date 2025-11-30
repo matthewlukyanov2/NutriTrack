@@ -23,7 +23,7 @@ exports.addWorkout = async (req, res) => {
   // @desc    Get all workouts for user
   // @route   GET /api/workouts
   // @access  Private
-  
+
 exports.getWorkouts = async (req, res) => {
     try {
       const workouts = await Workout.find({ user: req.user.id }).sort({ createdAt: -1 });
@@ -32,5 +32,24 @@ exports.getWorkouts = async (req, res) => {
       res.status(500).json({ message: 'Error fetching workouts' });
     }
   };
+
+  // @desc    Get a single workout
+// @route   GET /api/workouts/:id
+// @access  Private
+exports.getWorkoutById = async (req, res) => {
+  try {
+    const workout = await Workout.findOne({
+      _id: req.params.id,
+      user: req.user.id
+    });
+
+    if (!workout) return res.status(404).json({ message: 'Workout not found' });
+
+    res.status(200).json(workout);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching workout' });
+  }
+};
+
   
 
