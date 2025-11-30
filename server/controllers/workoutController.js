@@ -51,5 +51,29 @@ exports.getWorkoutById = async (req, res) => {
   }
 };
 
+// @desc    Update workout
+// @route   PUT /api/workouts/:id
+// @access  Private
+exports.updateWorkout = async (req, res) => {
+  try {
+    const workout = await Workout.findOne({
+      _id: req.params.id,
+      user: req.user.id
+    });
+
+    if (!workout) return res.status(404).json({ message: 'Workout not found' });
+
+    const updatedWorkout = await Workout.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+
+    res.status(200).json(updatedWorkout);
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating workout' });
+  }
+};
+
   
 
