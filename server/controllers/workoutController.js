@@ -75,5 +75,25 @@ exports.updateWorkout = async (req, res) => {
   }
 };
 
+// @desc    Delete workout
+// @route   DELETE /api/workouts/:id
+// @access  Private
+exports.deleteWorkout = async (req, res) => {
+  try {
+    const workout = await Workout.findOne({
+      _id: req.params.id,
+      user: req.user.id
+    });
+
+    if (!workout) return res.status(404).json({ message: 'Workout not found' });
+
+    await workout.deleteOne();
+
+    res.status(200).json({ message: 'Workout deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting workout' });
+  }
+};
+
   
 
