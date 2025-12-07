@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 5000;
 // Import routes 
 const authRoutes = require("./routes/authRoutes");
 const mealRoutes = require("./routes/mealRoutes");
-const workoutRoutes = require("./routes/workoutRoutes");
+const workoutRoutes = require("./routes/workoutRoutes"); 
 const aiRoutes = require("./routes/aiRoutes");
 
 
