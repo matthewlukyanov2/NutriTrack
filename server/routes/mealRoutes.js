@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { protect } = require('../middleware/authMiddleware');
+
 const {
   addMeal,
   getMeals,
@@ -8,6 +8,8 @@ const {
   updateMeal,
   deleteMeal
 } = require('../controllers/mealController');
+
+const protect = require('../middleware/authMiddleware');
 
 router.post('/', protect, addMeal);
 router.get('/', protect, getMeals);
