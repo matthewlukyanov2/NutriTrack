@@ -1,4 +1,6 @@
 const Meal = require('../models/Meal');
+const { mealSchema } = require('../validation/mealValidation');
+
 
 // @desc    Add a meal
 // @route   POST /api/meals
@@ -6,6 +8,13 @@ const Meal = require('../models/Meal');
 exports.addMeal = async (req, res) => {
   try {
     const { name, calories, protein, carbs, fats } = req.body;
+
+    const { error } = mealSchema.validate(req.body);
+
+if (error) {
+  return res.status(400).json({ message: error.details[0].message });
+}
+
 
     const meal = await Meal.create({
       user: req.user.id,
