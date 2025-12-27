@@ -1,10 +1,17 @@
 const Workout = require('../models/Workout');
+const { workoutSchema } = require('../validation/workoutValidation');
 
 // @desc    Add a workout
 // @route   POST /api/workouts
 // @access  Private
 exports.addWorkout = async (req, res) => {
   try {
+    const { error } = workoutSchema.validate(req.body);
+
+    if (error) {
+      return res.status(400).json({ message: error.details[0].message });
+    }
+
     const { type, duration, caloriesBurned } = req.body;
 
     const workout = await Workout.create({
