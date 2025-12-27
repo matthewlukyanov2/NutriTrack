@@ -63,6 +63,12 @@ exports.getWorkoutById = async (req, res) => {
 // @access  Private
 exports.updateWorkout = async (req, res) => {
   try {
+    const { error } = workoutSchema.validate(req.body);
+
+    if (error) {
+      return res.status(400).json({ message: error.details[0].message });
+    }
+    
     const workout = await Workout.findOne({
       _id: req.params.id,
       user: req.user.id
