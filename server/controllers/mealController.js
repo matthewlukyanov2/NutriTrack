@@ -63,21 +63,32 @@ exports.getMealById = async (req, res) => {
 // @route   PUT /api/meals/:id
 // @access  Private
 exports.updateMeal = async (req, res) => {
-    try {
-        const updatedMeal = await Meal.findOneAndUpdate(
-            { _id: req.params.id, user: req.user.id },  
-            req.body,
-            { new: true }
-          );
-      
-          if (!updatedMeal) {
-            return res.status(404).json({ message: 'Meal not found' });
-          }
-      
-          res.status(200).json(updatedMeal);
-        } catch (error) {
-          res.status(500).json({ message: 'Error updating meal' });
+  try {
+    const { error } = mealSchema.validate(req.body);
+
+    if (error) {
+      return res.status(400).json({ message: error.details[0].message });
     }
+
+    const meal = await Meal.findOne({
+      _id: req.params.id,
+      user: req.user.id,
+    });
+
+    if (!meal) {
+      return res.status(404).json({ message: 'Meal not found' });
+    }
+
+    const updatedMeal = await Meal.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+
+    res.status(200).json(updatedMeal);
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating meal' });
+  }
   };
 
 // @desc    Delete a meal
