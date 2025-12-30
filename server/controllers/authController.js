@@ -1,5 +1,7 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+const { registerSchema, loginSchema } = require('../validation/authValidation');
+
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '7d' });
@@ -8,6 +10,11 @@ const generateToken = (id) => {
 // Register user
 exports.registerUser = async (req, res) => {
   try {
+    const { error } = registerSchema.validate(req.body);
+
+    if (error) {
+      return res.status(400).json({ message: error.details[0].message });
+    }
     const { name, email, password } = req.body;
 
     const existingUser = await User.findOne({ email });
