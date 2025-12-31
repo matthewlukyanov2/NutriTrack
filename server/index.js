@@ -5,6 +5,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const connectDB = require('./config/db');
 const PORT = process.env.PORT || 5000;
+const errorHandler = require('./middleware/errorMiddleware');
 
 // Import routes 
 const authRoutes = require("./routes/authRoutes");
@@ -32,6 +33,10 @@ app.use("/api/meals", mealRoutes);
 app.use("/api/workouts", workoutRoutes);
 
 app.use("/api/ai", aiRoutes);
+
+// Error handling middleware (must be last)
+app.use(errorHandler);
+
 
 // Start server
 app.listen(PORT, () => console.log(` Server running on port ${PORT}`));
