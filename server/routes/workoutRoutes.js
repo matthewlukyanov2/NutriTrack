@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const validate = require('../middleware/validateMiddleware');
+const { workoutSchema } = require('../validation/workoutValidation');
 
 const {
   addWorkout,
@@ -12,10 +14,10 @@ const {
 const protect = require('../middleware/authMiddleware');
 
 // Protected routes
-router.post('/', protect, addWorkout);
+router.post('/', protect, validate(workoutSchema), addWorkout);
 router.get('/', protect, getWorkouts);
 router.get('/:id', protect, getWorkoutById);
-router.put('/:id', protect, updateWorkout);
+router.put('/:id', validate(workoutSchema), protect, updateWorkout);
 router.delete('/:id', protect, deleteWorkout);
 
 module.exports = router;
