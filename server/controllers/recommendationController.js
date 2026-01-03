@@ -16,6 +16,6 @@ exports.getMealRecommendations = async (req, res) => {
       recommendations,
     });
   } catch (error) {
-    res.status(400).json({ message: 'Failed to get recommendations' });
+    res.status(500).json({ message: 'Failed to get recommendations' });
   }
 };
