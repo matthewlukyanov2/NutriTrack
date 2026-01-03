@@ -6,6 +6,7 @@ const helmet = require("helmet");
 const connectDB = require('./config/db');
 const PORT = process.env.PORT || 5000;
 const errorHandler = require('./middleware/errorMiddleware');
+const recommendationRoutes = require('./routes/recommendationRoutes');
 
 // Import routes 
 const authRoutes = require("./routes/authRoutes");
@@ -31,6 +32,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/meals", mealRoutes);
 app.use("/api/workouts", workoutRoutes);
+app.use('/api/recommendations', recommendationRoutes);
 
 app.use("/api/ai", aiRoutes);
 
