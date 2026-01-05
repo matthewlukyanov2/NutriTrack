@@ -1,10 +1,5 @@
-/**
- * TF-IDF Recommendation Service 
- * Future responsibility:
- *  - Build corpus from meals/workouts
- *  - Calculate TF-IDF vectors
- *  - Return ranked recommendations
- */
+const natural = require('natural');
+const TfIdf = natural.TfIdf;
 
 class TfidfService {
     buildCorpus(meals) {
