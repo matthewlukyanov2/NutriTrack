@@ -31,7 +31,12 @@ class TfidfService {
           score
         };
       });
- 
+      
+  // 3. Sort & return top meals
+  return scoredMeals
+  .sort((a, b) => b.score - a.score)
+  .slice(0, limit)
+  .map(item => item.meal);
 }
       
 
