@@ -2,20 +2,21 @@ const natural = require('natural');
 const TfIdf = natural.TfIdf;
 
 class TfidfService {
-    buildCorpus(meals) {
-      //tokenize meal names / ingredients
-      return [];
-    }
-  
-    calculateTfIdf(corpus) {
-      //compute TF-IDF matrix
-      return [];
-    }
-  
-    recommend(userMeals, allMeals) {
-      //compare vectors and rank meals
-      return [];
-    }
+    if (!meals || meals.length === 0) return [];
+
+    const tfidf = new TfIdf();
+
+    // 1. Add meals as documents
+    meals.forEach(meal => {
+      const doc = `
+        ${meal.name}
+        protein ${meal.protein}
+        carbs ${meal.carbs}
+        fats ${meal.fats}
+      `;
+      tfidf.addDocument(doc);
+    });
+
   }
   
   module.exports = new TfidfService();
