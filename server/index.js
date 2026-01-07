@@ -7,6 +7,8 @@ const connectDB = require('./config/db');
 const PORT = process.env.PORT || 5000;
 const errorHandler = require('./middleware/errorMiddleware');
 const recommendationRoutes = require('./routes/recommendationRoutes');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./config/swagger');
 
 // Import routes 
 const authRoutes = require("./routes/authRoutes");
@@ -33,6 +35,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/meals", mealRoutes);
 app.use("/api/workouts", workoutRoutes);
 app.use('/api/recommendations', recommendationRoutes);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));	
 
 app.use("/api/ai", aiRoutes);
 
