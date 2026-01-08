@@ -2,15 +2,15 @@ const swaggerJsdoc = require('swagger-jsdoc');
 
 const options = {
   definition: {
-    openapi: '',
+    openapi: '3.0.0',
     info: {
-      title: '',
-      version: '',
-      description: ''
+      title: 'NutriTrack API',
+      version: '1.0.0',
+      description: 'Backend API for NutriTrack fitness and nutrition app'
     },
     servers: [
       {
-        url: ''
+        url: 'http://localhost:5000'
       }
     ],
     components: {
@@ -24,7 +24,7 @@ const options = {
     },
     security: [{ bearerAuth: [] }]
   },
-  apis: []
+  apis: ['./routes/*.js']
 };
 
 module.exports = swaggerJsdoc(options);
