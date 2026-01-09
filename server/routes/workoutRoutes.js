@@ -13,6 +13,83 @@ const {
 
 const protect = require('../middleware/authMiddleware');
 
+/**
+ * @swagger
+ * /api/workouts:
+ *   get:
+ *     summary: Get all workouts for authenticated user
+ *     tags: [Workouts]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of workouts
+ */
+
+/**
+ * @swagger
+ * /api/workouts:
+ *   post:
+ *     summary: Add a new workout
+ *     tags: [Workouts]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Workout'
+ *     responses:
+ *       201:
+ *         description: Workout created
+ */
+
+/**
+ * @swagger
+ * /api/workouts/{id}:
+ *   put:
+ *     summary: Update a workout
+ *     tags: [Workouts]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Workout'
+ *     responses:
+ *       200:
+ *         description: Workout updated
+ */
+
+/**
+ * @swagger
+ * /api/workouts/{id}:
+ *   delete:
+ *     summary: Delete a workout
+ *     tags: [Workouts]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Workout deleted
+ */
+
+
 // Protected routes
 router.post('/', protect, validate(workoutSchema), addWorkout);
 router.get('/', protect, getWorkouts);
