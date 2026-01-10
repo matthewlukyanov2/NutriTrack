@@ -13,6 +13,8 @@ const {
 
 const protect = require('../middleware/authMiddleware');
 
+// Protected routes
+
 /**
  * @swagger
  * /api/workouts:
@@ -25,6 +27,7 @@ const protect = require('../middleware/authMiddleware');
  *       200:
  *         description: List of workouts
  */
+router.get('/', protect, getWorkouts);
 
 /**
  * @swagger
@@ -44,6 +47,8 @@ const protect = require('../middleware/authMiddleware');
  *       201:
  *         description: Workout created
  */
+router.post('/', protect, validate(workoutSchema), addWorkout);
+router.get('/:id', protect, getWorkoutById);
 
 /**
  * @swagger
@@ -69,6 +74,7 @@ const protect = require('../middleware/authMiddleware');
  *       200:
  *         description: Workout updated
  */
+router.put('/:id', validate(workoutSchema), protect, updateWorkout);
 
 /**
  * @swagger
@@ -88,13 +94,6 @@ const protect = require('../middleware/authMiddleware');
  *       200:
  *         description: Workout deleted
  */
-
-
-// Protected routes
-router.post('/', protect, validate(workoutSchema), addWorkout);
-router.get('/', protect, getWorkouts);
-router.get('/:id', protect, getWorkoutById);
-router.put('/:id', validate(workoutSchema), protect, updateWorkout);
 router.delete('/:id', protect, deleteWorkout);
 
 module.exports = router;
