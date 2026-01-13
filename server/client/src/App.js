@@ -1,3 +1,5 @@
+import Login from "./pages/Login";
+
 function App() {
   return (
     <div style={{ padding: "2rem" }}>
