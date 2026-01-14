@@ -1,7 +1,20 @@
-import { useState } from "react";
+import {  useEffect, useState } from "react";
 
 function Meals() {
   const [meals, setMeals] = useState([]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    fetch("http://localhost:5000/api/meals", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(res => res.json())
+      .then(data => setMeals(data))
+      .catch(err => console.error(err));
+  }, []);
 
   return (
     <div>
