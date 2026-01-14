@@ -3,6 +3,7 @@ import { getToken, logout } from "../utils/auth";
 
 const Dashboard = () => {
   const [meals, setMeals] = useState([]);
+  const [recommendations, setRecommendations] = useState([]);
 
   useEffect(() => {
     fetch("http://localhost:5000/api/meals", {
@@ -14,6 +15,18 @@ const Dashboard = () => {
       .then(data => setMeals(data))
       .catch(err => console.error(err));
   }, []);
+
+  const getRecommendations = () => {
+    fetch("http://localhost:5000/api/recommendations/meals", {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    })
+      .then(res => res.json())
+      .then(data => setRecommendations(data))
+      .catch(err => console.error(err));
+  };
+
 
   return (
     <div style={{ padding: "2rem" }}>
@@ -28,6 +41,17 @@ const Dashboard = () => {
           </li>
         ))}
       </ul>
+
+      {/* Recommendations Section */}
+      <h3>AI Recommendations</h3>
+      <button onClick={getRecommendations}>Get Recommendations</button>
+
+      <ul>
+        {recommendations.map((meal, index) => (
+          <li key={index}>{meal.name}</li>
+        ))}
+      </ul>
+
     </div>
   );
 };
