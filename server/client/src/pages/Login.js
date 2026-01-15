@@ -33,7 +33,7 @@ function Login() {
     };
 
     return (
-        <div style={{ maxWidth: "400px" }}>
+      <div className="container">
           <h2>Login</h2>
     
           {error && <p style={{ color: "red" }}>{error}</p>}

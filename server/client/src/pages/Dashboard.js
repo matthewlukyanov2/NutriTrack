@@ -23,15 +23,29 @@ const Dashboard = () => {
       },
     })
       .then(res => res.json())
-      .then(data => setRecommendations(data))
-      .catch(err => console.error(err));
+      .then(data => {
+        // ensure data is an array
+        if (Array.isArray(data)) {
+          setRecommendations(data);
+        } else if (Array.isArray(data.recommendations)) {
+          // some APIs return { recommendations: [...] }
+          setRecommendations(data.recommendations);
+        } else {
+          console.error("Unexpected recommendations format:", data);
+          setRecommendations([]);
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        setRecommendations([]);
+      });
   };
 
 
   return (
-    <div style={{ padding: "2rem" }}>
+    <div className="container">
       <h2>Dashboard</h2>
-      <button onClick={logout}>Logout</button>
+      <button className="logout" onClick={logout}>Logout</button>
 
       <h3>Your Meals</h3>
       <ul>

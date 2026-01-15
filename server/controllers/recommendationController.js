@@ -6,16 +6,25 @@ const tfidfService = require('../services/tfidfService');
 // @access  Private
 exports.getMealRecommendations = async (req, res) => {
   try {
-    const userMeals = await Meal.find({ user: req.user.id });
-    const allMeals = await Meal.find();
+    const meals = await Meal.find({ user: req.user.id });
 
-    const recommendations = tfidfService.recommend(userMeals, allMeals);
+    console.log("Meals found:", meals);
 
-    res.status(200).json({
-      message: 'Recommendation engine scaffolded',
-      recommendations,
-    });
+    if (!meals || meals.length === 0) {
+      return res.status(200).json([]);
+    }
+
+    const recommendations = tfidfService.recommendMeals(meals);
+
+    console.log("Recommendations:", recommendations);
+
+    if (!Array.isArray(recommendations)) {
+      throw new Error("TF-IDF did not return an array");
+    }
+
+    res.status(200).json(recommendations);
   } catch (error) {
+    console.error("Recommendation error:", error.message);
     res.status(500).json({ message: 'Failed to get recommendations' });
   }
 };
