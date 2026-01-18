@@ -85,6 +85,57 @@ const Dashboard = () => {
     <div className="container">
       <h2>Dashboard</h2>
       <button className="logout" onClick={logout}>Logout</button>
+      <h3>Add Meal</h3>
+
+<form onSubmit={addMeal}>
+  <input
+    type="text"
+    name="name"
+    placeholder="Meal name"
+    value={form.name}
+    onChange={handleChange}
+    required
+  />
+
+  <input
+    type="number"
+    name="calories"
+    placeholder="Calories"
+    value={form.calories}
+    onChange={handleChange}
+    required
+  />
+
+  <input
+    type="number"
+    name="protein"
+    placeholder="Protein"
+    value={form.protein}
+    onChange={handleChange}
+    required
+  />
+
+  <input
+    type="number"
+    name="carbs"
+    placeholder="Carbs"
+    value={form.carbs}
+    onChange={handleChange}
+    required
+  />
+
+  <input
+    type="number"
+    name="fats"
+    placeholder="Fats"
+    value={form.fats}
+    onChange={handleChange}
+    required
+  />
+
+  <button type="submit">Add Meal</button>
+</form>
+
 
       <h3>Your Meals</h3>
       <ul>
