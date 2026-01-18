@@ -5,6 +5,14 @@ const Dashboard = () => {
   const [meals, setMeals] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
 
+  const [form, setForm] = useState({
+    name: "",
+    calories: "",
+    protein: "",
+    carbs: "",
+    fats: ""
+  });
+
   useEffect(() => {
     fetch("http://localhost:5000/api/meals", {
       headers: {
@@ -41,6 +49,37 @@ const Dashboard = () => {
       });
   };
 
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value
+    });
+  };
+  
+  const addMeal = (e) => {
+    e.preventDefault();
+  
+    fetch("http://localhost:5000/api/meals", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`
+      },
+      body: JSON.stringify(form)
+    })
+      .then(res => res.json())
+      .then(newMeal => {
+        setMeals([...meals, newMeal]); // update UI instantly
+        setForm({
+          name: "",
+          calories: "",
+          protein: "",
+          carbs: "",
+          fats: ""
+        });
+      })
+      .catch(err => console.error(err));
+  };
 
   return (
     <div className="container">
