@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { getToken, logout } from "../utils/auth";
+import API from "../services/api";
+import { logout } from "../utils/auth";
 
 const Dashboard = () => {
   const [meals, setMeals] = useState([]);
@@ -13,63 +14,51 @@ const Dashboard = () => {
     fats: ""
   });
 
+  // Fetch meals on load
   useEffect(() => {
-    fetch("http://localhost:5000/api/meals", {
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-      },
-    })
-      .then(res => res.json())
-      .then(data => setMeals(data))
-      .catch(err => console.error(err));
+    API.get("/meals")
+      .then((res) => setMeals(res.data))
+      .catch((err) => console.error("Meals error:", err));
   }, []);
 
+  // Get AI recommendations
   const getRecommendations = () => {
-    fetch("http://localhost:5000/api/recommendations/meals", {
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-      },
-    })
-      .then(res => res.json())
-      .then(data => {
-        // ensure data is an array
-        if (Array.isArray(data)) {
-          setRecommendations(data);
-        } else if (Array.isArray(data.recommendations)) {
-          // some APIs return { recommendations: [...] }
-          setRecommendations(data.recommendations);
-        } else {
-          console.error("Unexpected recommendations format:", data);
-          setRecommendations([]);
-        }
+    API.get("/recommendations/meals")
+      .then((res) => {
+        const data = Array.isArray(res.data)
+          ? res.data
+          : res.data.recommendations || [];
+        setRecommendations(data);
       })
-      .catch(err => {
-        console.error(err);
+      .catch((err) => {
+        console.error("Recommendations error:", err);
         setRecommendations([]);
       });
   };
 
+  // Handle form input
   const handleChange = (e) => {
     setForm({
       ...form,
       [e.target.name]: e.target.value
     });
   };
-  
+
+  // Add meal
   const addMeal = (e) => {
     e.preventDefault();
-  
-    fetch("http://localhost:5000/api/meals", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${getToken()}`
-      },
-      body: JSON.stringify(form)
-    })
-      .then(res => res.json())
-      .then(newMeal => {
-        setMeals([...meals, newMeal]); // update UI instantly
+
+    const mealData = {
+      name: form.name,
+      calories: Number(form.calories),
+      protein: Number(form.protein),
+      carbs: Number(form.carbs),
+      fats: Number(form.fats)
+    };
+
+    API.post("/meals", mealData)
+      .then((res) => {
+        setMeals((prev) => [...prev, res.data]);
         setForm({
           name: "",
           calories: "",
@@ -78,84 +67,84 @@ const Dashboard = () => {
           fats: ""
         });
       })
-      .catch(err => console.error(err));
+      .catch((err) => console.error("Add meal error:", err));
   };
 
   return (
     <div className="container">
       <h2>Dashboard</h2>
       <button className="logout" onClick={logout}>Logout</button>
+
+      {/* Add Meal */}
       <h3>Add Meal</h3>
+      <form onSubmit={addMeal}>
+        <input
+          type="text"
+          name="name"
+          placeholder="Meal name"
+          value={form.name}
+          onChange={handleChange}
+          required
+        />
 
-<form onSubmit={addMeal}>
-  <input
-    type="text"
-    name="name"
-    placeholder="Meal name"
-    value={form.name}
-    onChange={handleChange}
-    required
-  />
+        <input
+          type="number"
+          name="calories"
+          placeholder="Calories"
+          value={form.calories}
+          onChange={handleChange}
+          required
+        />
 
-  <input
-    type="number"
-    name="calories"
-    placeholder="Calories"
-    value={form.calories}
-    onChange={handleChange}
-    required
-  />
+        <input
+          type="number"
+          name="protein"
+          placeholder="Protein"
+          value={form.protein}
+          onChange={handleChange}
+          required
+        />
 
-  <input
-    type="number"
-    name="protein"
-    placeholder="Protein"
-    value={form.protein}
-    onChange={handleChange}
-    required
-  />
+        <input
+          type="number"
+          name="carbs"
+          placeholder="Carbs"
+          value={form.carbs}
+          onChange={handleChange}
+          required
+        />
 
-  <input
-    type="number"
-    name="carbs"
-    placeholder="Carbs"
-    value={form.carbs}
-    onChange={handleChange}
-    required
-  />
+        <input
+          type="number"
+          name="fats"
+          placeholder="Fats"
+          value={form.fats}
+          onChange={handleChange}
+          required
+        />
 
-  <input
-    type="number"
-    name="fats"
-    placeholder="Fats"
-    value={form.fats}
-    onChange={handleChange}
-    required
-  />
+        <button type="submit">Add Meal</button>
+      </form>
 
-  <button type="submit">Add Meal</button>
-</form>
-
-
+      {/* Meals */}
       <h3>Your Meals</h3>
       <ul>
-        {meals.map(meal => (
+        {meals.map((meal) => (
           <li key={meal._id}>
             {meal.name} — {meal.calories} kcal
           </li>
         ))}
       </ul>
 
-      {/* Recommendations Section */}
+      {/* Recommendations */}
       <h3>AI Recommendations</h3>
       <button onClick={getRecommendations}>Get Recommendations</button>
 
       <ul>
-        {recommendations.map((meal, index) => (
-          <li key={index}>{meal.name}</li>
+        {recommendations.map((meal) => (
+          <li key={meal._id || meal.name}>{meal.name}</li>
         ))}
       </ul>
-
     </div>
   );
 };
