@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import API from "../services/api";
+import "../dashboard.css";
 import { logout } from "../utils/auth";
 
 const Dashboard = () => {
@@ -127,24 +128,30 @@ const Dashboard = () => {
       </form>
 
       {/* Meals */}
+      <div className="section">
       <h3>Your Meals</h3>
       <ul>
         {meals.map((meal) => (
-          <li key={meal._id}>
-            {meal.name} — {meal.calories} kcal
+          <li key={meal._id} className="card">
+            <span>{meal.name} — {meal.calories} kcal</span>
           </li>
         ))}
       </ul>
+      </div>
 
       {/* Recommendations */}
+      <div className="section">
       <h3>AI Recommendations</h3>
       <button onClick={getRecommendations}>Get Recommendations</button>
 
       <ul>
         {recommendations.map((meal) => (
-          <li key={meal._id || meal.name}>{meal.name}</li>
+          <li key={meal._id} className="card">
+          <span>{meal.name}</span>
+        </li>
         ))}
       </ul>
+      </div>
     </div>
   );
 };
