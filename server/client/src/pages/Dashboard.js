@@ -66,6 +66,17 @@ const [editForm, setEditForm] = useState({
       fats: Number(form.fats)
     };
 
+    const startEdit = (meal) => {
+        setEditingMealId(meal._id);
+        setEditForm({
+          name: meal.name,
+          calories: meal.calories,
+          protein: meal.protein,
+          carbs: meal.carbs,
+          fats: meal.fats
+        });
+      };      
+
     API.post("/meals", mealData)
       .then((res) => {
         setMeals((prev) => [...prev, res.data]);
@@ -147,6 +158,8 @@ const [editForm, setEditForm] = useState({
         ))}
       </ul>
       </div>
+
+      
 
       {/* Recommendations */}
       <div className="section">
