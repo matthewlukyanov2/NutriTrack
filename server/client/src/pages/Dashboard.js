@@ -15,6 +15,15 @@ const Dashboard = () => {
     fats: ""
   });
 
+  const [editingMealId, setEditingMealId] = useState(null);
+const [editForm, setEditForm] = useState({
+  name: "",
+  calories: "",
+  protein: "",
+  carbs: "",
+  fats: ""
+});
+
   // Fetch meals on load
   useEffect(() => {
     API.get("/meals")
