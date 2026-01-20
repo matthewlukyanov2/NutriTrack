@@ -84,6 +84,23 @@ const [editForm, setEditForm] = useState({
         });
       };
       
+      const saveEdit = (id) => {
+        API.put(`/meals/${id}`, {
+          ...editForm,
+          calories: Number(editForm.calories),
+          protein: Number(editForm.protein),
+          carbs: Number(editForm.carbs),
+          fats: Number(editForm.fats)
+        })
+          .then((res) => {
+            setMeals((prev) =>
+              prev.map((meal) => (meal._id === id ? res.data : meal))
+            );
+            setEditingMealId(null);
+          })
+          .catch((err) => console.error("Edit meal error:", err));
+      };
+      
 
     API.post("/meals", mealData)
       .then((res) => {
