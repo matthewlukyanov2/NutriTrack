@@ -77,6 +77,14 @@ const [editForm, setEditForm] = useState({
         });
       };      
 
+      const handleEditChange = (e) => {
+        setEditForm({
+          ...editForm,
+          [e.target.name]: e.target.value
+        });
+      };
+      
+
     API.post("/meals", mealData)
       .then((res) => {
         setMeals((prev) => [...prev, res.data]);
