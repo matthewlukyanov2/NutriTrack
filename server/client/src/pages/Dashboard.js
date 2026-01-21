@@ -235,6 +235,10 @@ const [editForm, setEditForm] = useState({
               <strong>{meal.name}</strong> — {meal.calories} kcal
               <br />
               <button onClick={() => startEdit(meal)}>Edit</button>
+              <button style={{ marginLeft: "8px", backgroundColor: "#ef4444" }}
+                 onClick={() => deleteMeal(meal._id)}  >
+                 Delete
+                </button>
             </>
           )}
         </li>
