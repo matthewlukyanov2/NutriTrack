@@ -119,9 +119,17 @@ const [editForm, setEditForm] = useState({
           })
           .catch((err) => console.error("Edit meal error:", err));
       };
-      
 
-    
+      const deleteMeal = (id) => {
+        if (!window.confirm("Are you sure you want to delete this meal?")) return;
+      
+        API.delete(`/meals/${id}`)
+          .then(() => {
+            setMeals((prev) => prev.filter((meal) => meal._id !== id));
+          })
+          .catch((err) => console.error("Delete meal error:", err));
+      };      
+      
 
   return (
     <div className="container">
