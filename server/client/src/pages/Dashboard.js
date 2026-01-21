@@ -7,6 +7,7 @@ const Dashboard = () => {
   const [meals, setMeals] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
 
+  // Add meal form
   const [form, setForm] = useState({
     name: "",
     calories: "",
@@ -15,6 +16,7 @@ const Dashboard = () => {
     fats: ""
   });
 
+  // Edit meal form
   const [editingMealId, setEditingMealId] = useState(null);
 const [editForm, setEditForm] = useState({
   name: "",
@@ -66,6 +68,21 @@ const [editForm, setEditForm] = useState({
       fats: Number(form.fats)
     };
 
+    API.post("/meals", mealData)
+      .then((res) => {
+        setMeals((prev) => [...prev, res.data]);
+        setForm({
+          name: "",
+          calories: "",
+          protein: "",
+          carbs: "",
+          fats: ""
+        });
+      })
+      .catch((err) => console.error("Add meal error:", err));
+  };
+
+    // Start editing a meal
     const startEdit = (meal) => {
         setEditingMealId(meal._id);
         setEditForm({
@@ -77,6 +94,7 @@ const [editForm, setEditForm] = useState({
         });
       };      
 
+      // Handle edit form input
       const handleEditChange = (e) => {
         setEditForm({
           ...editForm,
@@ -84,6 +102,7 @@ const [editForm, setEditForm] = useState({
         });
       };
       
+      // Save edited meal
       const saveEdit = (id) => {
         API.put(`/meals/${id}`, {
           ...editForm,
@@ -102,19 +121,7 @@ const [editForm, setEditForm] = useState({
       };
       
 
-    API.post("/meals", mealData)
-      .then((res) => {
-        setMeals((prev) => [...prev, res.data]);
-        setForm({
-          name: "",
-          calories: "",
-          protein: "",
-          carbs: "",
-          fats: ""
-        });
-      })
-      .catch((err) => console.error("Add meal error:", err));
-  };
+    
 
   return (
     <div className="container">
@@ -178,8 +185,51 @@ const [editForm, setEditForm] = useState({
       <ul>
         {meals.map((meal) => (
           <li key={meal._id} className="card">
-            <span>{meal.name} — {meal.calories} kcal</span>
-          </li>
+          {editingMealId === meal._id ? (
+            <>
+              <input
+                name="name"
+                value={editForm.name}
+                onChange={handleEditChange}
+              />
+              <input
+                name="calories"
+                type="number"
+                value={editForm.calories}
+                onChange={handleEditChange}
+              />
+              <input
+                name="protein"
+                type="number"
+                value={editForm.protein}
+                onChange={handleEditChange}
+              />
+              <input
+                name="carbs"
+                type="number"
+                value={editForm.carbs}
+                onChange={handleEditChange}
+              />
+              <input
+                name="fats"
+                type="number"
+                value={editForm.fats}
+                onChange={handleEditChange}
+              />
+
+              <button onClick={() => saveEdit(meal._id)}>Save</button>
+              <button onClick={() => setEditingMealId(null)}>
+                Cancel
+              </button>
+            </>
+          ) : (
+            <>
+              <strong>{meal.name}</strong> — {meal.calories} kcal
+              <br />
+              <button onClick={() => startEdit(meal)}>Edit</button>
+            </>
+          )}
+        </li>
         ))}
       </ul>
       </div>
