@@ -235,8 +235,16 @@ const [editForm, setEditForm] = useState({
               <strong>{meal.name}</strong> — {meal.calories} kcal
               <br />
               <button onClick={() => startEdit(meal)}>Edit</button>
-              <button style={{ marginLeft: "8px", backgroundColor: "#ef4444" }}
-                 onClick={() => deleteMeal(meal._id)}  >
+              <button disabled={editingMealId === meal._id}
+  style={{
+    marginLeft: "8px",
+    backgroundColor:
+      editingMealId === meal._id ? "#9ca3af" : "#ef4444",
+    cursor:
+      editingMealId === meal._id ? "not-allowed" : "pointer",
+  }}
+  onClick={() => deleteMeal(meal._id)}
+>
                  Delete
                 </button>
             </>
