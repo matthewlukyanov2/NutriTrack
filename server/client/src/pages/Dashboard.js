@@ -6,6 +6,7 @@ import { logout } from "../utils/auth";
 const Dashboard = () => {
   const [meals, setMeals] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
+  const [successMessage, setSuccessMessage] = useState("");
 
   // Add meal form
   const [form, setForm] = useState({
@@ -78,6 +79,8 @@ const [editForm, setEditForm] = useState({
           carbs: "",
           fats: ""
         });
+        setSuccessMessage("Meal added successfully!");
+        setTimeout(() => setSuccessMessage(""), 3000);
       })
       .catch((err) => console.error("Add meal error:", err));
   };
@@ -116,16 +119,22 @@ const [editForm, setEditForm] = useState({
               prev.map((meal) => (meal._id === id ? res.data : meal))
             );
             setEditingMealId(null);
+            setSuccessMessage("Meal updated successfully!");
+            setTimeout(() => setSuccessMessage(""), 3000);
           })
           .catch((err) => console.error("Edit meal error:", err));
       };
 
+      // Delete meal
       const deleteMeal = (id) => {
         if (!window.confirm("Are you sure you want to delete this meal?")) return;
       
         API.delete(`/meals/${id}`)
           .then(() => {
             setMeals((prev) => prev.filter((meal) => meal._id !== id));
+
+            setSuccessMessage("Meal deleted successfully!");
+            setTimeout(() => setSuccessMessage(""), 3000);
           })
           .catch((err) => console.error("Delete meal error:", err));
       };      
@@ -134,6 +143,7 @@ const [editForm, setEditForm] = useState({
   return (
     <div className="container">
       <h2>Dashboard</h2>
+      {successMessage && <p className="success">{successMessage}</p>}
       <button className="logout" onClick={logout}>Logout</button>
 
       {/* Add Meal */}
