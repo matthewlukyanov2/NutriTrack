@@ -64,6 +64,10 @@ button[type="submit"] {
   margin-top: 10px;
 }
 
+button svg {
+  pointer-events: none;
+}
+
 /* Inputs */
 input {
   width: 100%;

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import API from "../services/api";
 import "../dashboard.css";
 import { logout } from "../utils/auth";
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 const Dashboard = () => {
   const [meals, setMeals] = useState([]);
@@ -244,18 +245,24 @@ const [editForm, setEditForm] = useState({
             <>
               <strong>{meal.name}</strong> — {meal.calories} kcal
               <br />
-              <button onClick={() => startEdit(meal)}>Edit</button>
-              <button disabled={editingMealId === meal._id}
-  style={{
-    marginLeft: "8px",
-    backgroundColor:
-      editingMealId === meal._id ? "#9ca3af" : "#ef4444",
-    cursor:
-      editingMealId === meal._id ? "not-allowed" : "pointer",
-  }}
-  onClick={() => deleteMeal(meal._id)}
->
-                 Delete
+              {/* Edit icon */}
+            <button onClick={() => startEdit(meal)}>
+              <FaEdit />
+            </button>
+
+            {/* Delete icon */}
+            <button
+              onClick={() => deleteMeal(meal._id)}
+              disabled={editingMealId === meal._id}
+              style={{
+                backgroundColor: "#ef4444",
+                marginLeft: "8px",
+                opacity: editingMealId === meal._id ? 0.5 : 1,
+                cursor:
+                  editingMealId === meal._id ? "not-allowed" : "pointer"
+              }}
+            >
+              <FaTrash />
                 </button>
             </>
           )}
