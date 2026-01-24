@@ -4,10 +4,12 @@ import "../dashboard.css";
 import { logout } from "../utils/auth";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
+
 const Dashboard = () => {
   const [meals, setMeals] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
+  const [workouts, setWorkouts] = useState([]);
 
   // Add meal form
   const [form, setForm] = useState({
@@ -34,6 +36,14 @@ const [editForm, setEditForm] = useState({
       .then((res) => setMeals(res.data))
       .catch((err) => console.error("Meals error:", err));
   }, []);
+
+  // Fetch workouts on load
+useEffect(() => {
+    API.get("/workouts")
+      .then((res) => setWorkouts(res.data))
+      .catch((err) => console.error("Workouts error:", err));
+  }, []);
+  
 
   // Get AI recommendations
   const getRecommendations = () => {
@@ -270,6 +280,20 @@ const [editForm, setEditForm] = useState({
         ))}
       </ul>
       </div>
+
+      {/* Workouts */}
+<div className="section">
+  <h3>Your Workouts</h3>
+
+  <ul>
+    {workouts.map((workout) => (
+      <li key={workout._id} className="card">
+        {workout.name} — {workout.duration} min
+      </li>
+    ))}
+  </ul>
+</div>
+
 
       
 
