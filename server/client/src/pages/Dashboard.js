@@ -20,6 +20,12 @@ const Dashboard = () => {
     fats: ""
   });
 
+  // Workout form
+  const [workoutForm, setWorkoutForm] = useState({
+    name: "",
+    duration: ""
+  });
+
   // Edit meal form
   const [editingMealId, setEditingMealId] = useState(null);
 const [editForm, setEditForm] = useState({
