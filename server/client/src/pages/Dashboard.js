@@ -74,6 +74,14 @@ useEffect(() => {
     });
   };
 
+  // handle workout input
+  const handleWorkoutChange = (e) => {
+    setWorkoutForm({
+      ...workoutForm,
+      [e.target.name]: e.target.value
+    });
+  };
+
   // Add meal
   const addMeal = (e) => {
     e.preventDefault();
@@ -100,6 +108,23 @@ useEffect(() => {
         setTimeout(() => setSuccessMessage(""), 3000);
       })
       .catch((err) => console.error("Add meal error:", err));
+  };
+
+    // add workout (POST)
+  const addWorkout = (e) => {
+    e.preventDefault();
+
+    const workoutData = {
+      name: workoutForm.name,
+      duration: Number(workoutForm.duration)
+    };
+
+    API.post("/workouts", workoutData)
+      .then((res) => {
+        setWorkouts((prev) => [...prev, res.data]);
+        setWorkoutForm({ name: "", duration: "" });
+      })
+      .catch((err) => console.error("Add workout error:", err));
   };
 
     // Start editing a meal
