@@ -312,6 +312,28 @@ useEffect(() => {
       </ul>
       </div>
 
+      {/* Workout Form */}
+      <h3>Add Workout</h3>
+      <form onSubmit={addWorkout}>
+        <input
+          type="text"
+          name="name"
+          placeholder="Workout name"
+          value={workoutForm.name}
+          onChange={handleWorkoutChange}
+          required
+        />
+        <input
+          type="number"
+          name="duration"
+          placeholder="Duration (minutes)"
+          value={workoutForm.duration}
+          onChange={handleWorkoutChange}
+          required
+        />
+        <button type="submit">Add Workout</button>
+      </form>
+
       {/* Workouts */}
 <div className="section">
   <h3>Your Workouts</h3>
