@@ -26,6 +26,9 @@ const Dashboard = () => {
     duration: ""
   });
 
+  // Workout edit state
+  const [editingWorkout, setEditingWorkout] = useState(null);
+
   // Edit meal form
   const [editingMealId, setEditingMealId] = useState(null);
 const [editForm, setEditForm] = useState({
