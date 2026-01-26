@@ -113,21 +113,34 @@ useEffect(() => {
       .catch((err) => console.error("Add meal error:", err));
   };
 
-    // add workout (POST)
+    // Add workout
   const addWorkout = (e) => {
     e.preventDefault();
 
-    const workoutData = {
+    API.post("/workouts", {
       name: workoutForm.name,
       duration: Number(workoutForm.duration)
-    };
-
-    API.post("/workouts", workoutData)
+    })
       .then((res) => {
         setWorkouts((prev) => [...prev, res.data]);
         setWorkoutForm({ name: "", duration: "" });
       })
       .catch((err) => console.error("Add workout error:", err));
+  };
+
+  // Save workout (PUT)
+  const saveWorkout = (id) => {
+    API.put(`/workouts/${id}`, {
+      name: editingWorkout.name,
+      duration: Number(editingWorkout.duration)
+    })
+      .then((res) => {
+        setWorkouts((prev) =>
+          prev.map((w) => (w._id === id ? res.data : w))
+        );
+        setEditingWorkout(null);
+      })
+      .catch((err) => console.error("Update workout error:", err));
   };
 
     // Start editing a meal
