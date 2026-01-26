@@ -357,7 +357,37 @@ useEffect(() => {
   <ul>
     {workouts.map((workout) => (
       <li key={workout._id} className="card">
-        {workout.name} — {workout.duration} min
+        {editingWorkout?._id === workout._id ? (
+                <>
+                  <input
+                    type="text"
+                    value={editingWorkout.name}
+                    onChange={(e) =>
+                      setEditingWorkout({
+                        ...editingWorkout,
+                        name: e.target.value
+                      })
+                    }
+                  />
+                  <input
+                    type="number"
+                    value={editingWorkout.duration}
+                    onChange={(e) =>
+                      setEditingWorkout({
+                        ...editingWorkout,
+                        duration: e.target.value
+                      })
+                    }
+                  />
+                  <button onClick={() => saveWorkout(workout._id)}>Save</button>
+                  <button onClick={() => setEditingWorkout(null)}>Cancel</button>
+                </>
+              ) : (
+                <>
+                  {workout.name} — {workout.duration} min
+                  <button onClick={() => setEditingWorkout(workout)}>Edit</button>
+                </>
+              )}
       </li>
     ))}
   </ul>
