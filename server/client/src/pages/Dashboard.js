@@ -143,6 +143,18 @@ useEffect(() => {
       .catch((err) => console.error("Update workout error:", err));
   };
 
+    // Delete workout
+  const deleteWorkout = (id) => {
+    if (!window.confirm("Delete this workout?")) return;
+
+    API.delete(`/workouts/${id}`)
+      .then(() => {
+        setWorkouts((prev) => prev.filter((w) => w._id !== id));
+      })
+      .catch((err) => console.error("Delete workout error:", err));
+  };
+
+
     // Start editing a meal
     const startEdit = (meal) => {
         setEditingMealId(meal._id);
