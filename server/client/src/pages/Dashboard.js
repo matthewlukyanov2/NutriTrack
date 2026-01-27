@@ -398,6 +398,11 @@ useEffect(() => {
                 <>
                   {workout.name} — {workout.duration} min
                   <button onClick={() => setEditingWorkout(workout)}>Edit</button>
+                  <button onClick={() => deleteWorkout(workout._id)}
+                   disabled={editingWorkout?._id === workout._id}
+                                    >
+                        Delete
+                               </button>
                 </>
               )}
       </li>
