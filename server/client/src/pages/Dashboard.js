@@ -216,7 +216,10 @@ useEffect(() => {
       {successMessage && <p className="success">{successMessage}</p>}
       <button className="logout" onClick={logout}>Logout</button>
 
+      <div className="dashboard-grid">
+
       {/* Add Meal */}
+      <div className="card">
       <h3>Add Meal</h3>
       <form onSubmit={addMeal}>
         <input
@@ -266,9 +269,10 @@ useEffect(() => {
 
         <button type="submit">Add Meal</button>
       </form>
+     </div>
 
       {/* Meals */}
-      <div className="section">
+      <div className="card">
       <h3>Your Meals</h3>
       <ul>
         {meals.map((meal) => (
@@ -341,6 +345,7 @@ useEffect(() => {
       </div>
 
       {/* Workout Form */}
+      <div className="card">
       <h3>Add Workout</h3>
       <form onSubmit={addWorkout}>
         <input
@@ -361,9 +366,10 @@ useEffect(() => {
         />
         <button type="submit">Add Workout</button>
       </form>
+      </div>
 
       {/* Workouts */}
-<div className="section">
+<div className="card">
   <h3>Your Workouts</h3>
 
   <ul>
@@ -414,7 +420,7 @@ useEffect(() => {
       
 
       {/* Recommendations */}
-      <div className="section">
+      <div className="card">
       <h3>AI Recommendations</h3>
       <button onClick={getRecommendations}>Get Recommendations</button>
 
@@ -426,6 +432,7 @@ useEffect(() => {
         ))}
       </ul>
       </div>
+    </div>
     </div>
   );
 };
