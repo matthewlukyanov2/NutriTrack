@@ -281,7 +281,12 @@ useEffect(() => {
 
       {/* Meals */}
       <div className="card">
-      <h3>Your Meals</h3>
+      <h3>Your Meals</h3>   
+   {loadingMeals ? (
+     <p className="loading">Loading meals...</p>
+   ) : meals.length === 0 ? (
+     <p className="empty">No meals yet. Add your first meal above</p>
+   ) : (
       <ul>
         {meals.map((meal) => (
           <li key={meal._id} className="card">
@@ -350,6 +355,7 @@ useEffect(() => {
         </li>
         ))}
       </ul>
+      )}
       </div>
 
       {/* Workout Form */}
@@ -379,6 +385,11 @@ useEffect(() => {
       {/* Workouts */}
 <div className="card">
   <h3>Your Workouts</h3>
+  {loadingWorkouts ? (
+            <p className="loading">Loading workouts...</p>
+          ) : workouts.length === 0 ? (
+            <p className="empty">No workouts yet. Time to move 💪</p>
+          ) : (
 
   <ul>
     {workouts.map((workout) => (
@@ -422,6 +433,7 @@ useEffect(() => {
       </li>
     ))}
   </ul>
+  )}
 </div>
 
 
@@ -431,6 +443,13 @@ useEffect(() => {
       <div className="card">
       <h3>AI Recommendations</h3>
       <button onClick={getRecommendations}>Get Recommendations</button>
+      {loadingRecs ? (
+            <p className="loading">Thinking 🤖...</p>
+          ) : recommendations.length === 0 ? (
+            <p className="empty">
+              Click <strong>Get Recommendations</strong> to see suggestions 🤖
+            </p>
+          ) : (
 
       <ul>
         {recommendations.map((meal) => (
@@ -439,6 +458,7 @@ useEffect(() => {
         </li>
         ))}
       </ul>
+      )}
       </div>
     </div>
     </div>
