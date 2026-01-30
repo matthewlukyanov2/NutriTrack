@@ -55,14 +55,17 @@ const [editForm, setEditForm] = useState({
 
   // Fetch workouts on load
 useEffect(() => {
+    setLoadingWorkouts(true);
     API.get("/workouts")
       .then((res) => setWorkouts(res.data))
-      .catch((err) => console.error("Workouts error:", err));
+      .catch((err) => console.error("Workouts error:", err))
+      .finally(() => setLoadingWorkouts(false));
   }, []);
   
 
   // Get AI recommendations
   const getRecommendations = () => {
+    setLoadingRecs(true);
     API.get("/recommendations/meals")
       .then((res) => {
         const data = Array.isArray(res.data)
@@ -70,10 +73,8 @@ useEffect(() => {
           : res.data.recommendations || [];
         setRecommendations(data);
       })
-      .catch((err) => {
-        console.error("Recommendations error:", err);
-        setRecommendations([]);
-      });
+      .catch(() => setRecommendations([]))
+      .finally(() => setLoadingRecs(false));
   };
 
   // Handle form input
