@@ -121,6 +121,17 @@ li:hover {
   background: #e0e7ff; /* soft highlight */
 }
 
+.empty {
+  color: #6b7280;
+  font-style: italic;
+  margin-top: 10px;
+}
+
+.loading {
+  color: #2563eb;
+  font-weight: 500;
+  margin-top: 10px;
+}
 
 /* Status messages */
 .success {
