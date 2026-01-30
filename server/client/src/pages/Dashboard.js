@@ -11,6 +11,11 @@ const Dashboard = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [workouts, setWorkouts] = useState([]);
 
+   // Loading states 
+   const [loadingMeals, setLoadingMeals] = useState(true);
+   const [loadingWorkouts, setLoadingWorkouts] = useState(true);
+   const [loadingRecs, setLoadingRecs] = useState(false);
+
   // Add meal form
   const [form, setForm] = useState({
     name: "",
@@ -41,9 +46,11 @@ const [editForm, setEditForm] = useState({
 
   // Fetch meals on load
   useEffect(() => {
+    setLoadingMeals(true);
     API.get("/meals")
       .then((res) => setMeals(res.data))
-      .catch((err) => console.error("Meals error:", err));
+      .catch((err) => console.error("Meals error:", err))
+      .finally(() => setLoadingMeals(false));
   }, []);
 
   // Fetch workouts on load
