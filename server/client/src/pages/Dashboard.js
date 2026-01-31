@@ -15,6 +15,7 @@ const Dashboard = () => {
    const [loadingMeals, setLoadingMeals] = useState(true);
    const [loadingWorkouts, setLoadingWorkouts] = useState(true);
    const [loadingRecs, setLoadingRecs] = useState(false);
+   const [sortOrder, setSortOrder] = useState("desc");
 
   // Add meal form
   const [form, setForm] = useState({
@@ -61,6 +62,13 @@ useEffect(() => {
       .catch((err) => console.error("Workouts error:", err))
       .finally(() => setLoadingWorkouts(false));
   }, []);
+
+   // Sorted meals logic
+  const sortedMeals = [...meals].sort((a, b) => {
+    return sortOrder === "desc"
+      ? b.calories - a.calories
+      : a.calories - b.calories;
+  });
   
 
   // Get AI recommendations
