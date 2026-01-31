@@ -297,13 +297,24 @@ useEffect(() => {
       {/* Meals */}
       <div className="card">
       <h3>Your Meals</h3>   
+      <div style={{ marginBottom: "10px" }}>
+            <button
+              onClick={() =>
+                setSortOrder(sortOrder === "desc" ? "asc" : "desc")
+              }
+            >
+              Sort by Calories (
+              {sortOrder === "desc" ? "High → Low" : "Low → High"})
+            </button>
+          </div>
+
    {loadingMeals ? (
      <p className="loading">Loading meals...</p>
    ) : meals.length === 0 ? (
      <p className="empty">No meals yet. Add your first meal above</p>
    ) : (
       <ul>
-        {meals.map((meal) => (
+        {sortedMeals.map((meal) => (
           <li key={meal._id} className="card">
           {editingMealId === meal._id ? (
             <>
