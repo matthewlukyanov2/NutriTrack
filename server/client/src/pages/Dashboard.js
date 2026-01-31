@@ -161,7 +161,11 @@ useEffect(() => {
 
     // Delete workout
   const deleteWorkout = (id) => {
-    if (!window.confirm("Delete this workout?")) return;
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this workout?"
+    );
+
+    if (!confirmed) return;
 
     API.delete(`/workouts/${id}`)
       .then(() => {
@@ -213,8 +217,11 @@ useEffect(() => {
 
       // Delete meal
       const deleteMeal = (id) => {
-        if (!window.confirm("Are you sure you want to delete this meal?")) return;
-      
+        const confirmed = window.confirm(
+          "Are you sure you want to delete this meal?"
+        );
+    
+        if (!confirmed) return;
         API.delete(`/meals/${id}`)
           .then(() => {
             setMeals((prev) => prev.filter((meal) => meal._id !== id));
