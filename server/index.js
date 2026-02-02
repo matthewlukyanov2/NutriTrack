@@ -1,46 +1,12 @@
+
 require("dotenv").config();
-const express = require("express");
-const app = express();
-const cors = require("cors");
-const helmet = require("helmet");
+const app = require("./app");
 const connectDB = require('./config/db');
+
 const PORT = process.env.PORT || 5000;
-const errorHandler = require('./middleware/errorMiddleware');
-const recommendationRoutes = require('./routes/recommendationRoutes');
-const swaggerUi = require('swagger-ui-express');
-const swaggerSpec = require('./config/swagger');
-
-// Import routes 
-const authRoutes = require("./routes/authRoutes");
-const mealRoutes = require("./routes/mealRoutes");
-const workoutRoutes = require("./routes/workoutRoutes"); 
-const aiRoutes = require("./routes/aiRoutes");
-
-
-// Middleware
-app.use(express.json());
-app.use(cors());
-app.use(helmet());
 
 // Connect to MongoDB
-connectDB(); // calls the external db.js function
-
-// Default route
-app.get("/", (req, res) => {
-  res.send("NutriTrack API is running...");
-});
-
-// API routes
-app.use("/api/auth", authRoutes);
-app.use("/api/meals", mealRoutes);
-app.use("/api/workouts", workoutRoutes);
-app.use('/api/recommendations', recommendationRoutes);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));	
-
-app.use("/api/ai", aiRoutes);
-
-// Error handling middleware (must be last)
-app.use(errorHandler);
+connectDB(); 
 
 
 // Start server
