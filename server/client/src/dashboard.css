@@ -1,0 +1,29 @@
+/* dashboard.css */
+
+/* Section spacing */
+.section {
+    margin-top: 30px;
+  }
+  
+  /* Meal / recommendation cards */
+  .card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f9fafb;
+    padding: 14px 18px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  
+  /* Buttons inside cards (for edit/delete later) */
+  .card-actions {
+    display: flex;
+    gap: 8px;
+  }
+  
+  /* Recommendation button spacing */
+  .recommend-btn {
+    margin-bottom: 12px;
+  }
+  
