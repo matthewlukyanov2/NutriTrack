@@ -1,13 +1,19 @@
+require("dotenv").config({
+  path: process.env.NODE_ENV === "test"
+    ? ".env.test"
+    : ".env"
+});
 
-require("dotenv").config();
 const app = require("./app");
-const connectDB = require('./config/db');
+const connectDB = require("./config/db");
 
 const PORT = process.env.PORT || 5000;
 
-// Connect to MongoDB
-connectDB(); 
+// DO NOT connect or listen during tests
+if (process.env.NODE_ENV !== "test") {
+  connectDB();
 
-
-// Start server
-app.listen(PORT, () => console.log(` Server running on port ${PORT}`));
+  app.listen(PORT, () =>
+    console.log(`Server running on port ${PORT}`)
+  );
+}

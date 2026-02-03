@@ -1,8 +1,7 @@
-require("dotenv").config({ path: "../.env.test" });
 const request = require("supertest");
 const mongoose = require("mongoose");
 const { MongoMemoryServer } = require("mongodb-memory-server");
-const app = require("../app");
+let app; // don't import app yet
 
 let mongoServer;
 let token;
@@ -10,21 +9,41 @@ let token;
 beforeAll(async () => {
   // Start in-memory MongoDB
   mongoServer = await MongoMemoryServer.create();
-  await mongoose.connect(mongoServer.getUri());
+  const uri = mongoServer.getUri();
+  await mongoose.connect(uri);
 
-  // Register user
-  await request(app).post("/api/auth/register").send({
+  // Import app AFTER connecting to DB
+  app = require("../app");
+
+  // Clear users collection in case of leftovers
+  await mongoose.connection.db.collection("users").deleteMany({});
+
+  // Register test user
+  const registerRes = await request(app).post("/api/auth/register").send({
+    name: "Meal Tester",
     email: "meal@test.com",
-    password: "password123"
+    password: "password123",
   });
 
-  // Login user
-  const loginRes = await request(app)
-    .post("/api/auth/login")
-    .send({
-      email: "meal@test.com",
-      password: "password123"
-    });
+  console.log("REGISTER RESPONSE STATUS:", registerRes.statusCode);
+  console.log("REGISTER RESPONSE BODY:", registerRes.body);
+
+  if (registerRes.statusCode !== 201) {
+    throw new Error("Failed to register test user");
+  }
+
+  // Login test user
+  const loginRes = await request(app).post("/api/auth/login").send({
+    email: "meal@test.com",
+    password: "password123",
+  });
+
+  console.log("LOGIN RESPONSE STATUS:", loginRes.statusCode);
+  console.log("LOGIN RESPONSE BODY:", loginRes.body);
+
+  if (!loginRes.body.token) {
+    throw new Error("Login failed, no token returned");
+  }
 
   token = loginRes.body.token;
 });
@@ -58,7 +77,7 @@ describe("Meals API", () => {
         calories: 500,
         protein: 40,
         carbs: 50,
-        fats: 20
+        fats: 20,
       });
 
     expect(res.statusCode).toBe(201);
