@@ -1,7 +1,7 @@
 const request = require("supertest");
 const mongoose = require("mongoose");
 const { MongoMemoryServer } = require("mongodb-memory-server");
-let app; // don't import app yet
+let app; 
 
 let mongoServer;
 let token;
@@ -12,11 +12,8 @@ beforeAll(async () => {
   const uri = mongoServer.getUri();
   await mongoose.connect(uri);
 
-  // Import app AFTER connecting to DB
+  // Import app 
   app = require("../app");
-
-  // Clear users collection in case of leftovers
-  await mongoose.connection.db.collection("users").deleteMany({});
 
   // Register test user
   const registerRes = await request(app).post("/api/auth/register").send({
@@ -24,9 +21,6 @@ beforeAll(async () => {
     email: "meal@test.com",
     password: "password123",
   });
-
-  console.log("REGISTER RESPONSE STATUS:", registerRes.statusCode);
-  console.log("REGISTER RESPONSE BODY:", registerRes.body);
 
   if (registerRes.statusCode !== 201) {
     throw new Error("Failed to register test user");
@@ -38,11 +32,8 @@ beforeAll(async () => {
     password: "password123",
   });
 
-  console.log("LOGIN RESPONSE STATUS:", loginRes.statusCode);
-  console.log("LOGIN RESPONSE BODY:", loginRes.body);
-
-  if (!loginRes.body.token) {
-    throw new Error("Login failed, no token returned");
+  if (loginRes.statusCode !== 200 || !loginRes.body.token) {
+    throw new Error("Failed to login test user");
   }
 
   token = loginRes.body.token;
