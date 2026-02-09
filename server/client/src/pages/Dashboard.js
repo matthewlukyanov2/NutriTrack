@@ -69,6 +69,12 @@ useEffect(() => {
       ? b.calories - a.calories
       : a.calories - b.calories;
   });
+
+  // Total calories 
+const totalCalories = meals.reduce(
+  (sum, meal) => sum + (meal.calories || 0),
+  0
+);
   
 
   // Get AI recommendations
