@@ -13,6 +13,12 @@ jobs:
     defaults:
       run:
         working-directory: server
+    
+    services:
+      mongo:
+        image: mongo:6
+        ports:
+          - 27017:27017
 
     steps:
       - name: Checkout repo
@@ -21,13 +27,14 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 18
 
       - name: Install backend dependencies
         run: npm install
 
-      - name: Run backend build (if defined)
-        run: npm run build || echo "No build step defined"
-
-      - name: Run backend tests
+      - name: Run tests
+        env:
+          MONGO_URI: mongodb://localhost:27017/nutritrack_test
+          JWT_SECRET: testsecret
+          NODE_ENV: test
         run: npm test
