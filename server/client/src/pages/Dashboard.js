@@ -84,6 +84,11 @@ const totalCalories = meals.reduce(
   0
 );
   
+//Chart data format
+const chartData = meals.map((meal) => ({
+  name: meal.name,
+  calories: meal.calories,
+}));
 
   // Get AI recommendations
   const getRecommendations = () => {
