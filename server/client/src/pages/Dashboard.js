@@ -3,6 +3,14 @@ import API from "../services/api";
 import "../dashboard.css";
 import { logout } from "../utils/auth";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 
 
 const Dashboard = () => {
