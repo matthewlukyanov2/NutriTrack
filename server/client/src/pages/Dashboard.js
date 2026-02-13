@@ -403,6 +403,25 @@ const chartData = meals.map((meal) => ({
       )}
       </div>
 
+      {/* Calories Summary */}
+<h3>Calories Overview</h3>
+
+<p style={{ marginBottom: "10px", fontWeight: "bold" }}>
+  Total Calories: {totalCalories} kcal
+</p>
+
+<div style={{ width: "100%", height: 250 }}>
+  <ResponsiveContainer>
+    <BarChart data={chartData}>
+      <XAxis dataKey="name" />
+      <YAxis />
+      <Tooltip />
+      <Bar dataKey="calories" />
+    </BarChart>
+  </ResponsiveContainer>
+</div>
+
+
       {/* Workout Form */}
       <div className="card">
       <h3>Add Workout</h3>
