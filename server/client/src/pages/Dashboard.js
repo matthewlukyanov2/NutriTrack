@@ -6,10 +6,13 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import {
   BarChart,
   Bar,
+  LineChart,
+  Line,
   XAxis,
   YAxis,
   Tooltip,
   ResponsiveContainer,
+  CartesianGrid,
 } from "recharts";
 
 
