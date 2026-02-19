@@ -93,6 +93,36 @@ const chartData = meals.map((meal) => ({
   calories: meal.calories,
 }));
 
+// Get last 7 days
+const getLast7Days = () => {
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const date = new Date();
+    date.setDate(date.getDate() - i);
+    days.push(date.toISOString().split("T")[0]);
+  }
+  return days;
+};
+
+const last7Days = getLast7Days();
+
+const weeklyData = last7Days.map((day) => {
+  const total = meals
+    .filter((meal) => {
+      const mealDate = new Date(meal.createdAt)
+        .toISOString()
+        .split("T")[0];
+      return mealDate === day;
+    })
+    .reduce((sum, meal) => sum + (meal.calories || 0), 0);
+
+  return {
+    date: day.slice(5), // MM-DD
+    calories: total,
+  };
+});
+
+
   // Get AI recommendations
   const getRecommendations = () => {
     setLoadingRecs(true);
