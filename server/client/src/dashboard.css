@@ -27,3 +27,27 @@
     margin-bottom: 12px;
   }
   
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 25px;
+    margin-top: 20px;
+  }
+  
+  .main-column {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+  }
+  
+  .side-column {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+  }
+  
+  @media (max-width: 900px) {
+    .dashboard-grid {
+      grid-template-columns: 1fr;
+    }
+  }
