@@ -293,170 +293,131 @@ const weeklyData = last7Days.map((day) => {
 
       <div className="dashboard-grid">
 
-      {/* Add Meal */}
-      <div className="card">
-      <h3>Add Meal</h3>
-      <form onSubmit={addMeal}>
-        <input
-          type="text"
-          name="name"
-          placeholder="Meal name"
-          value={form.name}
-          onChange={handleChange}
-          required
-        />
+  {/* LEFT SIDE */}
+  <div className="main-column">
 
-        <input
-          type="number"
-          name="calories"
-          placeholder="Calories"
-          value={form.calories}
-          onChange={handleChange}
-          required
-        />
+    {/* Calories Summary */}
+    <div className="card">
+      <h3>Calories Overview</h3>
 
-        <input
-          type="number"
-          name="protein"
-          placeholder="Protein"
-          value={form.protein}
-          onChange={handleChange}
-          required
-        />
+      <p style={{ marginBottom: "10px", fontWeight: "bold" }}>
+        Total Calories: {totalCalories} kcal
+      </p>
 
-        <input
-          type="number"
-          name="carbs"
-          placeholder="Carbs"
-          value={form.carbs}
-          onChange={handleChange}
-          required
-        />
+      <div style={{ width: "100%", height: 250 }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={chartData}>
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Bar dataKey="calories" />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
 
-        <input
-          type="number"
-          name="fats"
-          placeholder="Fats"
-          value={form.fats}
-          onChange={handleChange}
-          required
-        />
+    {/* Meals */}
+    <div className="card">
+      <h3>Your Meals</h3>
 
-        <button type="submit">Add Meal</button>
-      </form>
-     </div>
-
-      {/* Meals */}
-      <div className="card">
-      <h3>Your Meals</h3>   
       <div style={{ marginBottom: "10px" }}>
-            <button
-              onClick={() =>
-                setSortOrder(sortOrder === "desc" ? "asc" : "desc")
-              }
-            >
-              Sort by Calories (
-              {sortOrder === "desc" ? "High → Low" : "Low → High"})
-            </button>
-          </div>
-
-   {loadingMeals ? (
-     <p className="loading">Loading meals...</p>
-   ) : meals.length === 0 ? (
-     <p className="empty">No meals yet. Add your first meal above</p>
-   ) : (
-      <ul>
-        {sortedMeals.map((meal) => (
-          <li key={meal._id} className="card">
-          {editingMealId === meal._id ? (
-            <>
-              <input
-                name="name"
-                value={editForm.name}
-                onChange={handleEditChange}
-              />
-              <input
-                name="calories"
-                type="number"
-                value={editForm.calories}
-                onChange={handleEditChange}
-              />
-              <input
-                name="protein"
-                type="number"
-                value={editForm.protein}
-                onChange={handleEditChange}
-              />
-              <input
-                name="carbs"
-                type="number"
-                value={editForm.carbs}
-                onChange={handleEditChange}
-              />
-              <input
-                name="fats"
-                type="number"
-                value={editForm.fats}
-                onChange={handleEditChange}
-              />
-
-              <button onClick={() => saveEdit(meal._id)}>Save</button>
-              <button onClick={() => setEditingMealId(null)}>
-                Cancel
-              </button>
-            </>
-          ) : (
-            <>
-              <strong>{meal.name}</strong> — {meal.calories} kcal
-              <br />
-              {/* Edit icon */}
-            <button onClick={() => startEdit(meal)}>
-              <FaEdit />
-            </button>
-
-            {/* Delete icon */}
-            <button
-              onClick={() => deleteMeal(meal._id)}
-              disabled={editingMealId === meal._id}
-              style={{
-                backgroundColor: "#ef4444",
-                marginLeft: "8px",
-                opacity: editingMealId === meal._id ? 0.5 : 1,
-                cursor:
-                  editingMealId === meal._id ? "not-allowed" : "pointer"
-              }}
-            >
-              <FaTrash />
-                </button>
-            </>
-          )}
-        </li>
-        ))}
-      </ul>
-      )}
+        <button
+          onClick={() =>
+            setSortOrder(sortOrder === "desc" ? "asc" : "desc")
+          }
+        >
+          Sort by Calories (
+          {sortOrder === "desc" ? "High → Low" : "Low → High"})
+        </button>
       </div>
 
-      {/* Calories Summary */}
-<h3>Calories Overview</h3>
+      {loadingMeals ? (
+        <p className="loading">Loading meals...</p>
+      ) : meals.length === 0 ? (
+        <p className="empty">No meals yet. Add your first meal above</p>
+      ) : (
+        <ul>
+          {sortedMeals.map((meal) => (
+            <li key={meal._id} className="card">
+              {editingMealId === meal._id ? (
+                <>
+                  <input
+                    name="name"
+                    value={editForm.name}
+                    onChange={handleEditChange}
+                  />
+                  <input
+                    name="calories"
+                    type="number"
+                    value={editForm.calories}
+                    onChange={handleEditChange}
+                  />
+                  <input
+                    name="protein"
+                    type="number"
+                    value={editForm.protein}
+                    onChange={handleEditChange}
+                  />
+                  <input
+                    name="carbs"
+                    type="number"
+                    value={editForm.carbs}
+                    onChange={handleEditChange}
+                  />
+                  <input
+                    name="fats"
+                    type="number"
+                    value={editForm.fats}
+                    onChange={handleEditChange}
+                  />
 
-<p style={{ marginBottom: "10px", fontWeight: "bold" }}>
-  Total Calories: {totalCalories} kcal
-</p>
+                  <button onClick={() => saveEdit(meal._id)}>Save</button>
+                  <button onClick={() => setEditingMealId(null)}>
+                    Cancel
+                  </button>
+                </>
+              ) : (
+                <>
+                  <strong>{meal.name}</strong> — {meal.calories} kcal
+                  <div>
+                    <button onClick={() => startEdit(meal)}>
+                      <FaEdit />
+                    </button>
+                    <button
+                      onClick={() => deleteMeal(meal._id)}
+                      style={{ marginLeft: "8px" }}
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
+                </>
+              )}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
 
-<div style={{ width: "100%", height: 250 }}>
-  <ResponsiveContainer width="100%" height="100%">
-    <BarChart data={chartData}>
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Bar dataKey="calories" />
-    </BarChart>
-  </ResponsiveContainer>
-</div>
+  </div>
 
+  {/* RIGHT SIDE */}
+  <div className="side-column">
 
-      {/* Workout Form */}
-      <div className="card">
+    {/* Add Meal */}
+    <div className="card">
+      <h3>Add Meal</h3>
+      <form onSubmit={addMeal}>
+        <input type="text" name="name" placeholder="Meal name" value={form.name} onChange={handleChange} required />
+        <input type="number" name="calories" placeholder="Calories" value={form.calories} onChange={handleChange} required />
+        <input type="number" name="protein" placeholder="Protein" value={form.protein} onChange={handleChange} required />
+        <input type="number" name="carbs" placeholder="Carbs" value={form.carbs} onChange={handleChange} required />
+        <input type="number" name="fats" placeholder="Fats" value={form.fats} onChange={handleChange} required />
+        <button type="submit">Add Meal</button>
+      </form>
+    </div>
+
+    {/* Add Workout */}
+    <div className="card">
       <h3>Add Workout</h3>
       <form onSubmit={addWorkout}>
         <input
@@ -477,87 +438,53 @@ const weeklyData = last7Days.map((day) => {
         />
         <button type="submit">Add Workout</button>
       </form>
-      </div>
+    </div>
 
-      {/* Workouts */}
-<div className="card">
-  <h3>Your Workouts</h3>
-  {loadingWorkouts ? (
-            <p className="loading">Loading workouts...</p>
-          ) : workouts.length === 0 ? (
-            <p className="empty">No workouts yet. Time to move 💪</p>
-          ) : (
+    {/* Workouts */}
+    <div className="card">
+      <h3>Your Workouts</h3>
 
-  <ul>
-    {workouts.map((workout) => (
-      <li key={workout._id} className="card">
-        {editingWorkout?._id === workout._id ? (
-                <>
-                  <input
-                    type="text"
-                    value={editingWorkout.name}
-                    onChange={(e) =>
-                      setEditingWorkout({
-                        ...editingWorkout,
-                        name: e.target.value
-                      })
-                    }
-                  />
-                  <input
-                    type="number"
-                    value={editingWorkout.duration}
-                    onChange={(e) =>
-                      setEditingWorkout({
-                        ...editingWorkout,
-                        duration: e.target.value
-                      })
-                    }
-                  />
-                  <button onClick={() => saveWorkout(workout._id)}>Save</button>
-                  <button onClick={() => setEditingWorkout(null)}>Cancel</button>
-                </>
-              ) : (
-                <>
-                  {workout.name} — {workout.duration} min
-                  <button onClick={() => setEditingWorkout(workout)}>Edit</button>
-                  <button onClick={() => deleteWorkout(workout._id)}
-                   disabled={editingWorkout?._id === workout._id}
-                                    >
-                        Delete
-                               </button>
-                </>
-              )}
-      </li>
-    ))}
-  </ul>
-  )}
-</div>
+      {loadingWorkouts ? (
+        <p className="loading">Loading workouts...</p>
+      ) : workouts.length === 0 ? (
+        <p className="empty">No workouts yet. Time to move 💪</p>
+      ) : (
+        <ul>
+          {workouts.map((workout) => (
+            <li key={workout._id} className="card">
+              {workout.name} — {workout.duration} min
+              <button onClick={() => setEditingWorkout(workout)}>Edit</button>
+              <button onClick={() => deleteWorkout(workout._id)}>
+                Delete
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
 
-
-      
-
-      {/* Recommendations */}
-      <div className="card">
+    {/* AI Recommendations */}
+    <div className="card">
       <h3>AI Recommendations</h3>
       <button onClick={getRecommendations}>Get Recommendations</button>
-      {loadingRecs ? (
-            <p className="loading">Thinking 🤖...</p>
-          ) : recommendations.length === 0 ? (
-            <p className="empty">
-              Click <strong>Get Recommendations</strong> to see suggestions 🤖
-            </p>
-          ) : (
 
-      <ul>
-        {recommendations.map((meal) => (
-          <li key={meal._id} className="card">
-          <span>{meal.name}</span>
-        </li>
-        ))}
-      </ul>
+      {loadingRecs ? (
+        <p className="loading">Thinking 🤖...</p>
+      ) : recommendations.length === 0 ? (
+        <p className="empty">
+          Click <strong>Get Recommendations</strong> to see suggestions 🤖
+        </p>
+      ) : (
+        <ul>
+          {recommendations.map((meal) => (
+            <li key={meal._id}>{meal.name}</li>
+          ))}
+        </ul>
       )}
-      </div>
     </div>
+
+  </div>
+</div>
     </div>
   );
 };
