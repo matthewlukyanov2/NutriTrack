@@ -6,13 +6,10 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import {
   BarChart,
   Bar,
-  LineChart,
-  Line,
   XAxis,
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  CartesianGrid,
 } from "recharts";
 
 
@@ -295,6 +292,17 @@ const weeklyData = last7Days.map((day) => {
 
   {/* LEFT SIDE */}
   <div className="main-column">
+
+     {/* HERO CARD */}
+  <div className="progress-card">
+    <h2>Today's Progress</h2>
+    <div className="progress-numbers">
+      <div>
+        <h1>{totalCalories}</h1>
+        <p>Calories Consumed</p>
+      </div>
+    </div>
+  </div>
 
     {/* Calories Summary */}
     <div className="card">
