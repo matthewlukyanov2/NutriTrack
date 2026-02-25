@@ -346,7 +346,8 @@ const weeklyData = last7Days.map((day) => {
       ) : (
         <ul>
           {sortedMeals.map((meal) => (
-            <li key={meal._id} className="card">
+            <li key={meal._id}>
+              <div className="meal-card">
               {editingMealId === meal._id ? (
                 <>
                   <input
@@ -400,6 +401,7 @@ const weeklyData = last7Days.map((day) => {
                   </div>
                 </>
               )}
+              </div>
             </li>
           ))}
         </ul>
