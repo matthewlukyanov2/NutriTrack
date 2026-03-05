@@ -294,15 +294,32 @@ const weeklyData = last7Days.map((day) => {
   <div className="main-column">
 
      {/* HERO CARD */}
-  <div className="progress-card">
-    <h2>Today's Progress</h2>
-    <div className="progress-numbers">
-      <div>
-        <h1>{totalCalories}</h1>
-        <p>Calories Consumed</p>
-      </div>
+     <div className="card">
+  <h3>Today's Progress</h3>
+
+  <div className="calorie-stats">
+    <div>
+      <span className="big-number">{totalCalories}</span>
+      <span>Calories Consumed</span>
     </div>
   </div>
+
+  <div className="progress-section">
+    <div className="progress-label">
+      <span>Daily Goal</span>
+      <span>{Math.min((totalCalories / 2000) * 100, 100).toFixed(0)}%</span>
+    </div>
+
+    <div className="progress-bar">
+      <div
+        className="progress-fill"
+        style={{
+          width: `${Math.min((totalCalories / 2000) * 100, 100)}%`,
+        }}
+      ></div>
+    </div>
+  </div>
+</div>
 
     {/* Calories Summary */}
     <div className="card">
