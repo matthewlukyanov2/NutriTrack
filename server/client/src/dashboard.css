@@ -47,12 +47,37 @@
   }
   
 
-  .progress-card {
-    background: linear-gradient(135deg, #0ea5a4, #2563eb);
-    color: white;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  .big-number {
+    font-size: 32px;
+    font-weight: 700;
+    display: block;
+  }
+  
+  .calorie-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: var(--text-light);
+  }
+  
+  .progress-bar {
+    height: 8px;
+    background: #e9ecef;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .progress-fill {
+    height: 100%;
+    background: var(--primary);
+    transition: width 0.3s ease;
   }
   
   .progress-numbers h1 {
