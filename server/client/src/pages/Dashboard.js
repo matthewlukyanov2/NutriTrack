@@ -445,7 +445,7 @@ const weeklyData = last7Days.map((day) => {
         <input type="number" name="protein" placeholder="Protein" value={form.protein} onChange={handleChange} required />
         <input type="number" name="carbs" placeholder="Carbs" value={form.carbs} onChange={handleChange} required />
         <input type="number" name="fats" placeholder="Fats" value={form.fats} onChange={handleChange} required />
-        <button type="submit">Add Meal</button>
+        <button type="submit" className="add-meal-btn">Add Meal</button>
       </form>
     </div>
 
