@@ -369,10 +369,9 @@ const weeklyData = last7Days.map((day) => {
       ) : meals.length === 0 ? (
         <p className="empty">No meals yet. Add your first meal above</p>
       ) : (
-        <ul>
-          {sortedMeals.map((meal) => (
-            <li key={meal._id}>
-              <div className="meal-card">
+        <div className="meals-grid">
+  {sortedMeals.map((meal) => (
+    <div className="meal-card" key={meal._id}>
               {editingMealId === meal._id ? (
                 <>
                   <input
@@ -427,9 +426,8 @@ const weeklyData = last7Days.map((day) => {
                 </>
               )}
               </div>
-            </li>
           ))}
-        </ul>
+        </div>
       )}
     </div>
 
