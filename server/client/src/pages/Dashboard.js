@@ -282,11 +282,19 @@ const weeklyData = last7Days.map((day) => {
       };      
       
 
-  return (
-    <div className="container">
-      <h2>Dashboard</h2>
-      {successMessage && <p className="success">{successMessage}</p>}
-      <button className="logout" onClick={logout}>Logout</button>
+      return (
+        <div className="container">
+      
+          <header className="dashboard-header">
+            <div>
+              <h1>My Fitness Dashboard</h1>
+              <p className="subtitle">Track your nutrition & workouts</p>
+            </div>
+      
+            <button className="logout" onClick={logout}>Logout</button>
+          </header>
+      
+          {successMessage && <p className="success">{successMessage}</p>}
 
       <div className="dashboard-grid">
 
