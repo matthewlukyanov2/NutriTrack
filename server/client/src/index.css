@@ -13,14 +13,10 @@ body {
 }
 
 .container {
-  max-width: 900px;
+  max-width: 1200px;
   margin: 40px auto;
-  background: #ffffff; /* already white, could add a soft shadow */
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* soft shadow */
+  padding: 20px;
 }
-
 
 /* Headings */
 h1 {

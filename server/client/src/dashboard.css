@@ -10,9 +10,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #f9fafb;
-    padding: 14px 18px;
-    border-radius: 8px;
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
     margin-bottom: 10px;
   }
   
@@ -30,7 +31,8 @@
   .dashboard-grid {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    gap: 30px;
+    gap: 24px;
+    align-items: start;
   }
   
   .main-column,
