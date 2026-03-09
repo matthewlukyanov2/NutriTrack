@@ -179,3 +179,23 @@ button {
   font-weight: 600;
   border-radius: 10px;
 }
+
+.stat-box {
+  background: #f3f4f6;
+  padding: 16px;
+  border-radius: 12px;
+  text-align: center;
+  flex: 1;
+}
+
+.calorie-stats {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.big-number {
+  font-size: 28px;
+  font-weight: 700;
+  display: block;
+}

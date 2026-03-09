@@ -83,6 +83,10 @@ const totalCalories = meals.reduce(
   (sum, meal) => sum + (meal.calories || 0),
   0
 );
+
+const dailyGoal = 2000;
+const caloriesRemaining = Math.max(dailyGoal - totalCalories, 0);
+const percentage = Math.min((totalCalories / dailyGoal) * 100, 100).toFixed(0);
   
 //Chart data format
 const chartData = meals.map((meal) => ({
@@ -306,24 +310,27 @@ const weeklyData = last7Days.map((day) => {
   <h3>Today's Progress</h3>
 
   <div className="calorie-stats">
-    <div>
+    <div className="stat-box">
       <span className="big-number">{totalCalories}</span>
       <span>Calories Consumed</span>
+    </div>
+
+    <div className="stat-box">
+      <span className="big-number">{caloriesRemaining}</span>
+      <span>Calories Remaining</span>
     </div>
   </div>
 
   <div className="progress-section">
     <div className="progress-label">
-      <span>Daily Goal</span>
-      <span>{Math.min((totalCalories / 2000) * 100, 100).toFixed(0)}%</span>
+    <span>Calorie Progress</span>
+      <span>{percentage}% of goal</span>
     </div>
 
     <div className="progress-bar">
       <div
         className="progress-fill"
-        style={{
-          width: `${Math.min((totalCalories / 2000) * 100, 100)}%`,
-        }}
+        style={{ width: `${percentage}%` }}
       ></div>
     </div>
   </div>
