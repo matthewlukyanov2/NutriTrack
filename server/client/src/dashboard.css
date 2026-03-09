@@ -6,16 +6,31 @@
   }
   
   /* Meal / recommendation cards */
-  .card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: white;
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
-    margin-bottom: 10px;
-  }
+ /* Main dashboard cards */
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+}
+
+/* Row items inside lists (meals, workouts) */
+
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f9fafb;
+  padding: 14px 18px;
+  border-radius: 10px;
+}
   
   /* Buttons inside cards (for edit/delete later) */
   .card-actions {

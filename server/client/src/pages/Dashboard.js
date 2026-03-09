@@ -491,7 +491,7 @@ const weeklyData = last7Days.map((day) => {
       ) : (
         <ul>
           {workouts.map((workout) => (
-            <li key={workout._id} className="card">
+            <li key={workout._id} className="list-item">
               {workout.name} — {workout.duration} min
               <button onClick={() => setEditingWorkout(workout)}>Edit</button>
               <button onClick={() => deleteWorkout(workout._id)}>
