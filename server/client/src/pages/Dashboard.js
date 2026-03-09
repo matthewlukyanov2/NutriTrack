@@ -504,17 +504,15 @@ const weeklyData = last7Days.map((day) => {
     </div>
 
     {/* AI Recommendations */}
-    <div className="card">
-      <h3>AI Recommendations</h3>
-      <button onClick={getRecommendations}>Get Recommendations</button>
+    <div className="card recommendations-card">
+  <h3>Recommendations</h3>
+
+  <p className="recommendation-text"> Get personalized nutrition suggestions based on your meals and progress.</p>
+      <button className="recommend-btn"  onClick={getRecommendations}>Get Recommendations</button>
 
       {loadingRecs ? (
-        <p className="loading">Thinking 🤖...</p>
-      ) : recommendations.length === 0 ? (
-        <p className="empty">
-          Click <strong>Get Recommendations</strong> to see suggestions 🤖
-        </p>
-      ) : (
+  <p className="loading">Thinking 🤖...</p>
+) : recommendations.length === 0 ? null : (
         <ul>
           {recommendations.map((meal) => (
             <li key={meal._id}>{meal.name}</li>
