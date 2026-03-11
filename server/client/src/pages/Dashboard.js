@@ -350,6 +350,39 @@ const weeklyData = last7Days.map((day) => {
         style={{ width: `${percentage}%` }}
       ></div>
     </div>
+
+    <h4 style={{ marginTop: "20px" }}>Macros</h4>
+
+<div className="macro-progress">
+  <label>Protein {totals.protein}g / {nutritionGoals.protein}g</label>
+  <div className="progress-bar">
+    <div
+      className="progress-fill"
+      style={{ width: `${(totals.protein / nutritionGoals.protein) * 100}%` }}
+    ></div>
+  </div>
+</div>
+
+<div className="macro-progress">
+  <label>Carbs {totals.carbs}g / {nutritionGoals.carbs}g</label>
+  <div className="progress-bar">
+    <div
+      className="progress-fill"
+      style={{ width: `${(totals.carbs / nutritionGoals.carbs) * 100}%` }}
+    ></div>
+  </div>
+</div>
+
+<div className="macro-progress">
+  <label>Fats {totals.fats}g / {nutritionGoals.fats}g</label>
+  <div className="progress-bar">
+    <div
+      className="progress-fill"
+      style={{ width: `${(totals.fats / nutritionGoals.fats) * 100}%` }}
+    ></div>
+  </div>
+</div>
+
   </div>
 </div>
 
