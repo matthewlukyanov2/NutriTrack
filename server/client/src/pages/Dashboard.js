@@ -14,6 +14,12 @@ import {
 
 
 const Dashboard = () => {
+  const nutritionGoals = {
+    calories: 2000,
+    protein: 120,
+    carbs: 250,
+    fats: 70,
+  };
   const [meals, setMeals] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
