@@ -285,3 +285,13 @@ form {
   flex-direction: column;
   gap: 10px;
 }
+
+.macro-progress {
+  margin-top: 12px;
+}
+
+.macro-progress label {
+  font-size: 14px;
+  display: block;
+  margin-bottom: 4px;
+}
