@@ -548,9 +548,57 @@ const weeklyData = last7Days.map((day) => {
         Edit Goals
       </button>
     </>
-  ) : (
-    <></>
-  )}
+) : (
+  <>
+    <input
+      type="number"
+      value={nutritionGoals.calories}
+      onChange={(e) =>
+        setNutritionGoals({
+          ...nutritionGoals,
+          calories: Number(e.target.value)
+        })
+      }
+    />
+
+    <input
+      type="number"
+      value={nutritionGoals.protein}
+      onChange={(e) =>
+        setNutritionGoals({
+          ...nutritionGoals,
+          protein: Number(e.target.value)
+        })
+      }
+    />
+
+    <input
+      type="number"
+      value={nutritionGoals.carbs}
+      onChange={(e) =>
+        setNutritionGoals({
+          ...nutritionGoals,
+          carbs: Number(e.target.value)
+        })
+      }
+    />
+
+    <input
+      type="number"
+      value={nutritionGoals.fats}
+      onChange={(e) =>
+        setNutritionGoals({
+          ...nutritionGoals,
+          fats: Number(e.target.value)
+        })
+      }
+    />
+
+    <button onClick={() => setEditingGoals(false)}>
+      Save Goals
+    </button>
+  </>
+)}
 </div>
 
     {/* Workouts */}
