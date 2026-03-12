@@ -534,6 +534,25 @@ const weeklyData = last7Days.map((day) => {
       </form>
     </div>
 
+    <div className="card goals-card">
+  <h3>Daily Nutrition Goals</h3>
+
+  {!editingGoals ? (
+    <>
+      <p>Calories: {nutritionGoals.calories}</p>
+      <p>Protein: {nutritionGoals.protein}g</p>
+      <p>Carbs: {nutritionGoals.carbs}g</p>
+      <p>Fats: {nutritionGoals.fats}g</p>
+
+      <button onClick={() => setEditingGoals(true)}>
+        Edit Goals
+      </button>
+    </>
+  ) : (
+    <></>
+  )}
+</div>
+
     {/* Workouts */}
     <div className="card">
       <h3>Your Workouts</h3>
