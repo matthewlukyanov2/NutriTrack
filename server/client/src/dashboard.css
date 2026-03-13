@@ -295,3 +295,13 @@ form {
   display: block;
   margin-bottom: 4px;
 }
+
+.goals-card input {
+  width: 100%;
+  padding: 6px;
+  margin: 5px 0;
+}
+
+.goals-card button {
+  margin-top: 10px;
+}
