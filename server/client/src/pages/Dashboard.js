@@ -28,6 +28,7 @@ const Dashboard = () => {
   });
   
   const [editingGoals, setEditingGoals] = useState(false);
+  const [viewMode, setViewMode] = useState("daily");
 
    // Loading states 
    const [loadingMeals, setLoadingMeals] = useState(true);
