@@ -327,6 +327,22 @@ const weeklyData = last7Days.map((day) => {
   {/* LEFT SIDE */}
   <div className="main-column">
 
+  <div className="view-toggle">
+  <button
+    className={viewMode === "daily" ? "active-toggle" : ""}
+    onClick={() => setViewMode("daily")}
+  >
+    Daily
+  </button>
+
+  <button
+    className={viewMode === "weekly" ? "active-toggle" : ""}
+    onClick={() => setViewMode("weekly")}
+  >
+    Weekly
+  </button>
+</div>
+
      {/* HERO CARD */}
      <div className="card">
   <h3>Today's Progress</h3>
