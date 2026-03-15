@@ -92,6 +92,14 @@ useEffect(() => {
       : a.calories - b.calories;
   });
 
+  const mealsForSelectedDate = meals.filter((meal) => {
+    const mealDate = new Date(meal.createdAt)
+      .toISOString()
+      .split("T")[0];
+  
+    return mealDate === selectedDate;
+  });
+
   const totals = meals.reduce(
     (acc, meal) => {
       acc.calories += meal.calories || 0;
