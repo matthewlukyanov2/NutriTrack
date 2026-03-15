@@ -305,3 +305,22 @@ form {
 .goals-card button {
   margin-top: 10px;
 }
+
+.view-toggle {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.view-toggle button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  background: #eee;
+  cursor: pointer;
+}
+
+.active-toggle {
+  background: #4CAF50;
+  color: white;
+}
