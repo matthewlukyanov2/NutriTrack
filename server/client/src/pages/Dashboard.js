@@ -29,6 +29,9 @@ const Dashboard = () => {
   
   const [editingGoals, setEditingGoals] = useState(false);
   const [viewMode, setViewMode] = useState("daily");
+  const [selectedDate, setSelectedDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
 
    // Loading states 
    const [loadingMeals, setLoadingMeals] = useState(true);
