@@ -342,7 +342,11 @@ const weeklyData = last7Days.map((day) => {
     Weekly
   </button>
 </div>
-
+     
+     {/* DAILY VIEW */}
+{viewMode === "daily" && (
+  <>
+  
      {/* HERO CARD */}
      <div className="card">
   <h3>Today's Progress</h3>
@@ -406,6 +410,26 @@ const weeklyData = last7Days.map((day) => {
 
   </div>
 </div>
+</>
+)}
+
+{/* WEEKLY VIEW */}
+{viewMode === "weekly" && (
+  <div className="card">
+    <h3>Weekly Calorie Trend</h3>
+
+    <div style={{ width: "100%", height: 250 }}>
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={weeklyData}>
+          <XAxis dataKey="date" />
+          <YAxis />
+          <Tooltip />
+          <Bar dataKey="calories" />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  </div>
+)}
 
     {/* Calories Summary */}
     <div className="card">
