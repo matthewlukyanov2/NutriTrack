@@ -100,7 +100,7 @@ useEffect(() => {
     return mealDate === selectedDate;
   });
 
-  const totals = meals.reduce(
+  const totals = mealsForSelectedDate.reduce(
     (acc, meal) => {
       acc.calories += meal.calories || 0;
       acc.protein += meal.protein || 0;
