@@ -330,6 +330,15 @@ const weeklyData = last7Days.map((day) => {
   {/* LEFT SIDE */}
   <div className="main-column">
 
+  <div className="date-selector">
+    <label>📅 Date:</label>
+    <input
+      type="date"
+      value={selectedDate}
+      onChange={(e) => setSelectedDate(e.target.value)}
+    />
+  </div>
+
   <div className="view-toggle">
   <button
     className={viewMode === "daily" ? "active-toggle" : ""}
