@@ -324,3 +324,16 @@ form {
   background: #4CAF50;
   color: white;
 }
+
+.date-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.date-selector input {
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
