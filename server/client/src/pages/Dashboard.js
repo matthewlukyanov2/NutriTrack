@@ -390,6 +390,13 @@ const weeklyData = last7Days.map((day) => {
      <div className="card">
   <h3>Today's Progress</h3>
 
+  <div className="nutrition-score">
+  <h3>Nutrition Score</h3>
+  <div className="score-value">
+    {nutritionScore} / 100
+  </div>
+</div>
+
   <div className="calorie-stats">
     <div className="stat-box">
       <span className="big-number">{totalCalories}</span>
