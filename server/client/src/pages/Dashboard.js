@@ -130,6 +130,16 @@ useEffect(() => {
     calorieScore + proteinScore + macroBalanceScore
   );
 
+  let scoreMessage = "";
+
+if (nutritionScore >= 85) {
+  scoreMessage = "🔥 Excellent nutrition day!";
+} else if (nutritionScore >= 60) {
+  scoreMessage = "👍 Good progress, keep going!";
+} else {
+  scoreMessage = "⚡ Try to improve your nutrition goals.";
+}
+
   // Total calories 
 const totalCalories = meals.reduce(
   (sum, meal) => sum + (meal.calories || 0),
@@ -395,6 +405,8 @@ const weeklyData = last7Days.map((day) => {
   <div className="score-value">
     {nutritionScore} / 100
   </div>
+
+  <p>{scoreMessage}</p>
 </div>
 
   <div className="calorie-stats">
