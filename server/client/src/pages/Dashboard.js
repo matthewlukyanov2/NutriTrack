@@ -111,6 +111,25 @@ useEffect(() => {
     { calories: 0, protein: 0, carbs: 0, fats: 0 }
   );
 
+  const calorieScore = Math.min(
+    (totals.calories / nutritionGoals.calories) * 40,
+    40
+  );
+  
+  const proteinScore = Math.min(
+    (totals.protein / nutritionGoals.protein) * 30,
+    30
+  );
+  
+  const macroBalanceScore =
+    totals.carbs > 0 && totals.fats > 0
+      ? 30
+      : 15;
+  
+  const nutritionScore = Math.round(
+    calorieScore + proteinScore + macroBalanceScore
+  );
+
   // Total calories 
 const totalCalories = meals.reduce(
   (sum, meal) => sum + (meal.calories || 0),
