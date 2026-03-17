@@ -337,3 +337,14 @@ form {
   border-radius: 6px;
   border: 1px solid #ddd;
 }
+
+.nutrition-score {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.score-value {
+  font-size: 32px;
+  font-weight: bold;
+  color: #4CAF50;
+}
