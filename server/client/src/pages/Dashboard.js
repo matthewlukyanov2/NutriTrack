@@ -397,6 +397,8 @@ const weeklyData = last7Days.map((day) => {
   <>
   
      {/* HERO CARD */}
+
+     
      <div className="card">
   <h3>Today's Progress</h3>
 
@@ -465,11 +467,35 @@ const weeklyData = last7Days.map((day) => {
     ></div>
   </div>
 </div>
+</div>
 
   </div>
+  {/* MEAL HISTORY*/}
+  <div className="card">
+  <h3>Meals for Selected Date</h3>
+
+  {mealsForSelectedDate.length === 0 ? (
+    <p>No meals logged for this date.</p>
+  ) : (
+    <ul className="meal-list">
+      {mealsForSelectedDate.map((meal, index) => (
+        <li key={index} className="meal-item">
+          <div>
+            <strong>{meal.name}</strong>
+            <p>
+              {meal.calories} kcal | P: {meal.protein}g | C: {meal.carbs}g | F: {meal.fats}g
+            </p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  )}
 </div>
+
 </>
 )}
+
+
 
 {/* WEEKLY VIEW */}
 {viewMode === "weekly" && (
@@ -508,6 +534,8 @@ const weeklyData = last7Days.map((day) => {
         </ResponsiveContainer>
       </div>
     </div>
+
+    
 
     {/* Meals */}
     <div className="card">
