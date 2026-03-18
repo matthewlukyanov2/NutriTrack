@@ -348,3 +348,24 @@ form {
   font-weight: bold;
   color: #4CAF50;
 }
+
+.meal-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.meal-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.meal-item strong {
+  font-size: 16px;
+}
+
+.meal-item p {
+  margin: 5px 0 0;
+  font-size: 14px;
+  color: #666;
+}
