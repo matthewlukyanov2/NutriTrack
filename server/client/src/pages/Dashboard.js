@@ -337,6 +337,27 @@ const weeklyData = last7Days.map((day) => {
         setMealToDelete(id);
         setShowDeleteModal(true);
       };      
+
+      const confirmDeleteMeal = () => {
+        API.delete(`/meals/${mealToDelete}`)
+          .then(() => {
+            setMeals((prev) =>
+              prev.filter((meal) => meal._id !== mealToDelete)
+            );
+      
+            setSuccessMessage("Meal deleted successfully!");
+            setTimeout(() => setSuccessMessage(""), 3000);
+      
+            setShowDeleteModal(false);
+            setMealToDelete(null);
+          })
+          .catch((err) => console.error("Delete meal error:", err));
+      };
+      
+      const cancelDelete = () => {
+        setShowDeleteModal(false);
+        setMealToDelete(null);
+      };
       
 
       return (
