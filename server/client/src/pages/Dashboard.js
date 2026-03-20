@@ -479,14 +479,27 @@ const weeklyData = last7Days.map((day) => {
   ) : (
     <ul className="meal-list">
       {mealsForSelectedDate.map((meal, index) => (
-        <li key={index} className="meal-item">
-          <div>
-            <strong>{meal.name}</strong>
-            <p>
-              {meal.calories} kcal | P: {meal.protein}g | C: {meal.carbs}g | F: {meal.fats}g
-            </p>
-          </div>
-        </li>
+        <li key={meal._id} className="meal-item">
+        <div>
+          <strong>{meal.name}</strong>
+          <p>
+            {meal.calories} kcal | P: {meal.protein}g | C: {meal.carbs}g | F: {meal.fats}g
+          </p>
+        </div>
+      
+        <div>
+          <button onClick={() => startEdit(meal)}>
+            <FaEdit />
+          </button>
+      
+          <button
+            onClick={() => deleteMeal(meal._id)}
+            style={{ marginLeft: "8px" }}
+          >
+            <FaTrash />
+          </button>
+        </div>
+      </li>
       ))}
     </ul>
   )}
