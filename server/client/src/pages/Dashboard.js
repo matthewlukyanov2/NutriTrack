@@ -19,6 +19,8 @@ const Dashboard = () => {
   const [recommendations, setRecommendations] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
   const [workouts, setWorkouts] = useState([]);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [mealToDelete, setMealToDelete] = useState(null);
 
   const [nutritionGoals, setNutritionGoals] = useState({
     calories: 2000,
