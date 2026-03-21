@@ -796,6 +796,24 @@ const weeklyData = last7Days.map((day) => {
 
   </div>
 </div>
+{showDeleteModal && (
+  <div className="modal-overlay">
+    <div className="modal">
+      <h3>Delete Meal</h3>
+      <p>Are you sure you want to delete this meal?</p>
+
+      <div className="modal-actions">
+        <button className="confirm-btn" onClick={confirmDeleteMeal}>
+          Yes, Delete
+        </button>
+
+        <button className="cancel-btn" onClick={cancelDelete}>
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 };
