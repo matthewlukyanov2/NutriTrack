@@ -331,6 +331,7 @@ const weeklyData = last7Days.map((day) => {
       };      
 
       const confirmDeleteMeal = () => {
+       if (mealToDelete) {
         API.delete(`/meals/${mealToDelete}`)
           .then(() => {
             setMeals((prev) =>
@@ -338,12 +339,27 @@ const weeklyData = last7Days.map((day) => {
             );
       
             setSuccessMessage("Meal deleted successfully!");
-            setTimeout(() => setSuccessMessage(""), 3000);
-      
-            setShowDeleteModal(false);
-            setMealToDelete(null);
           })
           .catch((err) => console.error("Delete meal error:", err));
+      }
+    
+      if (workoutToDelete) {
+        API.delete(`/workouts/${workoutToDelete}`)
+          .then(() => {
+            setWorkouts((prev) =>
+              prev.filter((w) => w._id !== workoutToDelete)
+            );
+    
+            setSuccessMessage("Workout deleted successfully!");
+          })
+          .catch((err) => console.error("Delete workout error:", err));
+      }
+    
+      setTimeout(() => setSuccessMessage(""), 3000);
+    
+            setShowDeleteModal(false);
+            setMealToDelete(null);
+            setWorkoutToDelete(null);
       };
       
       const cancelDelete = () => {
