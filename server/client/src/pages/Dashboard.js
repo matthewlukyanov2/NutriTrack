@@ -21,6 +21,7 @@ const Dashboard = () => {
   const [workouts, setWorkouts] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [mealToDelete, setMealToDelete] = useState(null);
+  const [workoutToDelete, setWorkoutToDelete] = useState(null);
 
   const [nutritionGoals, setNutritionGoals] = useState({
     calories: 2000,
