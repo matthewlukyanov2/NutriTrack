@@ -811,7 +811,7 @@ const weeklyData = last7Days.map((day) => {
       <p>Are you sure you want to delete this meal?</p>
 
       <div className="modal-actions">
-        <button className="confirm-btn" onClick={confirmDeleteMeal}>
+        <button className="confirm-btn" onClick={confirmDelete}>
           Yes, Delete
         </button>
 
