@@ -279,17 +279,8 @@ const weeklyData = last7Days.map((day) => {
 
     // Delete workout
   const deleteWorkout = (id) => {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this workout?"
-    );
-
-    if (!confirmed) return;
-
-    API.delete(`/workouts/${id}`)
-      .then(() => {
-        setWorkouts((prev) => prev.filter((w) => w._id !== id));
-      })
-      .catch((err) => console.error("Delete workout error:", err));
+  setWorkoutToDelete(id);
+  setShowDeleteModal(true);
   };
 
 
