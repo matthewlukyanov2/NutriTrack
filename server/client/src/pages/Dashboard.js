@@ -23,11 +23,18 @@ const Dashboard = () => {
   const [mealToDelete, setMealToDelete] = useState(null);
   const [workoutToDelete, setWorkoutToDelete] = useState(null);
 
-  const [nutritionGoals, setNutritionGoals] = useState({
-    calories: 2000,
-    protein: 120,
-    carbs: 250,
-    fats: 70
+  const [nutritionGoals, setNutritionGoals] = useState(() => {
+    const savedGoals = localStorage.getItem("nutritionGoals");
+
+    return savedGoals
+    ? JSON.parse(savedGoals)
+    : {
+
+      calories: 2000,
+      protein: 120,
+      carbs: 250,
+      fats: 70
+    };
   });
   
   const [editingGoals, setEditingGoals] = useState(false);
