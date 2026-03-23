@@ -721,6 +721,19 @@ const weeklyData = last7Days.map((day) => {
       <button onClick={() => setEditingGoals(true)}>
         Edit Goals
       </button>
+
+      <button
+  onClick={() =>
+    setNutritionGoals({
+      calories: 2000,
+      protein: 120,
+      carbs: 250,
+      fats: 70
+    })
+  }
+>
+  Reset to Default
+</button>
     </>
 ) : (
   <>
