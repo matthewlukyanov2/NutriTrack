@@ -807,9 +807,14 @@ const weeklyData = last7Days.map((day) => {
 {showDeleteModal && (
   <div className="modal-overlay">
     <div className="modal">
-      <h3>Delete Meal</h3>
-      <p>Are you sure you want to delete this meal?</p>
+    <h3>
+  {mealToDelete ? "Delete Meal" : "Delete Workout"}
+</h3>
 
+<p>
+  Are you sure you want to delete this{" "}
+  {mealToDelete ? "meal" : "workout"}?
+</p>
       <div className="modal-actions">
         <button className="confirm-btn" onClick={confirmDelete}>
           Yes, Delete
