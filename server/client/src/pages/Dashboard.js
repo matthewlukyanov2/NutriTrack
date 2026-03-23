@@ -77,6 +77,13 @@ const [editForm, setEditForm] = useState({
   fats: ""
 });
 
+useEffect(() => {
+  localStorage.setItem(
+    "nutritionGoals",
+    JSON.stringify(nutritionGoals)
+  );
+}, [nutritionGoals]);
+
   // Fetch meals on load
   useEffect(() => {
     setLoadingMeals(true);
