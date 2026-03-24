@@ -257,7 +257,7 @@ const weeklyData = last7Days.map((day) => {
           carbs: "",
           fats: ""
         });
-        setSuccessMessage("Meal added successfully!");
+        toast.success("Meal added successfully!");
         setTimeout(() => setSuccessMessage(""), 3000);
       })
       .catch((err) => console.error("Add meal error:", err));
@@ -289,6 +289,7 @@ const weeklyData = last7Days.map((day) => {
           prev.map((w) => (w._id === id ? res.data : w))
         );
         setEditingWorkout(null);
+        toast.success("Workout updated successfully!");
       })
       .catch((err) => console.error("Update workout error:", err));
   };
@@ -334,7 +335,7 @@ const weeklyData = last7Days.map((day) => {
               prev.map((meal) => (meal._id === id ? res.data : meal))
             );
             setEditingMealId(null);
-            setSuccessMessage("Meal updated successfully!");
+            toast.success("Meal updated successfully!");
             setTimeout(() => setSuccessMessage(""), 3000);
           })
           .catch((err) => console.error("Edit meal error:", err));
@@ -354,7 +355,7 @@ const weeklyData = last7Days.map((day) => {
               prev.filter((meal) => meal._id !== mealToDelete)
             );
       
-            setSuccessMessage("Meal deleted successfully!");
+            toast.success("Meal deleted successfully!");
           })
           .catch((err) => console.error("Delete meal error:", err));
       }
@@ -845,7 +846,7 @@ const weeklyData = last7Days.map((day) => {
   {mealToDelete ? "meal" : "workout"}?
 </p>
       <div className="modal-actions">
-        <button className="confirm-btn" onClick={confirmDelete}>
+        <button className="confirm-btn" onClick={confirmDeleteMeal}>
           Yes, Delete
         </button>
 
