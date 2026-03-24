@@ -89,6 +89,11 @@ useEffect(() => {
   );
 }, [nutritionGoals]);
 
+useEffect(() => {
+  document.body.classList.toggle("dark", darkMode);
+  localStorage.setItem("darkMode", darkMode);
+}, [darkMode]);
+
   // Fetch meals on load
   useEffect(() => {
     setLoadingMeals(true);
