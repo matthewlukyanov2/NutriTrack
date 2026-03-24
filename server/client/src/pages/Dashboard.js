@@ -50,6 +50,9 @@ const Dashboard = () => {
    const [loadingWorkouts, setLoadingWorkouts] = useState(true);
    const [loadingRecs, setLoadingRecs] = useState(false);
    const [sortOrder, setSortOrder] = useState("desc");
+   const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem("darkMode") === "true";
+  });
 
   // Add meal form
   const [form, setForm] = useState({
