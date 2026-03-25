@@ -813,14 +813,49 @@ const weeklyData = last7Days.map((day) => {
       ) : (
         <ul>
           {workouts.map((workout) => (
-            <li key={workout._id} className="list-item">
-              {workout.name} — {workout.duration} min
-              <button onClick={() => setEditingWorkout(workout)}>Edit</button>
-              <button onClick={() => deleteWorkout(workout._id)}>
-                Delete
-              </button>
-            </li>
-          ))}
+  <li key={workout._id} className="list-item">
+    {editingWorkout && editingWorkout._id === workout._id ? (
+      <>
+        <input
+          value={editingWorkout.name}
+          onChange={(e) =>
+            setEditingWorkout({
+              ...editingWorkout,
+              name: e.target.value
+            })
+          }
+        />
+        <input
+          type="number"
+          value={editingWorkout.duration}
+          onChange={(e) =>
+            setEditingWorkout({
+              ...editingWorkout,
+              duration: e.target.value
+            })
+          }
+        />
+
+        <button onClick={() => saveWorkout(workout._id)}>
+          Save
+        </button>
+        <button onClick={() => setEditingWorkout(null)}>
+          Cancel
+        </button>
+      </>
+    ) : (
+      <>
+        {workout.name} — {workout.duration} min
+        <button onClick={() => setEditingWorkout(workout)}>
+          Edit
+        </button>
+        <button onClick={() => deleteWorkout(workout._id)}>
+          Delete
+        </button>
+      </>
+    )}
+  </li>
+))}
         </ul>
       )}
     </div>
