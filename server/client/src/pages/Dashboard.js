@@ -374,8 +374,7 @@ const weeklyData = last7Days.map((day) => {
             setWorkouts((prev) =>
               prev.filter((w) => w._id !== workoutToDelete)
             );
-    
-            setSuccessMessage("Workout deleted successfully!");
+            toast.success("Workout deleted successfully!");
           })
           .catch((err) => console.error("Delete workout error:", err));
       }
@@ -401,6 +400,10 @@ const weeklyData = last7Days.map((day) => {
               <h1>My Fitness Dashboard</h1>
               <p className="subtitle">Track your nutrition & workouts</p>
             </div>
+
+            <button onClick={() => setDarkMode(!darkMode)}>
+  {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
+</button>
       
             <button className="logout" onClick={logout}>Logout</button>
           </header>
