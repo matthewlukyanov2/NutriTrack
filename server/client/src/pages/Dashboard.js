@@ -227,6 +227,29 @@ const weeklyData = last7Days.map((day) => {
       .finally(() => setLoadingRecs(false));
   };
 
+  const exportMeals = () => {
+    const csv = [
+      ["Name", "Calories", "Protein", "Carbs", "Fats"],
+      ...meals.map((m) => [
+        m.name,
+        m.calories,
+        m.protein,
+        m.carbs,
+        m.fats
+      ])
+    ]
+      .map((row) => row.join(","))
+      .join("\n");
+  
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
+  
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "meals.csv";
+    a.click();
+  };
+
   // Handle form input
   const handleChange = (e) => {
     setForm({
