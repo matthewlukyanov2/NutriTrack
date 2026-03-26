@@ -636,6 +636,10 @@ const weeklyData = last7Days.map((day) => {
         </button>
       </div>
 
+      <button onClick={exportMeals} style={{ marginBottom: "10px" }}>
+       Export Meals (CSV)
+      </button>
+
       {loadingMeals ? (
         <p className="loading">Loading meals...</p>
       ) : meals.length === 0 ? (
