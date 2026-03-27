@@ -248,6 +248,8 @@ const weeklyData = last7Days.map((day) => {
     a.href = url;
     a.download = "meals.csv";
     a.click();
+
+    toast.success("Meals exported successfully!");
   };
 
   // Handle form input
