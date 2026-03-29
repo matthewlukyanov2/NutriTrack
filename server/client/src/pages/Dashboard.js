@@ -393,6 +393,19 @@ const weeklyData = last7Days.map((day) => {
           })
           .catch((err) => console.error("Delete meal error:", err));
       }
+
+      const toggleMealConsumed = (meal) => {
+        API.put(`/meals/${meal._id}`, {
+          ...meal,
+          consumed: !meal.consumed
+        })
+          .then((res) => {
+            setMeals((prev) =>
+              prev.map((m) => (m._id === meal._id ? res.data : m))
+            );
+          })
+          .catch((err) => console.error("Toggle meal error:", err));
+      };
     
       if (workoutToDelete) {
         API.delete(`/workouts/${workoutToDelete}`)
