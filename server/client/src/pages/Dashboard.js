@@ -705,6 +705,11 @@ const weeklyData = last7Days.map((day) => {
                 <>
                   <strong>{meal.name}</strong> — {meal.calories} kcal
                   <div>
+
+                    <button onClick={() => toggleMealConsumed(meal)}>
+                      {meal.consumed ? "✅" : "⬜"}
+                    </button>
+                    
                     <button onClick={() => startEdit(meal)}>
                       <FaEdit />
                     </button>
