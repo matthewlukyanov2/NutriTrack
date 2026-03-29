@@ -277,7 +277,8 @@ const weeklyData = last7Days.map((day) => {
       calories: Number(form.calories),
       protein: Number(form.protein),
       carbs: Number(form.carbs),
-      fats: Number(form.fats)
+      fats: Number(form.fats),
+      consumed: false
     };
 
     API.post("/meals", mealData)
