@@ -663,7 +663,14 @@ const weeklyData = last7Days.map((day) => {
       ) : (
         <div className="meals-grid">
   {sortedMeals.map((meal) => (
-    <div className="meal-card" key={meal._id}>
+    <div
+    className="meal-card"
+    key={meal._id}
+    style={{
+      opacity: meal.consumed ? 0.6 : 1,
+      textDecoration: meal.consumed ? "line-through" : "none"
+    }}
+  >
               {editingMealId === meal._id ? (
                 <>
                   <input
@@ -709,7 +716,7 @@ const weeklyData = last7Days.map((day) => {
                     <button onClick={() => toggleMealConsumed(meal)}>
                       {meal.consumed ? "✅" : "⬜"}
                     </button>
-                    
+
                     <button onClick={() => startEdit(meal)}>
                       <FaEdit />
                     </button>
