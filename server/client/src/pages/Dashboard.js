@@ -124,7 +124,7 @@ useEffect(() => {
       .toISOString()
       .split("T")[0];
   
-    return mealDate === selectedDate;
+    return mealDate === selectedDate && meal.consumed;
   });
 
   const totals = mealsForSelectedDate.reduce(
