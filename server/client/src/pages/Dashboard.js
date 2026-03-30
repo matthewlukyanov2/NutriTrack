@@ -561,6 +561,10 @@ const weeklyData = last7Days.map((day) => {
   <div className="card">
   <h3>Meals for Selected Date</h3>
 
+  <h4>
+    {mealsForSelectedDate.filter(m => m.consumed).length} / {mealsForSelectedDate.length} meals completed
+  </h4>
+
   {mealsForSelectedDate.length === 0 ? (
     <p>No meals logged for this date.</p>
   ) : (
