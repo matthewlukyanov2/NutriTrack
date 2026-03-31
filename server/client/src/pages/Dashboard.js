@@ -381,18 +381,6 @@ const weeklyData = last7Days.map((day) => {
         setShowDeleteModal(true);
       };      
 
-      const confirmDeleteMeal = () => {
-       if (mealToDelete) {
-        API.delete(`/meals/${mealToDelete}`)
-          .then(() => {
-            setMeals((prev) =>
-              prev.filter((meal) => meal._id !== mealToDelete)
-            );
-      
-            toast.success("Meal deleted successfully!");
-          })
-          .catch((err) => console.error("Delete meal error:", err));
-      }
 
       const toggleMealConsumed = (meal) => {
         API.put(`/meals/${meal._id}`, {
@@ -406,6 +394,21 @@ const weeklyData = last7Days.map((day) => {
           })
           .catch((err) => console.error("Toggle meal error:", err));
       };
+      
+      const confirmDeleteMeal = () => {
+       if (mealToDelete) {
+        API.delete(`/meals/${mealToDelete}`)
+          .then(() => {
+            setMeals((prev) =>
+              prev.filter((meal) => meal._id !== mealToDelete)
+            );
+      
+            toast.success("Meal deleted successfully!");
+          })
+          .catch((err) => console.error("Delete meal error:", err));
+      }
+
+      
     
       if (workoutToDelete) {
         API.delete(`/workouts/${workoutToDelete}`)
