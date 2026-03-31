@@ -125,7 +125,11 @@ useEffect(() => {
       .toISOString()
       .split("T")[0];
   
-    return mealDate === selectedDate && meal.consumed;
+      if (showConsumedOnly) {
+        return mealDate === selectedDate && meal.consumed;
+      }
+    
+      return mealDate === selectedDate;
   });
 
   const totals = mealsForSelectedDate.reduce(
@@ -568,6 +572,13 @@ const weeklyData = last7Days.map((day) => {
   <h4>
     {mealsForSelectedDate.filter(m => m.consumed).length} / {mealsForSelectedDate.length} meals completed
   </h4>
+
+  <button
+  onClick={() => setShowConsumedOnly(!showConsumedOnly)}
+  style={{ marginBottom: "10px" }}
+>
+  {showConsumedOnly ? "Show All Meals" : "Show Consumed Only"}
+</button>
 
   {mealsForSelectedDate.length === 0 ? (
     <p>No meals logged for this date.</p>
