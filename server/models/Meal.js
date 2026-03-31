@@ -27,6 +27,10 @@ const mealSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    consumed: {
+      type: Boolean,
+      default: false,
+    },
     date: {
       type: Date,
       default: Date.now,
