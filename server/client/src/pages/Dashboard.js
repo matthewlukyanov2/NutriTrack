@@ -24,6 +24,7 @@ const Dashboard = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [mealToDelete, setMealToDelete] = useState(null);
   const [workoutToDelete, setWorkoutToDelete] = useState(null);
+  const [showConsumedOnly, setShowConsumedOnly] = useState(false);
 
   const [nutritionGoals, setNutritionGoals] = useState(() => {
     const savedGoals = localStorage.getItem("nutritionGoals");
@@ -394,7 +395,7 @@ const weeklyData = last7Days.map((day) => {
           })
           .catch((err) => console.error("Toggle meal error:", err));
       };
-      
+
       const confirmDeleteMeal = () => {
        if (mealToDelete) {
         API.delete(`/meals/${mealToDelete}`)
