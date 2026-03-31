@@ -24,6 +24,7 @@ if (error) {
       protein,
       carbs,
       fats,
+      consumed: req.body.consumed || false
     });
 
     res.status(201).json(meal);

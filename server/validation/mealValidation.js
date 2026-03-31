@@ -6,4 +6,5 @@ exports.mealSchema = Joi.object({
   protein: Joi.number().min(0).required(),
   carbs: Joi.number().min(0).required(),
   fats: Joi.number().min(0).required(),
+  consumed: Joi.boolean().optional()
 });
