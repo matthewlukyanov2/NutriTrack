@@ -9,11 +9,6 @@ exports.addMeal = async (req, res) => {
   try {
     const { name, calories, protein, carbs, fats } = req.body;
 
-    const { error } = mealSchema.validate(req.body);
-
-if (error) {
-  return res.status(400).json({ message: error.details[0].message });
-} 
 
 
 
@@ -65,12 +60,6 @@ exports.getMealById = async (req, res) => {
 // @access  Private
 exports.updateMeal = async (req, res) => {
   try {
-    const { error } = mealSchema.validate(req.body);
-
-    if (error) {
-      return res.status(400).json({ message: error.details[0].message });
-    }
-
     const meal = await Meal.findOne({
       _id: req.params.id,
       user: req.user.id,
@@ -80,17 +69,20 @@ exports.updateMeal = async (req, res) => {
       return res.status(404).json({ message: 'Meal not found' });
     }
 
-    const updatedMeal = await Meal.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
+    if (req.body.name !== undefined) meal.name = req.body.name;
+    if (req.body.calories !== undefined) meal.calories = req.body.calories;
+    if (req.body.protein !== undefined) meal.protein = req.body.protein;
+    if (req.body.carbs !== undefined) meal.carbs = req.body.carbs;
+    if (req.body.fats !== undefined) meal.fats = req.body.fats;
+    if (req.body.consumed !== undefined) meal.consumed = req.body.consumed;
+
+    const updatedMeal = await meal.save();
 
     res.status(200).json(updatedMeal);
   } catch (error) {
     res.status(500).json({ message: 'Error updating meal' });
   }
-  };
+};
 
 // @desc    Delete a meal
 // @route   DELETE /api/meals/:id

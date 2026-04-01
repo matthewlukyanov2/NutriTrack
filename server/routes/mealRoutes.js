@@ -48,7 +48,7 @@ router.get('/', protect, getMeals);
  */
 router.post('/', protect, validate(mealSchema), addMeal);
 router.get('/:id', protect, getMealById);
-router.put('/:id', protect, validate(mealSchema), updateMeal);
+router.put('/:id', protect, updateMeal);
 router.delete('/:id', protect, deleteMeal);
 
 module.exports = router;
