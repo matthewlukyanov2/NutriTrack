@@ -153,10 +153,15 @@ useEffect(() => {
     30
   );
   
-  const macroBalanceScore =
-    totals.carbs > 0 && totals.fats > 0
-      ? 30
-      : 15;
+  const macroBalanceScore = 0
+
+if (totals.calories === 0) {
+  macroBalanceScore = 0;
+} else if (totals.carbs > 0 && totals.fats > 0) {
+  macroBalanceScore = 30;
+} else {
+  macroBalanceScore = 15;
+}
   
   const nutritionScore = Math.round(
     calorieScore + proteinScore + macroBalanceScore
