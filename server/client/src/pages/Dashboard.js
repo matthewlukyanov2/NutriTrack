@@ -178,12 +178,12 @@ if (nutritionScore >= 85) {
 }
 
   // Total calories 
-const totalCalories = meals.reduce(
+const totalCalories = mealsForSelectedDate.reduce(
   (sum, meal) => sum + (meal.calories || 0),
   0
 );
 
-const dailyGoal = 2000;
+const dailyGoal = nutritionGoals.calories;
 const caloriesRemaining = Math.max(dailyGoal - totalCalories, 0);
 const percentage = Math.min((totalCalories / dailyGoal) * 100, 100).toFixed(0);
   
