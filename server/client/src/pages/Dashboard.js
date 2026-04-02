@@ -153,7 +153,7 @@ useEffect(() => {
     30
   );
   
-  const macroBalanceScore = 0
+  let macroBalanceScore = 0
 
 if (totals.calories === 0) {
   macroBalanceScore = 0;
@@ -504,11 +504,16 @@ const weeklyData = last7Days.map((day) => {
 
   <div className="nutrition-score">
   <h3>Nutrition Score</h3>
-  <div className="score-value">
-    {nutritionScore} / 100
-  </div>
-
-  <p>{scoreMessage}</p>
+  {totals.calories === 0 ? (
+  <p>No meals logged yet</p>
+) : (
+  <>
+    <div className="score-value">
+      {nutritionScore} / 100
+    </div>
+    <p>{scoreMessage}</p>
+  </>
+)}
 </div>
 
   <div className="calorie-stats">
@@ -632,34 +637,12 @@ const weeklyData = last7Days.map((day) => {
           <XAxis dataKey="date" />
           <YAxis />
           <Tooltip />
-          <Bar dataKey="calories" />
+          <Bar dataKey="calories"/>
         </BarChart>
       </ResponsiveContainer>
     </div>
   </div>
 )}
-
-    {/* Calories Summary */}
-    <div className="card">
-      <h3>Calories Overview</h3>
-
-      <p style={{ marginBottom: "10px", fontWeight: "bold" }}>
-        Total Calories: {totalCalories} kcal
-      </p>
-
-      <div style={{ width: "100%", height: 250 }}>
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={chartData}>
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Bar dataKey="calories" />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-    </div>
-
-    
 
     {/* Meals */}
     <div className="card">
