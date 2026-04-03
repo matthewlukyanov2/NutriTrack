@@ -442,8 +442,16 @@ const weeklyData = last7Days.map((day) => {
         setShowDeleteModal(false);
         setMealToDelete(null);
       };
-      
 
+      const formatDate = (dateStr) => {
+        const date = new Date(dateStr);
+        return date.toLocaleDateString(undefined, {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        });
+      };
+      
       return (
         <div className="container">
       
@@ -500,7 +508,11 @@ const weeklyData = last7Days.map((day) => {
 
      
      <div className="card">
-  <h3>Today's Progress</h3>
+  <h3>
+  {selectedDate === new Date().toISOString().split("T")[0]
+    ? "Today's Progress"
+    : `Progress for ${formatDate(selectedDate)}`}  
+  </h3>
 
   <div className="nutrition-score">
   <h3>Nutrition Score</h3>
