@@ -42,9 +42,9 @@ const Dashboard = () => {
   
   const [editingGoals, setEditingGoals] = useState(false);
   const [viewMode, setViewMode] = useState("daily");
-  const [selectedDate, setSelectedDate] = useState(
-    new Date().toISOString().split("T")[0]
-  );
+  const [selectedDate, setSelectedDate] = useState(() => {
+    return localStorage.getItem("selectedDate") || new Date().toISOString().split("T")[0];
+});
 
    // Loading states 
    const [loadingMeals, setLoadingMeals] = useState(true);
@@ -480,7 +480,11 @@ const weeklyData = last7Days.map((day) => {
     <input
       type="date"
       value={selectedDate}
-      onChange={(e) => setSelectedDate(e.target.value)}
+      onChange={(e) =>  {
+        const newDate = e.target.value;
+        setSelectedDate(newDate);
+        localStorage.setItem("selectedDate", newDate);
+      }}
     />
   </div>
 
