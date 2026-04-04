@@ -699,7 +699,11 @@ const weeklyData = last7Days.map((day) => {
     key={meal._id}
     style={{
       opacity: meal.consumed ? 0.6 : 1,
-      textDecoration: meal.consumed ? "line-through" : "none"
+      textDecoration: meal.consumed ? "line-through" : "none",
+      border:
+      new Date(meal.createdAt).toISOString().split("T")[0] === selectedDate
+        ? "2px solid #4CAF50"
+        : "1px solid #ccc",
     }}
   >
               {editingMealId === meal._id ? (
@@ -742,6 +746,9 @@ const weeklyData = last7Days.map((day) => {
               ) : (
                 <>
                   <strong>{meal.name}</strong> — {meal.calories} kcal
+                  <p style={{ fontSize: "12px", opacity: 0.7 }}>
+                  {new Date(meal.createdAt).toLocaleDateString()}
+                  </p>
                   <div>
 
                     <button onClick={() => toggleMealConsumed(meal)}>
