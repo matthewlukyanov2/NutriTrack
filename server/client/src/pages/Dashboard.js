@@ -524,7 +524,15 @@ const weeklyData = last7Days.map((day) => {
   <p>No meals logged yet</p>
 ) : (
   <>
-    <div className="score-value">
+    <div className="score-value"
+      style={{
+        color:
+          nutritionScore >= 85
+            ? "green"
+            : nutritionScore >= 50
+            ? "orange"
+            : "red",
+      }}>
       {nutritionScore} / 100
     </div>
     <p>{scoreMessage}</p>
