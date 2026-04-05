@@ -42,6 +42,7 @@ const Dashboard = () => {
   
   const [editingGoals, setEditingGoals] = useState(false);
   const [viewMode, setViewMode] = useState("daily");
+  const [selectedMeal, setSelectedMeal] = useState(null);
   const [selectedDate, setSelectedDate] = useState(() => {
     return localStorage.getItem("selectedDate") || new Date().toISOString().split("T")[0];
 });
@@ -698,13 +699,14 @@ const weeklyData = last7Days.map((day) => {
     className="meal-card"
     key={meal._id}
     style={{
-      opacity: meal.consumed ? 0.6 : 1,
+      opacity: selectedMeal && selectedMeal._id !== meal._id ? 0.7 : 1,
       textDecoration: meal.consumed ? "line-through" : "none",
       border:
       new Date(meal.createdAt).toISOString().split("T")[0] === selectedDate
         ? "2px solid #4CAF50"
         : "1px solid #ccc",
     }}
+    onClick={() => setSelectedMeal(meal)}
   >
               {editingMealId === meal._id ? (
                 <>
