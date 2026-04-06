@@ -14,7 +14,12 @@ function Login() {
     try {
       const res = await API.post("/auth/login", { email, password });
 
+      // Store token
       localStorage.setItem("token", res.data.token);
+
+      // Store user object
+      localStorage.setItem("user", JSON.stringify(res.data));
+
 
       navigate("/");
     } catch (err) {

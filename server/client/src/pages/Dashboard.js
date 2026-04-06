@@ -15,6 +15,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 
+
 const Dashboard = () => {
 
   const [meals, setMeals] = useState([]);
@@ -25,6 +26,8 @@ const Dashboard = () => {
   const [mealToDelete, setMealToDelete] = useState(null);
   const [workoutToDelete, setWorkoutToDelete] = useState(null);
   const [showConsumedOnly, setShowConsumedOnly] = useState(false);
+  const user = JSON.parse(localStorage.getItem("user"));
+  const username = user?.name || "User";
 
   const [nutritionGoals, setNutritionGoals] = useState(() => {
     const savedGoals = localStorage.getItem("nutritionGoals");
@@ -458,8 +461,8 @@ const weeklyData = last7Days.map((day) => {
       
           <header className="dashboard-header">
             <div>
-              <h1>My Fitness Dashboard</h1>
-              <p className="subtitle">Track your nutrition & workouts</p>
+              <h1>Welcome back, {username} !</h1>
+              <p className="subtitle">Ready to crush your goals today?</p>
             </div>
 
             <button onClick={() => setDarkMode(!darkMode)}>
