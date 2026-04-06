@@ -136,7 +136,11 @@ useEffect(() => {
       return mealDate === selectedDate;
   });
 
-  const totals = mealsForSelectedDate.reduce(
+  const consumedMeals = mealsForSelectedDate.filter(
+    (meal) => meal.consumed
+  );
+
+  const totals = consumedMeals.reduce(
     (acc, meal) => {
       acc.calories += meal.calories || 0;
       acc.protein += meal.protein || 0;
@@ -182,7 +186,7 @@ if (nutritionScore >= 85) {
 }
 
   // Total calories 
-const totalCalories = mealsForSelectedDate.reduce(
+const totalCalories = consumedMeals.reduce(
   (sum, meal) => sum + (meal.calories || 0),
   0
 );
