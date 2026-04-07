@@ -21,7 +21,7 @@ function Login() {
       localStorage.setItem("user", JSON.stringify(res.data));
 
 
-      navigate("/");
+      window.location.href = "/";
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
       }

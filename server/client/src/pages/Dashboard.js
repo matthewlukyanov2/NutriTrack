@@ -117,6 +117,11 @@ useEffect(() => {
       .finally(() => setLoadingWorkouts(false));
   }, []);
 
+  useEffect(() => {
+    const today = new Date().toISOString().split("T")[0];
+    setSelectedDate(today);
+  }, []);
+
    // Sorted meals logic
   const sortedMeals = [...meals].sort((a, b) => {
     return sortOrder === "desc"
