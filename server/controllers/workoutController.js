@@ -12,13 +12,13 @@ exports.addWorkout = async (req, res) => {
       return res.status(400).json({ message: error.details[0].message });
     }
 
-    const { type, duration, caloriesBurned } = req.body;
+    const { name, duration, caloriesBurned } = req.body;
 
     const workout = await Workout.create({
       user: req.user.id,
-      type,
+      name,
       duration,
-      caloriesBurned,
+      caloriesBurned: caloriesBurned || 0
     });
 
     res.status(201).json(workout);

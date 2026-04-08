@@ -6,7 +6,7 @@ const workoutSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  type: {
+  name: {
     type: String,
     required: true,
   },
@@ -16,7 +16,7 @@ const workoutSchema = new mongoose.Schema({
   },
   caloriesBurned: {
     type: Number,
-    required: true,
+    default: 0,
   },
 },
 { timestamps: true }
