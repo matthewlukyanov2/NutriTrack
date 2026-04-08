@@ -70,8 +70,9 @@ const Dashboard = () => {
 
   // Workout form
   const [workoutForm, setWorkoutForm] = useState({
-    name: "",
-    duration: ""
+    type: "",
+    duration: "",
+    caloriesBurned: ""  
   });
 
   // Workout edit state
@@ -811,9 +812,9 @@ const weeklyData = last7Days.map((day) => {
       <form onSubmit={addWorkout}>
         <input
           type="text"
-          name="name"
-          placeholder="Workout name"
-          value={workoutForm.name}
+          name="type"
+          placeholder="Workout type"
+          value={workoutForm.type}
           onChange={handleWorkoutChange}
           required
         />
@@ -822,6 +823,14 @@ const weeklyData = last7Days.map((day) => {
           name="duration"
           placeholder="Duration (minutes)"
           value={workoutForm.duration}
+          onChange={handleWorkoutChange}
+          required
+        />
+        <input
+          type="number"
+          name="caloriesBurned"
+          placeholder="Calories burned"
+          value={workoutForm.caloriesBurned}
           onChange={handleWorkoutChange}
           required
         />
