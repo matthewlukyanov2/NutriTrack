@@ -580,6 +580,16 @@ const weeklyData = last7Days.map((day) => {
       <span className="big-number">{caloriesRemaining}</span>
       <span>Calories Remaining</span>
     </div>
+
+    <div className="stat-box">
+    <span className="big-number">{totalCaloriesBurned}</span>
+    <span>Calories Burned</span>
+  </div>
+
+  <div className="stat-box">
+    <span className="big-number">{netCalories}</span>
+    <span>Net Calories</span>
+  </div>
   </div>
 
   <div className="progress-section">
