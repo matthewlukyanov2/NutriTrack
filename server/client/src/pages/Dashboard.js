@@ -142,6 +142,19 @@ useEffect(() => {
       return mealDate === selectedDate;
   });
 
+  const workoutsForSelectedDate = workouts.filter((workout) => {
+    const workoutDate = new Date(workout.createdAt)
+      .toISOString()
+      .split("T")[0];
+  
+    return workoutDate === selectedDate;
+  });
+  
+  const totalCaloriesBurned = workoutsForSelectedDate.reduce(
+    (sum, w) => sum + (w.caloriesBurned || 0),
+    0
+  );
+
   const consumedMeals = mealsForSelectedDate.filter(
     (meal) => meal.consumed
   );
@@ -196,6 +209,8 @@ const totalCalories = consumedMeals.reduce(
   (sum, meal) => sum + (meal.calories || 0),
   0
 );
+
+const netCalories = totalCalories - totalCaloriesBurned;
 
 const dailyGoal = nutritionGoals.calories;
 const caloriesRemaining = Math.max(dailyGoal - totalCalories, 0);
