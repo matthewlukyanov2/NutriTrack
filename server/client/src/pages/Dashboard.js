@@ -326,8 +326,9 @@ const weeklyData = last7Days.map((day) => {
     e.preventDefault();
 
     API.post("/workouts", {
-      name: workoutForm.name,
-      duration: Number(workoutForm.duration)
+      type: workoutForm.type,
+      duration: Number(workoutForm.duration),
+      caloriesBurned: Number(workoutForm.caloriesBurned)
     })
       .then((res) => {
         setWorkouts((prev) => [...prev, res.data]);
