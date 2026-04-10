@@ -991,7 +991,7 @@ const weeklyData = last7Days.map((day) => {
       </>
     ) : (
       <>
-        {workout.name} — {workout.duration} min
+        {workout.name} — {workout.duration} min {workout.caloriesBurned} kcal🔥 
         <button onClick={() => setEditingWorkout(workout)}>
           Edit
         </button>
