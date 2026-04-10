@@ -303,7 +303,7 @@ const weeklyData = last7Days.map((day) => {
   const handleWorkoutChange = (e) => {
     setWorkoutForm({
       ...workoutForm,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value || ""
     });
   };
 
@@ -341,13 +341,17 @@ const weeklyData = last7Days.map((day) => {
     e.preventDefault();
 
     API.post("/workouts", {
-      type: workoutForm.type,
+      name: workoutForm.type,
       duration: Number(workoutForm.duration),
       caloriesBurned: Number(workoutForm.caloriesBurned)
     })
       .then((res) => {
         setWorkouts((prev) => [...prev, res.data]);
-        setWorkoutForm({ name: "", duration: "" });
+        setWorkoutForm({
+          type: "",
+          duration: "",
+          caloriesBurned: ""
+        });
       })
       .catch((err) => console.error("Add workout error:", err));
   };
@@ -840,7 +844,7 @@ const weeklyData = last7Days.map((day) => {
           type="text"
           name="type"
           placeholder="Workout type"
-          value={workoutForm.type}
+          value={workoutForm.type || ""}
           onChange={handleWorkoutChange}
           required
         />
@@ -848,7 +852,7 @@ const weeklyData = last7Days.map((day) => {
           type="number"
           name="duration"
           placeholder="Duration (minutes)"
-          value={workoutForm.duration}
+          value={workoutForm.duration || ""}
           onChange={handleWorkoutChange}
           required
         />
@@ -856,7 +860,7 @@ const weeklyData = last7Days.map((day) => {
           type="number"
           name="caloriesBurned"
           placeholder="Calories burned"
-          value={workoutForm.caloriesBurned}
+          value={workoutForm.caloriesBurned || ""}
           onChange={handleWorkoutChange}
           required
         />
