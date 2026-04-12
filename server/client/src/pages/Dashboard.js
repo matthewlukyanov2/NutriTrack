@@ -601,6 +601,13 @@ const weeklyData = last7Days.map((day) => {
           : "gray"
     }}>{netCalories}</span>
     <span>Net Calories</span>
+    <p style={{ fontSize: "12px", marginTop: "5px" }}>
+      {netCalories < 0
+        ? "🔥 You're in a calorie deficit!"
+        : netCalories > 0
+        ? "⚡ You're in a surplus"
+        : "⚖️ Balanced intake"}
+    </p>
   </div>
   </div>
 
