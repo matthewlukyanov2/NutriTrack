@@ -591,7 +591,15 @@ const weeklyData = last7Days.map((day) => {
   </div>
 
   <div className="stat-box">
-    <span className="big-number">{netCalories}</span>
+    <span className="big-number" 
+    style={{
+      color:
+        netCalories < 0
+          ? "green"
+          : netCalories > 0
+          ? "red"
+          : "gray"
+    }}>{netCalories}</span>
     <span>Net Calories</span>
   </div>
   </div>
