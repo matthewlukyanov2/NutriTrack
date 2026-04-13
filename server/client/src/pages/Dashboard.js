@@ -972,9 +972,12 @@ const weeklyData = last7Days.map((day) => {
       ) : workouts.length === 0 ? (
         <p className="empty">No workouts yet. Time to move 💪</p>
       ) : (
-        <ul>
-          {workouts.map((workout) => (
-  <li key={workout._id} className="list-item">
+        <div className="meals-grid">
+        
+  {workouts.map((workout) => (
+    <div className="meal-card" key={workout._id}>
+
+  
     {editingWorkout && editingWorkout._id === workout._id ? (
       <>
         <input
@@ -1006,7 +1009,17 @@ const weeklyData = last7Days.map((day) => {
       </>
     ) : (
       <>
-        {workout.name} — {workout.duration} min {workout.caloriesBurned} kcal🔥 
+            
+              <strong>{workout.name}</strong>
+
+              <p style={{ fontSize: "12px", opacity: 0.7 }}>
+                {new Date(workout.createdAt).toLocaleDateString()}
+              </p>
+
+              <p>
+                {workout.duration} min 🔥 {workout.caloriesBurned || 0} kcal
+              </p>
+
         <button onClick={() => setEditingWorkout(workout)}>
           Edit
         </button>
@@ -1015,9 +1028,10 @@ const weeklyData = last7Days.map((day) => {
         </button>
       </>
     )}
-  </li>
-))}
-        </ul>
+ 
+           </div>
+         ))}
+       </div>
       )}
     </div>
 
