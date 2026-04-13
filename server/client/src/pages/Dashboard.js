@@ -678,7 +678,19 @@ const weeklyData = last7Days.map((day) => {
   ) : (
     <ul className="meal-list">
       {mealsForSelectedDate.map((meal, index) => (
-        <li key={meal._id} className="meal-item">
+        <li key={meal._id} className="meal-item"
+        style={{
+    border:
+      new Date(meal.createdAt).toISOString().split("T")[0] === selectedDate
+        ? "2px solid #4CAF50"
+        : "1px solid #eee",
+    boxShadow:
+      new Date(meal.createdAt).toISOString().split("T")[0] === selectedDate
+        ? "0 0 8px rgba(76, 175, 80, 0.3)"
+        : "none",
+    borderRadius: "10px",
+    padding: "10px"
+  }}>
         <div>
           <strong>{meal.name}</strong>
           <p>
@@ -806,7 +818,7 @@ const weeklyData = last7Days.map((day) => {
               ) : (
                 <>
                   <strong>{meal.name}</strong> — {meal.calories} kcal
-                  <p style={{ fontSize: "12px", opacity: 0.7 }}>
+                  <p className="meal-date">
                   {new Date(meal.createdAt).toLocaleDateString()}
                   </p>
                   <div>
@@ -975,7 +987,17 @@ const weeklyData = last7Days.map((day) => {
         <div className="meals-grid">
         
   {workouts.map((workout) => (
-    <div className="meal-card" key={workout._id}>
+    <div className="meal-card" key={workout._id}
+    style={{
+    border:
+      new Date(workout.createdAt).toISOString().split("T")[0] === selectedDate
+        ? "2px solid #4CAF50"
+        : "1px solid #ddd",
+    boxShadow:
+      new Date(workout.createdAt).toISOString().split("T")[0] === selectedDate
+        ? "0 0 8px rgba(76, 175, 80, 0.3)"
+        : "none"
+  }}>
 
   
     {editingWorkout && editingWorkout._id === workout._id ? (
