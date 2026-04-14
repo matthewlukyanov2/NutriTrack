@@ -17,10 +17,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+  "start": "node index.js",
+  "dev": "nodemon index.js",
+  "test": "cross-env NODE_ENV=test jest --runInBand --watchAll=false --testPathIgnorePatterns=client/"
   },
   "eslintConfig": {
     "extends": [
