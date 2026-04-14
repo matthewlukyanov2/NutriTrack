@@ -987,17 +987,7 @@ const weeklyData = last7Days.map((day) => {
         <div className="meals-grid">
         
   {workouts.map((workout) => (
-    <div className="meal-card" key={workout._id}
-    style={{
-    border:
-      new Date(workout.createdAt).toISOString().split("T")[0] === selectedDate
-        ? "2px solid #4CAF50"
-        : "1px solid #ddd",
-    boxShadow:
-      new Date(workout.createdAt).toISOString().split("T")[0] === selectedDate
-        ? "0 0 8px rgba(76, 175, 80, 0.3)"
-        : "none"
-  }}>
+    <div className="meal-card" key={workout._id}>
 
   
     {editingWorkout && editingWorkout._id === workout._id ? (
@@ -1097,7 +1087,7 @@ const weeklyData = last7Days.map((day) => {
           Cancel
         </button>
       </div>
-    </div>
+    </div> 
   </div>
 )}
 
