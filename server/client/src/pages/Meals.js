@@ -6,7 +6,7 @@ function Meals() {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    fetch("http://localhost:5000/api/meals", {
+    fetch(`${process.env.REACT_APP_API_URL}/meals`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
