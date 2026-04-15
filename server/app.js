@@ -21,7 +21,7 @@ const app = express();
 app.use(express.json());
 app.use(cors(
   {
-  origin: ["http://localhost:3000", "https://my-vercel-url.vercel.app"],
+  origin: ["http://localhost:3000", "https://nutri-track-ke7v.vercel.app"],
   credentials: true
 }
 ));
