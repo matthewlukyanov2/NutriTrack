@@ -480,6 +480,8 @@ const weeklyData = last7Days.map((day) => {
           year: "numeric",
         });
       };
+
+      console.log("USER OBJECT:", user);
       
       return (
         <div className="container">

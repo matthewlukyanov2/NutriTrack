@@ -18,7 +18,7 @@ function Login() {
 
       // Store user object
       localStorage.setItem("user", JSON.stringify(res.data));
-
+      console.log("LOGIN RESPONSE:", res.data);
 
       window.location.href = "/";
     } catch (err) {
