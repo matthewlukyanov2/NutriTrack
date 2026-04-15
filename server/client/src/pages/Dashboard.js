@@ -216,11 +216,6 @@ const dailyGoal = nutritionGoals.calories;
 const caloriesRemaining = Math.max(dailyGoal - totalCalories, 0);
 const percentage = Math.min((totalCalories / dailyGoal) * 100, 100).toFixed(0);
   
-//Chart data format
-const chartData = meals.map((meal) => ({
-  name: meal.name,
-  calories: meal.calories,
-}));
 
 // Get last 7 days
 const getLast7Days = () => {
