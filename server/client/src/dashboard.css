@@ -455,3 +455,15 @@ body.dark .progress-fill {
   transform: translateY(-3px);
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
+
+.recommendations-card {
+  color: #111;
+}
+
+.recommendations-card li {
+  color: #111;
+}
+
+.recommendation-text {
+  color: #444;
+}

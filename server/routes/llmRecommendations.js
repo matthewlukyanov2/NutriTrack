@@ -21,9 +21,12 @@ router.get("/meals", authMiddleware, async (req, res) => {
 
     res.json(result);
   } catch (err) {
-    console.error("LLM recommendation error:", err.message);
-    res.status(500).json({ message: "Failed to get LLM recommendations" });
-  }
+    console.error("🔥 FULL LLM ERROR:", err);
+  res.status(500).json({
+    message: err.message,
+    error: err.stack
+  });
+}
 });
 
 module.exports = router;
