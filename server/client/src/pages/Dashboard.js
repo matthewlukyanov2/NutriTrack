@@ -250,11 +250,9 @@ const weeklyData = last7Days.map((day) => {
   // Get AI recommendations
   const getRecommendations = () => {
     setLoadingRecs(true);
-    API.get("/recommendations/meals")
+    API.get("/llm/meals")
       .then((res) => {
-        const data = Array.isArray(res.data)
-          ? res.data
-          : res.data.recommendations || [];
+        const data = res.data.recommendations || [];
         setRecommendations(data);
       })
       .catch(() => setRecommendations([]))
@@ -1055,8 +1053,12 @@ const weeklyData = last7Days.map((day) => {
   <p className="loading">Thinking 🤖...</p>
 ) : recommendations.length === 0 ? null : (
         <ul>
-          {recommendations.map((meal) => (
-            <li key={meal._id}>{meal.name}</li>
+          {recommendations.map((rec, index) => (
+    <li key={index}>
+      <strong>{rec.name}</strong>
+      <br />
+      <small>{rec.reason}</small>
+    </li>
           ))}
         </ul>
       )}
