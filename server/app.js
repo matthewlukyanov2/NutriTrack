@@ -14,6 +14,7 @@ const authRoutes = require("./routes/authRoutes");
 const mealRoutes = require("./routes/mealRoutes");
 const workoutRoutes = require("./routes/workoutRoutes");
 const aiRoutes = require("./routes/aiRoutes");
+const llmRoutes = require("./routes/llmRecommendations");
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.use("/api/workouts", workoutRoutes);
 app.use("/api/recommendations", recommendationRoutes);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/api/ai", aiRoutes);
+app.use("/api/llm", llmRoutes);
 
 // Error handler (last)
 app.use(errorHandler);
