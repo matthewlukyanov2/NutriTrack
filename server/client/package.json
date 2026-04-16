@@ -18,7 +18,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "react-scripts start",
     "dev": "nodemon index.js",
     "test": "cross-env NODE_ENV=test jest --runInBand --watchAll=false --testPathIgnorePatterns=client/"
   },
