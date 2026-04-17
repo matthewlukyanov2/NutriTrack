@@ -43,4 +43,44 @@ Task:
   return JSON.parse(text);
 }
 
-module.exports = { getLLMMealRecommendations };
+async function getWeeklyMealPlan(meals) {
+  const mealSummary = meals.map(m =>
+    `${m.name} (${m.calories} kcal)`
+  ).join("\n");
+
+  const prompt = `
+You are a fitness meal planner.
+
+User recent meals:
+${mealSummary}
+
+Task:
+Generate a 7-day meal plan (Monday → Sunday).
+
+Rules:
+- 3 meals per day (breakfast, lunch, dinner)
+- Keep meals simple and realistic
+- Focus on healthy fitness-friendly meals
+
+Return ONLY JSON:
+
+{
+  "days": [
+    {
+      "day": "Monday",
+      "meals": ["...", "...", "..."]
+    }
+  ]
+}
+`;
+
+  const response = await openai.chat.completions.create({
+    model: "gpt-4o-mini",
+    messages: [{ role: "user", content: prompt }],
+    temperature: 0.7,
+  });
+
+  return JSON.parse(response.choices[0].message.content);
+}
+
+module.exports = { getLLMMealRecommendations, getWeeklyMealPlan };
