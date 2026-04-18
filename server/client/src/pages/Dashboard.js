@@ -261,6 +261,19 @@ const weeklyData = last7Days.map((day) => {
       .finally(() => setLoadingRecs(false));
   };
 
+  const getMealPlan = () => {
+  setLoadingPlan(true);
+
+  API.get("/llm/meal-plan")
+    .then((res) => {
+      setMealPlan(res.data.days);
+    })
+    .catch((err) => {
+      console.error("Meal plan error:", err);
+    })
+    .finally(() => setLoadingPlan(false));
+};
+
   const exportMeals = () => {
     const csv = [
       ["Name", "Calories", "Protein", "Carbs", "Fats"],
@@ -1065,6 +1078,31 @@ const weeklyData = last7Days.map((day) => {
         </ul>
       )}
     </div>
+
+    <div className="card">
+  <h3>Smart Meal Planner</h3>
+
+  <button onClick={getMealPlan}>
+    Generate Weekly Plan
+  </button>
+
+  {loadingPlan && <p>Planning your week... 🤖</p>}
+
+  {mealPlan && (
+    <div className="meal-plan">
+      {mealPlan.map((day, index) => (
+        <div key={index} className="meal-day">
+          <h4>{day.day}</h4>
+          <ul>
+            {day.meals.map((meal, i) => (
+              <li key={i}>{meal}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  )}
+</div>
 
   </div>
 </div>
