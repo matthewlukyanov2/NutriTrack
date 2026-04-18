@@ -26,6 +26,8 @@ const Dashboard = () => {
   const [mealToDelete, setMealToDelete] = useState(null);
   const [workoutToDelete, setWorkoutToDelete] = useState(null);
   const [showConsumedOnly, setShowConsumedOnly] = useState(false);
+  const [mealPlan, setMealPlan] = useState(null);
+  const [loadingPlan, setLoadingPlan] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
   const username = user?.name || "User";
 
