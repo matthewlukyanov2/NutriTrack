@@ -27,6 +27,7 @@ const Dashboard = () => {
   const [workoutToDelete, setWorkoutToDelete] = useState(null);
   const [showConsumedOnly, setShowConsumedOnly] = useState(false);
   const [mealPlan, setMealPlan] = useState(null);
+  const [openDays, setOpenDays] = useState([]);
   const [loadingPlan, setLoadingPlan] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
   const username = user?.name || "User";
@@ -493,6 +494,10 @@ const weeklyData = last7Days.map((day) => {
           year: "numeric",
         });
       };
+
+      const today = new Date().toLocaleDateString("en-US", {
+  weekday: "long"
+});
 
       console.log("USER OBJECT:", user);
       
@@ -1099,10 +1104,18 @@ const weeklyData = last7Days.map((day) => {
         const labels = ["🍳 Breakfast", "🥗 Lunch", "🍽️ Dinner"];
 
         return (
-        <div key={index} className="meal-day-card">
-          <h4>{day.day}</h4>
+        <div key={index} className={`meal-day-card ${day.day === today ? "today" : ""}`}>
+          <h4 onClick={() => {
+  setOpenDays((prev) =>
+    prev.includes(index)
+      ? prev.filter((i) => i !== index) // remove 
+      : [...prev, index] // add 
+  );
+}} 
+style={{ cursor: "pointer" }}>
+  📅 {day.day}</h4>
           
-            {day.meals.map((meal, i) => (
+            {openDays.includes(index) && day.meals.map((meal, i) => (
                 <div key={i} className="meal-row">
                   <span className="meal-label">
                     {labels[i]}
