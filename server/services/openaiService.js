@@ -80,7 +80,14 @@ Return ONLY JSON:
     temperature: 0.7,
   });
 
-  return JSON.parse(response.choices[0].message.content);
+  const text = response.choices[0].message.content;
+
+const cleaned = text
+  .replace(/```json/g, "")
+  .replace(/```/g, "")
+  .trim();
+
+return JSON.parse(cleaned);
 }
 
 module.exports = { getLLMMealRecommendations, getWeeklyMealPlan };
