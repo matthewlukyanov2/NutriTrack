@@ -467,3 +467,19 @@ body.dark .progress-fill {
 .recommendation-text {
   color: #444;
 }
+
+.meal-plan {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.meal-day {
+  background: rgba(255,255,255,0.05);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.meal-day h4 {
+  margin-bottom: 5px;
+}
