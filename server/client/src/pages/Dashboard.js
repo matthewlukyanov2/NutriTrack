@@ -1082,25 +1082,41 @@ const weeklyData = last7Days.map((day) => {
     <div className="card">
   <h3>Smart Meal Planner</h3>
 
-  <button onClick={getMealPlan}>
-    Generate Weekly Plan
+  <button onClick={getMealPlan} disabled={loadingPlan}>
+   {loadingPlan ? "Generating..." : "Generate Weekly Plan"}
   </button>
 
-  {loadingPlan && <p>Planning your week... 🤖</p>}
-
   {mealPlan && (
-    <div className="meal-plan">
-      {mealPlan.map((day, index) => (
-        <div key={index} className="meal-day">
+    <>
+      <button
+        onClick={getMealPlan}
+        className="regen-btn"
+      >
+        🔄 Regenerate Plan
+      </button>
+    <div className="meal-plan-grid">
+      {mealPlan.map((day, index) => {
+        const labels = ["🍳 Breakfast", "🥗 Lunch", "🍽️ Dinner"];
+
+        return (
+        <div key={index} className="meal-day-card">
           <h4>{day.day}</h4>
-          <ul>
+          
             {day.meals.map((meal, i) => (
-              <li key={i}>{meal}</li>
-            ))}
-          </ul>
-        </div>
-      ))}
-    </div>
+                <div key={i} className="meal-row">
+                  <span className="meal-label">
+                    {labels[i]}
+                  </span>
+                  <span className="meal-text">
+                    {meal}
+                  </span>
+                </div>
+              ))}
+            </div>
+          );
+        })}
+      </div>
+    </>
   )}
 </div>
 
