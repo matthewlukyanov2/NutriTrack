@@ -274,6 +274,24 @@ const weeklyData = last7Days.map((day) => {
     })
     .finally(() => setLoadingPlan(false));
 };
+  
+  const addMealFromPlan = (mealName) => {
+  API.post("/meals", {
+    name: mealName,
+    calories: 0,
+    protein: 0,
+    carbs: 0,
+    fats: 0,
+    consumed: false
+  })
+    .then(() => {
+      getRecommendations(); // optional
+      API.get("/meals").then((res) => setMeals(res.data)); // refresh meals
+    })
+    .catch((err) => {
+      console.error("Add meal from plan error:", err);
+    });
+};
 
   const exportMeals = () => {
     const csv = [
@@ -1123,6 +1141,13 @@ style={{ cursor: "pointer" }}>
                   <span className="meal-text">
                     {meal}
                   </span>
+                  <button
+    onClick={() => addMealFromPlan(meal)}
+    style={{ marginTop: "5px", fontSize: "12px" }}
+  >
+    ➕ Add to Today
+  </button>
+
                 </div>
               ))}
             </div>
