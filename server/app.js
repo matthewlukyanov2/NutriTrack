@@ -3,6 +3,7 @@
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
 
 const errorHandler = require("./middleware/errorMiddleware");
 const recommendationRoutes = require("./routes/recommendationRoutes");
@@ -18,6 +19,12 @@ const llmRoutes = require("./routes/llmRecommendations");
 
 const app = express();
 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 mins
+  max: 100, // limit each IP
+  message: "Too many requests, please try again later."
+});
+
 // Middleware
 app.use(express.json());
 app.use(cors(
@@ -27,6 +34,7 @@ app.use(cors(
 }
 ));
 app.use(helmet());
+app.use(limiter);
 
 // Default route
 app.get("/", (req, res) => {
