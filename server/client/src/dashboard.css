@@ -527,3 +527,67 @@ body.dark .progress-fill {
 .today {
   border: 2px solid #5c5cf6;
 }
+
+.top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  background: white;
+  padding: 14px 18px;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  margin-bottom: 24px;
+}
+
+.top-nav a {
+  text-decoration: none;
+  color: var(--text-dark);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.top-nav a:hover {
+  color: var(--primary);
+}
+
+.section-heading-card {
+  background: transparent;
+  padding: 4px 2px 0;
+}
+
+.section-heading-card h2 {
+  margin: 0 0 6px;
+  font-size: 24px;
+}
+
+.section-heading-card p {
+  margin: 0 0 10px;
+  color: var(--text-light);
+  font-size: 14px;
+}
+
+.date-card {
+  margin-bottom: 8px;
+}
+
+.mini-section-title {
+  margin-top: 18px;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+#dashboard,
+#goals,
+#calendar,
+#meals,
+#workouts,
+#ai {
+  scroll-margin-top: 90px;
+}

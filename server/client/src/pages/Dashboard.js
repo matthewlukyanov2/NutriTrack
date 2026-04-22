@@ -521,8 +521,17 @@ const weeklyData = last7Days.map((day) => {
       
       return (
         <div className="container">
+
+        <nav className="top-nav">
+        <a href="#dashboard">Dashboard</a>
+        <a href="#goals">Goals</a>
+        <a href="#calendar">Calendar</a>
+        <a href="#meals">Meals</a>
+        <a href="#workouts">Workouts</a>
+        <a href="#ai">AI Features</a>
+        </nav>   
       
-          <header className="dashboard-header">
+          <header className="dashboard-header" id="dashboard">
             <div>
               <h1>Welcome back, {username} !</h1>
               <p className="subtitle">Ready to crush your goals today?</p>
@@ -542,18 +551,7 @@ const weeklyData = last7Days.map((day) => {
   {/* LEFT SIDE */}
   <div className="main-column">
 
-  <div className="date-selector">
-    <label>📅 Date:</label>
-    <input
-      type="date"
-      value={selectedDate}
-      onChange={(e) =>  {
-        const newDate = e.target.value;
-        setSelectedDate(newDate);
-        localStorage.setItem("selectedDate", newDate);
-      }}
-    />
-  </div>
+
 
   <div className="view-toggle">
   <button
@@ -607,6 +605,8 @@ const weeklyData = last7Days.map((day) => {
 )}
 </div>
 
+  <h4 className="mini-section-title">Meal Progress</h4>
+
   <div className="calorie-stats">
     <div className="stat-box">
       <span className="big-number">{totalCalories}</span>
@@ -617,6 +617,11 @@ const weeklyData = last7Days.map((day) => {
       <span className="big-number">{caloriesRemaining}</span>
       <span>Calories Remaining</span>
     </div>
+  </div>
+
+    <h4 className="mini-section-title">Workout Impact</h4>
+
+<div className="calorie-stats">
 
     <div className="stat-box">
     <span className="big-number">{totalCaloriesBurned}</span>
@@ -771,6 +776,40 @@ const weeklyData = last7Days.map((day) => {
     </div>
   </div>
 )}
+    
+    <div id="meals" className="section-heading-card">
+  <h2>Meals</h2>
+  <p>Track planned meals, consumed meals, and nutrition intake.</p>
+</div>
+
+    {/* Add Meal */}
+    <div className="card">
+      <h3>Add Meal</h3>
+      <form onSubmit={addMeal}>
+        <input type="text" name="name" placeholder="Meal name" value={form.name} onChange={handleChange} required />
+        <input type="number" name="calories" placeholder="Calories" value={form.calories} onChange={handleChange} required />
+        <input type="number" name="protein" placeholder="Protein" value={form.protein} onChange={handleChange} required />
+        <input type="number" name="carbs" placeholder="Carbs" value={form.carbs} onChange={handleChange} required />
+        <input type="number" name="fats" placeholder="Fats" value={form.fats} onChange={handleChange} required />
+        <button type="submit" className="add-meal-btn">Add Meal</button>
+      </form>
+    </div>
+    
+    <div id="calendar" className="card date-card">
+  <h3>Calendar & Meal Date</h3>
+  <div className="date-selector">
+    <label>📅 Date:</label>
+    <input
+      type="date"
+      value={selectedDate}
+      onChange={(e) => {
+        const newDate = e.target.value;
+        setSelectedDate(newDate);
+        localStorage.setItem("selectedDate", newDate);
+      }}
+    />
+  </div>
+</div>
 
     {/* Meals */}
     <div className="card">
@@ -883,18 +922,11 @@ const weeklyData = last7Days.map((day) => {
   {/* RIGHT SIDE */}
   <div className="side-column">
 
-    {/* Add Meal */}
-    <div className="card">
-      <h3>Add Meal</h3>
-      <form onSubmit={addMeal}>
-        <input type="text" name="name" placeholder="Meal name" value={form.name} onChange={handleChange} required />
-        <input type="number" name="calories" placeholder="Calories" value={form.calories} onChange={handleChange} required />
-        <input type="number" name="protein" placeholder="Protein" value={form.protein} onChange={handleChange} required />
-        <input type="number" name="carbs" placeholder="Carbs" value={form.carbs} onChange={handleChange} required />
-        <input type="number" name="fats" placeholder="Fats" value={form.fats} onChange={handleChange} required />
-        <button type="submit" className="add-meal-btn">Add Meal</button>
-      </form>
-    </div>
+  <div id="workouts" className="section-heading-card">
+  <h2>Workouts</h2>
+  <p>Track exercise sessions, calories burned, and energy balance.</p>
+  </div>
+
 
     {/* Add Workout */}
     <div className="card">
@@ -928,7 +960,7 @@ const weeklyData = last7Days.map((day) => {
       </form>
     </div>
 
-    <div className="card goals-card">
+    <div id="goals" className="card goals-card">
   <h3>Daily Nutrition Goals</h3>
 
   {!editingGoals ? (
@@ -1079,6 +1111,11 @@ const weeklyData = last7Days.map((day) => {
        </div>
       )}
     </div>
+
+    <div id="ai" className="section-heading-card">
+  <h2>AI Features</h2>
+  <p>Use intelligent suggestions and weekly planning to support your nutrition goals.</p>
+</div>
 
     {/* AI Recommendations */}
     <div className="card recommendations-card">
