@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import API from "../services/api";
+import TopNav from "../components/TopNav";
 import "../dashboard.css";
 import { logout } from "../utils/auth";
 import { FaEdit, FaTrash } from "react-icons/fa";
@@ -522,14 +523,7 @@ const weeklyData = last7Days.map((day) => {
       return (
         <div className="container">
 
-        <nav className="top-nav">
-        <a href="#dashboard">Dashboard</a>
-        <a href="#goals">Goals</a>
-        <a href="#calendar">Calendar</a>
-        <a href="#meals">Meals</a>
-        <a href="#workouts">Workouts</a>
-        <a href="#ai">AI Features</a>
-        </nav>   
+        <TopNav />  
       
           <header className="dashboard-header" id="dashboard">
             <div>
