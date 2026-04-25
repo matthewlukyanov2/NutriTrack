@@ -567,6 +567,25 @@ body.dark .progress-fill {
   color: var(--primary);
 }
 
+.top-nav a.active::after {
+  background-color: var(--primary); 
+}
+
+.top-nav a.active {
+  color: var(--primary);
+}
+
+.top-nav a.active::before {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--primary);
+  border-radius: 2px;
+}
+
 .section-heading-card {
   background: transparent;
   padding: 4px 2px 0;

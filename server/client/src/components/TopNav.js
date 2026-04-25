@@ -1,14 +1,14 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const TopNav = () => {
   return (
     <nav className="top-nav">
-      <Link to="/">Dashboard</Link>
-      <Link to="/meals">Meals</Link>
-      <Link to="/workouts">Workouts</Link>
-      <Link to="/recommendations">Recommendations</Link>
-      <Link to="/meal-planner">Meal Planner</Link>
-      <Link to="/goals">Goals</Link>
+      <NavLink to="/">Dashboard</NavLink>
+      <NavLink to="/meals">Meals</NavLink>
+      <NavLink to="/workouts">Workouts</NavLink>
+      <NavLink to="/recommendations">Recommendations</NavLink>
+      <NavLink to="/meal-planner">Meal Planner</NavLink>
+      <NavLink to="/goals">Goals</NavLink>
     </nav>
   );
 };
