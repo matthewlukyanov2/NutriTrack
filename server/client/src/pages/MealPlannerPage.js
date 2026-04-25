@@ -1,6 +1,7 @@
 import { useState } from "react";
 import API from "../services/api";
 import TopNav from "../components/TopNav";
+import { Link } from "react-router-dom";
 import "../dashboard.css";
 
 const MealPlannerPage = () => {
@@ -53,6 +54,9 @@ const MealPlannerPage = () => {
             Generate weekly meal ideas using AI planning support.
           </p>
         </div>
+        <Link to="/">
+          <button className="back-dashboard-btn">Back to Dashboard</button>
+        </Link>
       </header>
 
       <div className="dashboard-grid">

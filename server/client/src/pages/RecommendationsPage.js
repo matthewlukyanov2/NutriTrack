@@ -1,6 +1,7 @@
 import { useState } from "react";
 import API from "../services/api";
 import TopNav from "../components/TopNav";
+import { Link } from "react-router-dom";
 import "../dashboard.css";
 
 const RecommendationsPage = () => {
@@ -30,6 +31,9 @@ const RecommendationsPage = () => {
             Get personalized nutrition suggestions based on your meals and progress.
           </p>
         </div>
+        <Link to="/">
+          <button className="back-dashboard-btn">Back to Dashboard</button>
+        </Link>
       </header>
 
       <div className="dashboard-grid">

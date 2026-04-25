@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import TopNav from "../components/TopNav";
 import "../dashboard.css";
 
@@ -33,6 +34,9 @@ const GoalsPage = () => {
             Set and manage your daily nutrition targets.
           </p>
         </div>
+        <Link to="/">
+          <button className="back-dashboard-btn">Back to Dashboard</button>
+        </Link>
       </header>
 
       <div className="dashboard-grid">

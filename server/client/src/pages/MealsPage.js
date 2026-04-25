@@ -3,6 +3,7 @@ import API from "../services/api";
 import TopNav from "../components/TopNav";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
+import { Link } from "react-router-dom";
 import "../dashboard.css";
 
 const MealsPage = () => {
@@ -187,6 +188,9 @@ const MealsPage = () => {
             Track planned meals, consumed meals, and nutrition intake.
           </p>
         </div>
+        <Link to="/">
+          <button className="back-dashboard-btn">Back to Dashboard</button>
+        </Link>
       </header>
 
       <div className="dashboard-grid">
@@ -234,7 +238,7 @@ const MealsPage = () => {
                 onChange={handleChange}
                 required
               />
-              <button type="submit" className="add-meal-btn">
+              <button type="submit">
                 Add Meal
               </button>
             </form>

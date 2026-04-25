@@ -3,6 +3,7 @@ import API from "../services/api";
 import TopNav from "../components/TopNav";
 import { ToastContainer, toast } from "react-toastify";
 import "../dashboard.css";
+import { Link } from "react-router-dom";
 
 const WorkoutsPage = () => {
   const [workouts, setWorkouts] = useState([]);
@@ -104,6 +105,9 @@ const WorkoutsPage = () => {
             Track exercise sessions, calories burned, and energy balance.
           </p>
         </div>
+        <Link to="/">
+          <button className="back-dashboard-btn">Back to Dashboard</button>
+        </Link>
       </header>
 
       <div className="dashboard-grid">
