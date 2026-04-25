@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { logout } from "../utils/auth";
 
 const TopNav = () => {
   return (
@@ -10,9 +9,6 @@ const TopNav = () => {
       <Link to="/recommendations">Recommendations</Link>
       <Link to="/meal-planner">Meal Planner</Link>
       <Link to="/goals">Goals</Link>
-      <button onClick={logout} className="logout">
-        Logout
-      </button>
     </nav>
   );
 };

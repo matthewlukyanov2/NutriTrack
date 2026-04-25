@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import API from "../services/api";
 import TopNav from "../components/TopNav";
-import "../dashboard.css";
 import { logout } from "../utils/auth";
+import "../dashboard.css";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import {
   BarChart,
@@ -12,156 +13,71 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
 
 
 const Dashboard = () => {
 
   const [meals, setMeals] = useState([]);
-  const [recommendations, setRecommendations] = useState([]);
-  const [successMessage, setSuccessMessage] = useState("");
   const [workouts, setWorkouts] = useState([]);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [mealToDelete, setMealToDelete] = useState(null);
-  const [workoutToDelete, setWorkoutToDelete] = useState(null);
-  const [showConsumedOnly, setShowConsumedOnly] = useState(false);
-  const [mealPlan, setMealPlan] = useState(null);
-  const [openDays, setOpenDays] = useState([]);
-  const [loadingPlan, setLoadingPlan] = useState(false);
-  const user = JSON.parse(localStorage.getItem("user"));
-  const username = user?.name || "User";
-
-  const [nutritionGoals, setNutritionGoals] = useState(() => {
-    const savedGoals = localStorage.getItem("nutritionGoals");
-
-    return savedGoals
-    ? JSON.parse(savedGoals)
-    : {
-
-      calories: 2000,
-      protein: 120,
-      carbs: 250,
-      fats: 70
-    };
-  });
-  
-  const [editingGoals, setEditingGoals] = useState(false);
   const [viewMode, setViewMode] = useState("daily");
-  const [selectedMeal, setSelectedMeal] = useState(null);
+
   const [selectedDate, setSelectedDate] = useState(() => {
     return localStorage.getItem("selectedDate") || new Date().toISOString().split("T")[0];
 });
 
    // Loading states 
-   const [loadingMeals, setLoadingMeals] = useState(true);
-   const [loadingWorkouts, setLoadingWorkouts] = useState(true);
-   const [loadingRecs, setLoadingRecs] = useState(false);
-   const [sortOrder, setSortOrder] = useState("desc");
    const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem("darkMode") === "true";
   });
 
-  // Add meal form
-  const [form, setForm] = useState({
-    name: "",
-    calories: "",
-    protein: "",
-    carbs: "",
-    fats: ""
+    const [nutritionGoals] = useState(() => {
+    const savedGoals = localStorage.getItem("nutritionGoals");
+
+    return savedGoals
+      ? JSON.parse(savedGoals)
+      : {
+          calories: 2000,
+          protein: 120,
+          carbs: 250,
+          fats: 70,
+        };
   });
 
-  // Workout form
-  const [workoutForm, setWorkoutForm] = useState({
-    type: "",
-    duration: "",
-    caloriesBurned: ""  
-  });
+  const user = JSON.parse(localStorage.getItem("user"));
+  const username = user?.name || "User";
 
-  // Workout edit state
-  const [editingWorkout, setEditingWorkout] = useState(null);
-
-  // Edit meal form
-  const [editingMealId, setEditingMealId] = useState(null);
-const [editForm, setEditForm] = useState({
-  name: "",
-  calories: "",
-  protein: "",
-  carbs: "",
-  fats: ""
-});
-
-useEffect(() => {
-  localStorage.setItem(
-    "nutritionGoals",
-    JSON.stringify(nutritionGoals)
-  );
-}, [nutritionGoals]);
-
-useEffect(() => {
-  document.body.classList.toggle("dark", darkMode);
-  localStorage.setItem("darkMode", darkMode);
-}, [darkMode]);
-
-  // Fetch meals on load
   useEffect(() => {
-    setLoadingMeals(true);
+    document.body.classList.toggle("dark", darkMode);
+    localStorage.setItem("darkMode", darkMode);
+  }, [darkMode]);
+
+  useEffect(() => {
     API.get("/meals")
       .then((res) => setMeals(res.data))
-      .catch((err) => console.error("Meals error:", err))
-      .finally(() => setLoadingMeals(false));
-  }, []);
+      .catch((err) => console.error("Meals error:", err));
 
-  // Fetch workouts on load
-useEffect(() => {
-    setLoadingWorkouts(true);
     API.get("/workouts")
       .then((res) => setWorkouts(res.data))
-      .catch((err) => console.error("Workouts error:", err))
-      .finally(() => setLoadingWorkouts(false));
+      .catch((err) => console.error("Workouts error:", err));
   }, []);
 
-  useEffect(() => {
-    const today = new Date().toISOString().split("T")[0];
-    setSelectedDate(today);
-  }, []);
-
-   // Sorted meals logic
-  const sortedMeals = [...meals].sort((a, b) => {
-    return sortOrder === "desc"
-      ? b.calories - a.calories
-      : a.calories - b.calories;
-  });
+  const handleDateChange = (e) => {
+    const newDate = e.target.value;
+    setSelectedDate(newDate);
+    localStorage.setItem("selectedDate", newDate);
+  };
 
   const mealsForSelectedDate = meals.filter((meal) => {
-    const mealDate = new Date(meal.createdAt)
-      .toISOString()
-      .split("T")[0];
-  
-      if (showConsumedOnly) {
-        return mealDate === selectedDate && meal.consumed;
-      }
-    
-      return mealDate === selectedDate;
+    const mealDate = new Date(meal.createdAt).toISOString().split("T")[0];
+    return mealDate === selectedDate;
   });
 
   const workoutsForSelectedDate = workouts.filter((workout) => {
-    const workoutDate = new Date(workout.createdAt)
-      .toISOString()
-      .split("T")[0];
-  
+    const workoutDate = new Date(workout.createdAt).toISOString().split("T")[0];
     return workoutDate === selectedDate;
   });
-  
-  const totalCaloriesBurned = workoutsForSelectedDate.reduce(
-    (sum, w) => sum + (w.caloriesBurned || 0),
-    0
-  );
 
-  const consumedMeals = mealsForSelectedDate.filter(
-    (meal) => meal.consumed
-  );
+  const consumedMeals = mealsForSelectedDate.filter((meal) => meal.consumed);
 
   const totals = consumedMeals.reduce(
     (acc, meal) => {
@@ -174,1048 +90,400 @@ useEffect(() => {
     { calories: 0, protein: 0, carbs: 0, fats: 0 }
   );
 
+  const totalCalories = totals.calories;
+
+  const totalCaloriesBurned = workoutsForSelectedDate.reduce(
+    (sum, workout) => sum + (workout.caloriesBurned || 0),
+    0
+  );
+
+  const netCalories = totalCalories - totalCaloriesBurned;
+  const dailyGoal = nutritionGoals.calories;
+  const caloriesRemaining = Math.max(dailyGoal - totalCalories, 0);
+  const percentage = Math.min((totalCalories / dailyGoal) * 100, 100).toFixed(0);
+
   const calorieScore = Math.min(
     (totals.calories / nutritionGoals.calories) * 40,
     40
   );
-  
+
   const proteinScore = Math.min(
     (totals.protein / nutritionGoals.protein) * 30,
     30
   );
-  
-  let macroBalanceScore = 0
 
-if (totals.calories === 0) {
-  macroBalanceScore = 0;
-} else if (totals.carbs > 0 && totals.fats > 0) {
-  macroBalanceScore = 30;
-} else {
-  macroBalanceScore = 15;
-}
-  
+  let macroBalanceScore = 0;
+
+  if (totals.calories === 0) {
+    macroBalanceScore = 0;
+  } else if (totals.carbs > 0 && totals.fats > 0) {
+    macroBalanceScore = 30;
+  } else {
+    macroBalanceScore = 15;
+  }
+
   const nutritionScore = Math.round(
     calorieScore + proteinScore + macroBalanceScore
   );
 
   let scoreMessage = "";
 
-if (nutritionScore >= 85) {
-  scoreMessage = "🔥 Excellent nutrition day!";
-} else if (nutritionScore >= 60) {
-  scoreMessage = "👍 Good progress, keep going!";
-} else {
-  scoreMessage = "⚡ Try to improve your nutrition goals.";
-}
-
-  // Total calories 
-const totalCalories = consumedMeals.reduce(
-  (sum, meal) => sum + (meal.calories || 0),
-  0
-);
-
-const netCalories = totalCalories - totalCaloriesBurned;
-
-const dailyGoal = nutritionGoals.calories;
-const caloriesRemaining = Math.max(dailyGoal - totalCalories, 0);
-const percentage = Math.min((totalCalories / dailyGoal) * 100, 100).toFixed(0);
-  
-
-// Get last 7 days
-const getLast7Days = () => {
-  const days = [];
-  for (let i = 6; i >= 0; i--) {
-    const date = new Date();
-    date.setDate(date.getDate() - i);
-    days.push(date.toISOString().split("T")[0]);
+  if (nutritionScore >= 85) {
+    scoreMessage = "🔥 Excellent nutrition day!";
+  } else if (nutritionScore >= 60) {
+    scoreMessage = "👍 Good progress, keep going!";
+  } else {
+    scoreMessage = "⚡ Try to improve your nutrition goals.";
   }
-  return days;
-};
 
-const last7Days = getLast7Days();
+  const getLast7Days = () => {
+    const days = [];
 
-const weeklyData = last7Days.map((day) => {
-  const total = meals
-    .filter((meal) => {
-      const mealDate = new Date(meal.createdAt)
-        .toISOString()
-        .split("T")[0];
-      return mealDate === day;
-    })
-    .reduce((sum, meal) => sum + (meal.calories || 0), 0);
+    for (let i = 6; i >= 0; i--) {
+      const date = new Date();
+      date.setDate(date.getDate() - i);
+      days.push(date.toISOString().split("T")[0]);
+    }
 
-  return {
-    date: day.slice(5), // MM-DD
-    calories: total,
+    return days;
   };
-});
 
-
-  // Get AI recommendations
-  const getRecommendations = () => {
-    setLoadingRecs(true);
-    API.get("/llm/meals")
-      .then((res) => {
-        const data = res.data.recommendations || [];
-        setRecommendations(data);
+  const weeklyData = getLast7Days().map((day) => {
+    const total = meals
+      .filter((meal) => {
+        const mealDate = new Date(meal.createdAt).toISOString().split("T")[0];
+        return mealDate === day;
       })
-      .catch(() => setRecommendations([]))
-      .finally(() => setLoadingRecs(false));
-  };
+      .reduce((sum, meal) => sum + (meal.calories || 0), 0);
 
-  const getMealPlan = () => {
-  setLoadingPlan(true);
-
-  API.get("/llm/meal-plan")
-    .then((res) => {
-      setMealPlan(res.data.days);
-    })
-    .catch((err) => {
-      console.error("Meal plan error:", err);
-    })
-    .finally(() => setLoadingPlan(false));
-};
-  
-  const addMealFromPlan = (mealName) => {
-  API.post("/meals", {
-    name: mealName,
-    calories: 0,
-    protein: 0,
-    carbs: 0,
-    fats: 0,
-    consumed: false
-  })
-    .then(() => {
-      getRecommendations(); // optional
-      API.get("/meals").then((res) => setMeals(res.data)); // refresh meals
-    })
-    .catch((err) => {
-      console.error("Add meal from plan error:", err);
-    });
-};
-
-  const exportMeals = () => {
-    const csv = [
-      ["Name", "Calories", "Protein", "Carbs", "Fats"],
-      ...meals.map((m) => [
-        m.name,
-        m.calories,
-        m.protein,
-        m.carbs,
-        m.fats
-      ])
-    ]
-      .map((row) => row.join(","))
-      .join("\n");
-  
-    const blob = new Blob([csv], { type: "text/csv" });
-    const url = window.URL.createObjectURL(blob);
-  
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "meals.csv";
-    a.click();
-
-    toast.success("Meals exported successfully!");
-  };
-
-  // Handle form input
-  const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  // handle workout input
-  const handleWorkoutChange = (e) => {
-    setWorkoutForm({
-      ...workoutForm,
-      [e.target.name]: e.target.value || ""
-    });
-  };
-
-  // Add meal
-  const addMeal = (e) => {
-    e.preventDefault();
-
-    const mealData = {
-      name: form.name,
-      calories: Number(form.calories),
-      protein: Number(form.protein),
-      carbs: Number(form.carbs),
-      fats: Number(form.fats),
-      consumed: false
+    return {
+      date: day.slice(5),
+      calories: total,
     };
+  });
 
-    API.post("/meals", mealData)
-      .then((res) => {
-        setMeals((prev) => [...prev, res.data]);
-        setForm({
-          name: "",
-          calories: "",
-          protein: "",
-          carbs: "",
-          fats: ""
-        });
-        toast.success("Meal added successfully!");
-        setTimeout(() => setSuccessMessage(""), 3000);
-      })
-      .catch((err) => console.error("Add meal error:", err));
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString(undefined, {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
   };
 
-    // Add workout
-  const addWorkout = (e) => {
-    e.preventDefault();
+  return (
+    <div className="container">
+      <TopNav />
 
-    API.post("/workouts", {
-      name: workoutForm.type,
-      duration: Number(workoutForm.duration),
-      caloriesBurned: Number(workoutForm.caloriesBurned)
-    })
-      .then((res) => {
-        setWorkouts((prev) => [...prev, res.data]);
-        setWorkoutForm({
-          type: "",
-          duration: "",
-          caloriesBurned: ""
-        });
-      })
-      .catch((err) => console.error("Add workout error:", err));
-  };
+      <header className="dashboard-header" id="dashboard">
+        <div>
+          <h1>Welcome back, {username}!</h1>
+          <p className="subtitle">Ready to crush your goals today?</p>
+        </div>
 
-  // Save workout (PUT)
-  const saveWorkout = (id) => {
-    API.put(`/workouts/${id}`, {
-      name: editingWorkout.name,
-      duration: Number(editingWorkout.duration)
-    })
-      .then((res) => {
-        setWorkouts((prev) =>
-          prev.map((w) => (w._id === id ? res.data : w))
-        );
-        setEditingWorkout(null);
-        toast.success("Workout updated successfully!");
-      })
-      .catch((err) => console.error("Update workout error:", err));
-  };
+        <div className="header-actions">
+        <button className="logout" onClick={logout}>
+          Logout
+        </button>
 
-    // Delete workout
-  const deleteWorkout = (id) => {
-  setWorkoutToDelete(id);
-  setShowDeleteModal(true);
-  };
-
-
-    // Start editing a meal
-    const startEdit = (meal) => {
-        setEditingMealId(meal._id);
-        setEditForm({
-          name: meal.name,
-          calories: meal.calories,
-          protein: meal.protein,
-          carbs: meal.carbs,
-          fats: meal.fats
-        });
-      };      
-
-      // Handle edit form input
-      const handleEditChange = (e) => {
-        setEditForm({
-          ...editForm,
-          [e.target.name]: e.target.value
-        });
-      };
-      
-      // Save edited meal
-      const saveEdit = (id) => {
-        API.put(`/meals/${id}`, {
-          ...editForm,
-          calories: Number(editForm.calories),
-          protein: Number(editForm.protein),
-          carbs: Number(editForm.carbs),
-          fats: Number(editForm.fats)
-        })
-          .then((res) => {
-            setMeals((prev) =>
-              prev.map((meal) => (meal._id === id ? res.data : meal))
-            );
-            setEditingMealId(null);
-            toast.success("Meal updated successfully!");
-            setTimeout(() => setSuccessMessage(""), 3000);
-          })
-          .catch((err) => console.error("Edit meal error:", err));
-      };
-
-      // Delete meal
-      const deleteMeal = (id) => {
-        setMealToDelete(id);
-        setShowDeleteModal(true);
-      };      
-
-
-      const toggleMealConsumed = (meal) => {
-        API.put(`/meals/${meal._id}`, {
-          ...meal,
-          consumed: !meal.consumed
-        })
-          .then((res) => {
-            setMeals((prev) =>
-              prev.map((m) => (m._id === meal._id ? res.data : m))
-            );
-          })
-          .catch((err) => console.error("Toggle meal error:", err));
-      };
-
-      const confirmDeleteMeal = () => {
-       if (mealToDelete) {
-        API.delete(`/meals/${mealToDelete}`)
-          .then(() => {
-            setMeals((prev) =>
-              prev.filter((meal) => meal._id !== mealToDelete)
-            );
-      
-            toast.success("Meal deleted successfully!");
-          })
-          .catch((err) => console.error("Delete meal error:", err));
-      }
-
-      
-    
-      if (workoutToDelete) {
-        API.delete(`/workouts/${workoutToDelete}`)
-          .then(() => {
-            setWorkouts((prev) =>
-              prev.filter((w) => w._id !== workoutToDelete)
-            );
-            toast.success("Workout deleted successfully!");
-          })
-          .catch((err) => console.error("Delete workout error:", err));
-      }
-    
-      setTimeout(() => setSuccessMessage(""), 3000);
-    
-            setShowDeleteModal(false);
-            setMealToDelete(null);
-            setWorkoutToDelete(null);
-      };
-      
-      const cancelDelete = () => {
-        setShowDeleteModal(false);
-        setMealToDelete(null);
-      };
-
-      const formatDate = (dateStr) => {
-        const date = new Date(dateStr);
-        return date.toLocaleDateString(undefined, {
-          month: "short",
-          day: "numeric",
-          year: "numeric",
-        });
-      };
-
-      const today = new Date().toLocaleDateString("en-US", {
-  weekday: "long"
-});
-
-      console.log("USER OBJECT:", user);
-      
-      return (
-        <div className="container">
-
-        <TopNav />  
-      
-          <header className="dashboard-header" id="dashboard">
-            <div>
-              <h1>Welcome back, {username} !</h1>
-              <p className="subtitle">Ready to crush your goals today?</p>
-            </div>
-
-            <button onClick={() => setDarkMode(!darkMode)}>
-  {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
-</button>
-      
-            <button className="logout" onClick={logout}>Logout</button>
-          </header>
-      
-          {successMessage && <p className="success">{successMessage}</p>}
+        <button onClick={() => setDarkMode(!darkMode)}>
+          {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
+        </button>
+        </div>
+      </header>
 
       <div className="dashboard-grid">
-
-  {/* LEFT SIDE */}
-  <div className="main-column">
+        <div className="main-column">
 
 
+          <div className="view-toggle">
+            <button
+              className={viewMode === "daily" ? "active-toggle" : ""}
+              onClick={() => setViewMode("daily")}
+            >
+              Daily
+            </button>
 
-  <div className="view-toggle">
-  <button
-    className={viewMode === "daily" ? "active-toggle" : ""}
-    onClick={() => setViewMode("daily")}
-  >
-    Daily
-  </button>
+            <button
+              className={viewMode === "weekly" ? "active-toggle" : ""}
+              onClick={() => setViewMode("weekly")}
+            >
+              Weekly
+            </button>
+          </div>
 
-  <button
-    className={viewMode === "weekly" ? "active-toggle" : ""}
-    onClick={() => setViewMode("weekly")}
-  >
-    Weekly
-  </button>
-</div>
-     
-     {/* DAILY VIEW */}
-{viewMode === "daily" && (
-  <>
-  
-     {/* HERO CARD */}
+          {viewMode === "daily" && (
+            <div className="card">
+              <h3 className="progress-title">
+                {selectedDate === new Date().toISOString().split("T")[0]
+                  ? "Today's Progress"
+                  : `Progress for ${formatDate(selectedDate)}`}
+              </h3>
 
-     
-     <div className="card">
-  <h3>
-  {selectedDate === new Date().toISOString().split("T")[0]
-    ? "Today's Progress"
-    : `Progress for ${formatDate(selectedDate)}`}  
-  </h3>
+              <div className="nutrition-score">
+                <h3>Nutrition Score</h3>
 
-  <div className="nutrition-score">
-  <h3>Nutrition Score</h3>
-  {totals.calories === 0 ? (
-  <p>No meals logged yet</p>
-) : (
-  <>
-    <div className="score-value"
-      style={{
-        color:
-          nutritionScore >= 85
-            ? "green"
-            : nutritionScore >= 50
-            ? "orange"
-            : "red",
-      }}>
-      {nutritionScore} / 100
-    </div>
-    <p>{scoreMessage}</p>
-  </>
-)}
-</div>
-
-  <h4 className="mini-section-title">Meal Progress</h4>
-
-  <div className="calorie-stats">
-    <div className="stat-box">
-      <span className="big-number">{totalCalories}</span>
-      <span>Calories Consumed</span>
-    </div>
-
-    <div className="stat-box">
-      <span className="big-number">{caloriesRemaining}</span>
-      <span>Calories Remaining</span>
-    </div>
-  </div>
-
-    <h4 className="mini-section-title">Workout Impact</h4>
-
-<div className="calorie-stats">
-
-    <div className="stat-box">
-    <span className="big-number">{totalCaloriesBurned}</span>
-    <span>Calories Burned</span>
-  </div>
-
-  <div className="stat-box">
-    <span className="big-number" 
-    style={{
-      color:
-        netCalories < 0
-          ? "green"
-          : netCalories > 0
-          ? "red"
-          : "gray"
-    }}>{netCalories}</span>
-    <span>Net Calories</span>
-    <p style={{ fontSize: "12px", marginTop: "5px" }}>
-      {netCalories < 0
-        ? "🔥 You're in a calorie deficit!"
-        : netCalories > 0
-        ? "⚡ You're in a surplus"
-        : "⚖️ Balanced intake"}
-    </p>
-  </div>
-  </div>
-
-  <div className="progress-section">
-    <div className="progress-label">
-    <span>Calorie Progress</span>
-      <span>{percentage}% of goal</span>
-    </div>
-
-    <div className="progress-bar">
-      <div
-        className="progress-fill"
-        style={{ width: `${percentage}%` }}
-      ></div>
-    </div>
-
-    <h4 style={{ marginTop: "20px" }}>Macros</h4>
-
-<div className="macro-progress">
-  <label>Protein {totals.protein}g / {nutritionGoals.protein}g</label>
-  <div className="progress-bar">
-    <div
-      className="progress-fill"
-      style={{ width: `${(totals.protein / nutritionGoals.protein) * 100}%` }}
-    ></div>
-  </div>
-</div>
-
-<div className="macro-progress">
-  <label>Carbs {totals.carbs}g / {nutritionGoals.carbs}g</label>
-  <div className="progress-bar">
-    <div
-      className="progress-fill"
-      style={{ width: `${(totals.carbs / nutritionGoals.carbs) * 100}%` }}
-    ></div>
-  </div>
-</div>
-
-<div className="macro-progress">
-  <label>Fats {totals.fats}g / {nutritionGoals.fats}g</label>
-  <div className="progress-bar">
-    <div
-      className="progress-fill"
-      style={{ width: `${(totals.fats / nutritionGoals.fats) * 100}%` }}
-    ></div>
-  </div>
-</div>
-</div>
-
-  </div>
-  {/* MEAL HISTORY*/}
-  <div className="card">
-  <h3>Meals for Selected Date</h3>
-
-  <h4>
-    {mealsForSelectedDate.filter(m => m.consumed).length} / {mealsForSelectedDate.length} meals completed
-  </h4>
-
-  <button
-  onClick={() => setShowConsumedOnly(!showConsumedOnly)}
-  style={{ marginBottom: "10px" }}
->
-  {showConsumedOnly ? "Show All Meals" : "Show Consumed Only"}
-</button>
-
-  {mealsForSelectedDate.length === 0 ? (
-    <p>No meals logged for this date.</p>
-  ) : (
-    <ul className="meal-list">
-      {mealsForSelectedDate.map((meal, index) => (
-        <li key={meal._id} className="meal-item"
-        style={{
-    border:
-      new Date(meal.createdAt).toISOString().split("T")[0] === selectedDate
-        ? "2px solid #4CAF50"
-        : "1px solid #eee",
-    boxShadow:
-      new Date(meal.createdAt).toISOString().split("T")[0] === selectedDate
-        ? "0 0 8px rgba(76, 175, 80, 0.3)"
-        : "none",
-    borderRadius: "10px",
-    padding: "10px"
-  }}>
-        <div>
-          <strong>{meal.name}</strong>
-          <p>
-            {meal.calories} kcal | P: {meal.protein}g | C: {meal.carbs}g | F: {meal.fats}g
-          </p>
-        </div>
-      
-        <div>
-          <button onClick={() => startEdit(meal)}>
-            <FaEdit />
-          </button>
-      
-          <button
-            onClick={() => deleteMeal(meal._id)}
-            style={{ marginLeft: "8px" }}
-          >
-            <FaTrash />
-          </button>
-        </div>
-      </li>
-      ))}
-    </ul>
-  )}
-</div>
-
-</>
-)}
-
-
-
-{/* WEEKLY VIEW */}
-{viewMode === "weekly" && (
-  <div className="card">
-    <h3>Weekly Calorie Trend</h3>
-
-    <div style={{ width: "100%", height: 250 }}>
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={weeklyData}>
-          <XAxis dataKey="date" />
-          <YAxis />
-          <Tooltip />
-          <Bar dataKey="calories"/>
-        </BarChart>
-      </ResponsiveContainer>
-    </div>
-  </div>
-)}
-    
-    <div id="meals" className="section-heading-card">
-  <h2>Meals</h2>
-  <p>Track planned meals, consumed meals, and nutrition intake.</p>
-</div>
-
-    {/* Add Meal */}
-    <div className="card">
-      <h3>Add Meal</h3>
-      <form onSubmit={addMeal}>
-        <input type="text" name="name" placeholder="Meal name" value={form.name} onChange={handleChange} required />
-        <input type="number" name="calories" placeholder="Calories" value={form.calories} onChange={handleChange} required />
-        <input type="number" name="protein" placeholder="Protein" value={form.protein} onChange={handleChange} required />
-        <input type="number" name="carbs" placeholder="Carbs" value={form.carbs} onChange={handleChange} required />
-        <input type="number" name="fats" placeholder="Fats" value={form.fats} onChange={handleChange} required />
-        <button type="submit" className="add-meal-btn">Add Meal</button>
-      </form>
-    </div>
-    
-    <div id="calendar" className="card date-card">
-  <h3>Calendar & Meal Date</h3>
-  <div className="date-selector">
-    <label>📅 Date:</label>
-    <input
-      type="date"
-      value={selectedDate}
-      onChange={(e) => {
-        const newDate = e.target.value;
-        setSelectedDate(newDate);
-        localStorage.setItem("selectedDate", newDate);
-      }}
-    />
-  </div>
-</div>
-
-    {/* Meals */}
-    <div className="card">
-      <h3>Your Meals</h3>
-
-      <div style={{ marginBottom: "10px" }}>
-        <button
-          onClick={() =>
-            setSortOrder(sortOrder === "desc" ? "asc" : "desc")
-          }
-        >
-          Sort by Calories (
-          {sortOrder === "desc" ? "High → Low" : "Low → High"})
-        </button>
-      </div>
-
-      <button onClick={exportMeals} style={{ marginBottom: "10px" }}>
-       Export Meals (CSV)
-      </button>
-
-      {loadingMeals ? (
-        <p className="loading">Loading meals...</p>
-      ) : meals.length === 0 ? (
-        <p className="empty">No meals yet. Add your first meal above</p>
-      ) : (
-        <div className="meals-grid">
-  {sortedMeals.map((meal) => (
-    <div
-    className="meal-card"
-    key={meal._id}
-    style={{
-      opacity: selectedMeal && selectedMeal._id !== meal._id ? 0.7 : 1,
-      textDecoration: meal.consumed ? "line-through" : "none",
-      border:
-      new Date(meal.createdAt).toISOString().split("T")[0] === selectedDate
-        ? "2px solid #4CAF50"
-        : "1px solid #ccc",
-    }}
-    onClick={() => setSelectedMeal(meal)}
-  >
-              {editingMealId === meal._id ? (
-                <>
-                  <input
-                    name="name"
-                    value={editForm.name}
-                    onChange={handleEditChange}
-                  />
-                  <input
-                    name="calories"
-                    type="number"
-                    value={editForm.calories}
-                    onChange={handleEditChange}
-                  />
-                  <input
-                    name="protein"
-                    type="number"
-                    value={editForm.protein}
-                    onChange={handleEditChange}
-                  />
-                  <input
-                    name="carbs"
-                    type="number"
-                    value={editForm.carbs}
-                    onChange={handleEditChange}
-                  />
-                  <input
-                    name="fats"
-                    type="number"
-                    value={editForm.fats}
-                    onChange={handleEditChange}
-                  />
-
-                  <button onClick={() => saveEdit(meal._id)}>Save</button>
-                  <button onClick={() => setEditingMealId(null)}>
-                    Cancel
-                  </button>
-                </>
-              ) : (
-                <>
-                  <strong>{meal.name}</strong> — {meal.calories} kcal
-                  <p className="meal-date">
-                  {new Date(meal.createdAt).toLocaleDateString()}
-                  </p>
-                  <div>
-
-                    <button onClick={() => toggleMealConsumed(meal)}>
-                      {meal.consumed ? "✅" : "⬜"}
-                    </button>
-
-                    <button onClick={() => startEdit(meal)}>
-                      <FaEdit />
-                    </button>
-                    <button
-                      onClick={() => deleteMeal(meal._id)}
-                      style={{ marginLeft: "8px" }}
+                {totals.calories === 0 ? (
+                  <p>No consumed meals logged yet</p>
+                ) : (
+                  <>
+                    <div
+                      className="score-value"
+                      style={{
+                        color:
+                          nutritionScore >= 85
+                            ? "green"
+                            : nutritionScore >= 50
+                            ? "orange"
+                            : "red",
+                      }}
                     >
-                      <FaTrash />
-                    </button>
-                  </div>
-                </>
-              )}
+                      {nutritionScore} / 100
+                    </div>
+                    <p>{scoreMessage}</p>
+                  </>
+                )}
               </div>
-          ))}
-        </div>
-      )}
-    </div>
 
-  </div>
+              <h4 className="mini-section-title">Meal Progress</h4>
 
-  {/* RIGHT SIDE */}
-  <div className="side-column">
-
-  <div id="workouts" className="section-heading-card">
-  <h2>Workouts</h2>
-  <p>Track exercise sessions, calories burned, and energy balance.</p>
-  </div>
-
-
-    {/* Add Workout */}
-    <div className="card">
-      <h3>Add Workout</h3>
-      <form onSubmit={addWorkout}>
-        <input
-          type="text"
-          name="type"
-          placeholder="Workout type"
-          value={workoutForm.type || ""}
-          onChange={handleWorkoutChange}
-          required
-        />
-        <input
-          type="number"
-          name="duration"
-          placeholder="Duration (minutes)"
-          value={workoutForm.duration || ""}
-          onChange={handleWorkoutChange}
-          required
-        />
-        <input
-          type="number"
-          name="caloriesBurned"
-          placeholder="Calories burned"
-          value={workoutForm.caloriesBurned || ""}
-          onChange={handleWorkoutChange}
-          required
-        />
-        <button type="submit">Add Workout</button>
-      </form>
-    </div>
-
-    <div id="goals" className="card goals-card">
-  <h3>Daily Nutrition Goals</h3>
-
-  {!editingGoals ? (
-    <>
-      <p>Calories: {nutritionGoals.calories}</p>
-      <p>Protein: {nutritionGoals.protein}g</p>
-      <p>Carbs: {nutritionGoals.carbs}g</p>
-      <p>Fats: {nutritionGoals.fats}g</p>
-
-      <button onClick={() => setEditingGoals(true)}>
-        Edit Goals
-      </button>
-
-      <button
-  onClick={() =>
-    setNutritionGoals({
-      calories: 2000,
-      protein: 120,
-      carbs: 250,
-      fats: 70
-    })
-  }
->
-  Reset to Default
-</button>
-    </>
-) : (
-  <>
-    <input
-      type="number"
-      value={nutritionGoals.calories}
-      onChange={(e) =>
-        setNutritionGoals({
-          ...nutritionGoals,
-          calories: Number(e.target.value)
-        })
-      }
-    />
-
-    <input
-      type="number"
-      value={nutritionGoals.protein}
-      onChange={(e) =>
-        setNutritionGoals({
-          ...nutritionGoals,
-          protein: Number(e.target.value)
-        })
-      }
-    />
-
-    <input
-      type="number"
-      value={nutritionGoals.carbs}
-      onChange={(e) =>
-        setNutritionGoals({
-          ...nutritionGoals,
-          carbs: Number(e.target.value)
-        })
-      }
-    />
-
-    <input
-      type="number"
-      value={nutritionGoals.fats}
-      onChange={(e) =>
-        setNutritionGoals({
-          ...nutritionGoals,
-          fats: Number(e.target.value)
-        })
-      }
-    />
-
-    <button onClick={() => setEditingGoals(false)}>
-      Save Goals
-    </button>
-  </>
-)}
-</div>
-
-    {/* Workouts */}
-    <div className="card">
-      <h3>Your Workouts</h3>
-
-      {loadingWorkouts ? (
-        <p className="loading">Loading workouts...</p>
-      ) : workouts.length === 0 ? (
-        <p className="empty">No workouts yet. Time to move 💪</p>
-      ) : (
-        <div className="meals-grid">
-        
-  {workouts.map((workout) => (
-    <div className="meal-card" key={workout._id}>
-
-  
-    {editingWorkout && editingWorkout._id === workout._id ? (
-      <>
-        <input
-          value={editingWorkout.name}
-          onChange={(e) =>
-            setEditingWorkout({
-              ...editingWorkout,
-              name: e.target.value
-            })
-          }
-        />
-        <input
-          type="number"
-          value={editingWorkout.duration}
-          onChange={(e) =>
-            setEditingWorkout({
-              ...editingWorkout,
-              duration: e.target.value
-            })
-          }
-        />
-
-        <button onClick={() => saveWorkout(workout._id)}>
-          Save
-        </button>
-        <button onClick={() => setEditingWorkout(null)}>
-          Cancel
-        </button>
-      </>
-    ) : (
-      <>
-            
-              <strong>{workout.name}</strong>
-
-              <p style={{ fontSize: "12px", opacity: 0.7 }}>
-                {new Date(workout.createdAt).toLocaleDateString()}
-              </p>
-
-              <p>
-                {workout.duration} min 🔥 {workout.caloriesBurned || 0} kcal
-              </p>
-
-        <button onClick={() => setEditingWorkout(workout)}>
-          Edit
-        </button>
-        <button onClick={() => deleteWorkout(workout._id)}>
-          Delete
-        </button>
-      </>
-    )}
- 
-           </div>
-         ))}
-       </div>
-      )}
-    </div>
-
-    <div id="ai" className="section-heading-card">
-  <h2>AI Features</h2>
-  <p>Use intelligent suggestions and weekly planning to support your nutrition goals.</p>
-</div>
-
-    {/* AI Recommendations */}
-    <div className="card recommendations-card">
-  <h3>Recommendations</h3>
-
-  <p className="recommendation-text"> Get personalized nutrition suggestions based on your meals and progress.</p>
-      <button className="recommend-btn"  onClick={getRecommendations}>Get Recommendations</button>
-
-      {loadingRecs ? (
-  <p className="loading">Thinking 🤖...</p>
-) : recommendations.length === 0 ? null : (
-        <ul>
-          {recommendations.map((rec, index) => (
-    <li key={index}>
-      <strong>{rec.name}</strong>
-      <br />
-      <small>{rec.reason}</small>
-    </li>
-          ))}
-        </ul>
-      )}
-    </div>
-
-    <div className="card">
-  <h3>Smart Meal Planner</h3>
-
-  <button onClick={getMealPlan} disabled={loadingPlan}>
-   {loadingPlan ? "Generating..." : "Generate Weekly Plan"}
-  </button>
-
-  {mealPlan && (
-    <>
-      <button
-        onClick={getMealPlan}
-        className="regen-btn"
-      >
-        🔄 Regenerate Plan
-      </button>
-    <div className="meal-plan-grid">
-      {mealPlan.map((day, index) => {
-        const labels = ["🍳 Breakfast", "🥗 Lunch", "🍽️ Dinner"];
-
-        return (
-        <div key={index} className={`meal-day-card ${day.day === today ? "today" : ""}`}>
-          <h4 onClick={() => {
-  setOpenDays((prev) =>
-    prev.includes(index)
-      ? prev.filter((i) => i !== index) // remove 
-      : [...prev, index] // add 
-  );
-}} 
-style={{ cursor: "pointer" }}>
-  📅 {day.day}</h4>
-          
-            {openDays.includes(index) && day.meals.map((meal, i) => (
-                <div key={i} className="meal-row">
-                  <span className="meal-label">
-                    {labels[i]}
-                  </span>
-                  <span className="meal-text">
-                    {meal}
-                  </span>
-                  <button
-    onClick={() => addMealFromPlan(meal)}
-    style={{ marginTop: "5px", fontSize: "12px" }}
-  >
-    ➕ Add to Today
-  </button>
-
+              <div className="calorie-stats">
+                <div className="stat-box">
+                  <span className="big-number">{totalCalories}</span>
+                  <span>Calories Consumed</span>
                 </div>
-              ))}
+
+                <div className="stat-box">
+                  <span className="big-number">{caloriesRemaining}</span>
+                  <span>Calories Remaining</span>
+                </div>
+              </div>
+
+              <h4 className="mini-section-title">Workout Impact</h4>
+
+              <div className="calorie-stats">
+                <div className="stat-box">
+                  <span className="big-number">{totalCaloriesBurned}</span>
+                  <span>Calories Burned</span>
+                </div>
+
+                <div className="stat-box">
+                  <span
+                    className="big-number"
+                    style={{
+                      color:
+                        netCalories < 0
+                          ? "green"
+                          : netCalories > 0
+                          ? "red"
+                          : "gray",
+                    }}
+                  >
+                    {netCalories}
+                  </span>
+                  <span>Net Calories</span>
+                  <p style={{ fontSize: "12px", marginTop: "5px" }}>
+                    {netCalories < 0
+                      ? "🔥 You're in a calorie deficit!"
+                      : netCalories > 0
+                      ? "⚡ You're in a surplus"
+                      : "⚖️ Balanced intake"}
+                  </p>
+                </div>
+              </div>
+
+              <div className="progress-section">
+                <div className="progress-label">
+                  <span>Calorie Progress</span>
+                  <span>{percentage}% of goal</span>
+                </div>
+
+                <div className="progress-bar">
+                  <div
+                    className="progress-fill"
+                    style={{ width: `${percentage}%` }}
+                  ></div>
+                </div>
+
+                <h4 style={{ marginTop: "20px" }}>Macros</h4>
+
+                <div className="macro-progress">
+                  <label>
+                    Protein {totals.protein}g / {nutritionGoals.protein}g
+                  </label>
+                  <div className="progress-bar">
+                    <div
+                      className="progress-fill"
+                      style={{
+                        width: `${Math.min(
+                          (totals.protein / nutritionGoals.protein) * 100,
+                          100
+                        )}%`,
+                      }}
+                    ></div>
+                  </div>
+                </div>
+
+                <div className="macro-progress">
+                  <label>
+                    Carbs {totals.carbs}g / {nutritionGoals.carbs}g
+                  </label>
+                  <div className="progress-bar">
+                    <div
+                      className="progress-fill"
+                      style={{
+                        width: `${Math.min(
+                          (totals.carbs / nutritionGoals.carbs) * 100,
+                          100
+                        )}%`,
+                      }}
+                    ></div>
+                  </div>
+                </div>
+
+                <div className="macro-progress">
+                  <label>
+                    Fats {totals.fats}g / {nutritionGoals.fats}g
+                  </label>
+                  <div className="progress-bar">
+                    <div
+                      className="progress-fill"
+                      style={{
+                        width: `${Math.min(
+                          (totals.fats / nutritionGoals.fats) * 100,
+                          100
+                        )}%`,
+                      }}
+                    ></div>
+                  </div>
+                </div>
+              </div>
             </div>
-          );
-        })}
+          )}
+
+          {viewMode === "weekly" && (
+            <div className="card">
+              <h3>Weekly Calorie Trend</h3>
+
+              <div style={{ width: "100%", height: 250 }}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={weeklyData}>
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip />
+                    <Bar dataKey="calories" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          )}
+
+          <div className="card date-card">
+            <h3>Dashboard Date</h3>
+            <div className="date-selector">
+              <label>📅 Date:</label>
+              <input
+                type="date"
+                value={selectedDate}
+                onChange={handleDateChange}
+              />
+            </div>
+          </div>
+
+          <div className="card">
+            <h3>Meal Summary</h3>
+            <p>
+              {mealsForSelectedDate.length} meals planned for selected date.
+            </p>
+            <p>{consumedMeals.length} meals consumed.</p>
+
+            {mealsForSelectedDate.length === 0 ? (
+              <p>No meals logged for this date.</p>
+            ) : (
+              <ul className="meal-list">
+                {mealsForSelectedDate.slice(0, 3).map((meal) => (
+                  <li key={meal._id} className="meal-item">
+                    <div>
+                      <strong>{meal.name}</strong>
+                      <p>
+                        {meal.calories} kcal | P: {meal.protein}g | C:{" "}
+                        {meal.carbs}g | F: {meal.fats}g
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            <Link to="/meals">
+              <button>Go to Meals</button>
+            </Link>
+          </div>
+
+          <div className="card">
+            <h3>Workout Summary</h3>
+            <p>
+              {workoutsForSelectedDate.length} workouts logged for selected
+              date.
+            </p>
+            <p>{totalCaloriesBurned} calories burned.</p>
+
+            {workoutsForSelectedDate.length === 0 ? (
+              <p>No workouts logged for this date.</p>
+            ) : (
+              <div className="meals-grid">
+                {workoutsForSelectedDate.slice(0, 3).map((workout) => (
+                  <div className="meal-card" key={workout._id}>
+                    <strong>{workout.name}</strong>
+                    <p>
+                      {workout.duration} min 🔥{" "}
+                      {workout.caloriesBurned || 0} kcal
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <Link to="/workouts">
+              <button>Go to Workouts</button>
+            </Link>
+          </div>
+        </div>
+
+        <div className="side-column">
+          <div className="card goals-card">
+            <h3>Your Goals</h3>
+            <p>Calories: {nutritionGoals.calories}</p>
+            <p>Protein: {nutritionGoals.protein}g</p>
+            <p>Carbs: {nutritionGoals.carbs}g</p>
+            <p>Fats: {nutritionGoals.fats}g</p>
+
+            <Link to="/goals">
+              <button>Edit Goals</button>
+            </Link>
+          </div>
+
+          <div className="card recommendations-card">
+            <h3>AI Recommendations</h3>
+            <p>
+              Get personalized suggestions based on your meals and progress.
+            </p>
+
+            <Link to="/recommendations">
+              <button className="recommend-btn">Open Recommendations</button>
+            </Link>
+          </div>
+
+          <div className="card">
+            <h3>Smart Meal Planner</h3>
+            <p>Generate a weekly meal plan using your nutrition goals.</p>
+
+            <Link to="/meal-planner">
+              <button>Open Meal Planner</button>
+            </Link>
+          </div>
+        </div>
       </div>
-    </>
-  )}
-</div>
-
-  </div>
-</div>
-{showDeleteModal && (
-  <div className="modal-overlay">
-    <div className="modal">
-    <h3>
-  {mealToDelete ? "Delete Meal" : "Delete Workout"}
-</h3>
-
-<p>
-  Are you sure you want to delete this{" "}
-  {mealToDelete ? "meal" : "workout"}?
-</p>
-      <div className="modal-actions">
-        <button className="confirm-btn" onClick={confirmDeleteMeal}>
-          Yes, Delete
-        </button>
-
-        <button className="cancel-btn" onClick={cancelDelete}>
-          Cancel
-        </button>
-      </div>
-    </div> 
-  </div>
-)}
-
-<ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };
