@@ -451,17 +451,38 @@ const Dashboard = () => {
         </div>
 
         <div className="side-column">
-          <div className="card goals-card">
-            <h3>Your Goals</h3>
-            <p>Calories: {nutritionGoals.calories}</p>
-            <p>Protein: {nutritionGoals.protein}g</p>
-            <p>Carbs: {nutritionGoals.carbs}g</p>
-            <p>Fats: {nutritionGoals.fats}g</p>
+          <div className="card goals-card dashboard-goals-card">
+  <div className="card-header-row">
+    <h3>Your Goals</h3>
+    <span className="goal-badge">Daily</span>
+  </div>
 
-            <Link to="/goals">
-              <button>Edit Goals</button>
-            </Link>
-          </div>
+  <div className="goals-summary-grid">
+    <div className="goal-mini-box">
+      <span>Calories</span>
+      <strong>{nutritionGoals.calories}</strong>
+    </div>
+
+    <div className="goal-mini-box">
+      <span>Protein</span>
+      <strong>{nutritionGoals.protein}g</strong>
+    </div>
+
+    <div className="goal-mini-box">
+      <span>Carbs</span>
+      <strong>{nutritionGoals.carbs}g</strong>
+    </div>
+
+    <div className="goal-mini-box">
+      <span>Fats</span>
+      <strong>{nutritionGoals.fats}g</strong>
+    </div>
+  </div>
+
+  <Link to="/goals">
+    <button className="edit-goals-btn">Edit Goals</button>
+  </Link>
+</div>
 
           <div className="card recommendations-card">
             <h3>AI Recommendations</h3>

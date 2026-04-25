@@ -37,80 +37,117 @@ const GoalsPage = () => {
 
       <div className="dashboard-grid">
         <div className="main-column">
-          <div className="card goals-card">
-            <h3>Daily Nutrition Goals</h3>
+          <div className="card goals-card dashboard-goals-card">
+            <div className="card-header-row">
+    <h3>Daily Nutrition Goals</h3>
+    <span className="goal-badge">Daily</span>
+  </div>
 
-            {!editingGoals ? (
-              <>
-                <p>Calories: {nutritionGoals.calories}</p>
-                <p>Protein: {nutritionGoals.protein}g</p>
-                <p>Carbs: {nutritionGoals.carbs}g</p>
-                <p>Fats: {nutritionGoals.fats}g</p>
+  {!editingGoals ? (
+    <>
+      <div className="goals-summary-grid">
+        <div className="goal-mini-box">
+          <span>Calories</span>
+          <strong>{nutritionGoals.calories}</strong>
+        </div>
 
-                <button onClick={() => setEditingGoals(true)}>
-                  Edit Goals
-                </button>
+        <div className="goal-mini-box">
+          <span>Protein</span>
+          <strong>{nutritionGoals.protein}g</strong>
+        </div>
 
-                <button
-                  onClick={() =>
-                    setNutritionGoals({
-                      calories: 2000,
-                      protein: 120,
-                      carbs: 250,
-                      fats: 70,
-                    })
-                  }
-                >
-                  Reset to Default
-                </button>
-              </>
-            ) : (
-              <>
-                <input
-                  type="number"
-                  value={nutritionGoals.calories}
-                  onChange={(e) =>
-                    setNutritionGoals({
-                      ...nutritionGoals,
-                      calories: Number(e.target.value),
-                    })
-                  }
-                />
+        <div className="goal-mini-box">
+          <span>Carbs</span>
+          <strong>{nutritionGoals.carbs}g</strong>
+        </div>
 
-                <input
-                  type="number"
-                  value={nutritionGoals.protein}
-                  onChange={(e) =>
-                    setNutritionGoals({
-                      ...nutritionGoals,
-                      protein: Number(e.target.value),
-                    })
-                  }
-                />
+        <div className="goal-mini-box">
+          <span>Fats</span>
+          <strong>{nutritionGoals.fats}g</strong>
+        </div>
+      </div>
 
-                <input
-                  type="number"
-                  value={nutritionGoals.carbs}
-                  onChange={(e) =>
-                    setNutritionGoals({
-                      ...nutritionGoals,
-                      carbs: Number(e.target.value),
-                    })
-                  }
-                />
+      <div className="goal-actions">
+        <button className="edit-goals-btn" onClick={() => setEditingGoals(true)}>
+          Edit Goals
+        </button>
 
-                <input
-                  type="number"
-                  value={nutritionGoals.fats}
-                  onChange={(e) =>
-                    setNutritionGoals({
-                      ...nutritionGoals,
-                      fats: Number(e.target.value),
-                    })
-                  }
-                />
+        <button
+          className="reset-goals-btn"
+          onClick={() =>
+            setNutritionGoals({
+              calories: 2000,
+              protein: 120,
+              carbs: 250,
+              fats: 70,
+            })
+          }
+        >
+          Reset to Default
+        </button>
+      </div>
+    </>
+  ) : (
+    <>
+      <div className="goals-form-grid">
+        <label>
+          Calories
+          <input
+            type="number"
+            value={nutritionGoals.calories}
+            onChange={(e) =>
+              setNutritionGoals({
+                ...nutritionGoals,
+                calories: Number(e.target.value),
+              })
+            }
+          />
+        </label>
 
-                <button onClick={() => setEditingGoals(false)}>
+        <label>
+          Protein
+          <input
+            type="number"
+            value={nutritionGoals.protein}
+            onChange={(e) =>
+              setNutritionGoals({
+                ...nutritionGoals,
+                protein: Number(e.target.value),
+              })
+            }
+          />
+        </label>
+
+        <label>
+          Carbs
+          <input
+            type="number"
+            value={nutritionGoals.carbs}
+            onChange={(e) =>
+              setNutritionGoals({
+                ...nutritionGoals,
+                carbs: Number(e.target.value),
+              })
+            }
+          />
+        </label>
+
+        <label>
+          Fats
+          <input
+            type="number"
+            value={nutritionGoals.fats}
+            onChange={(e) =>
+              setNutritionGoals({
+                ...nutritionGoals,
+                fats: Number(e.target.value),
+              })
+            }
+          />
+        </label>
+      </div>
+
+      <button className="edit-goals-btn" onClick={() => setEditingGoals(false)}>
                   Save Goals
                 </button>
               </>
