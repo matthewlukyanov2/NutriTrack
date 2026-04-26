@@ -13,13 +13,15 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-
+// Main dashboard overview page
+// Displays user progress summaries using meal, workout and goal data
 const Dashboard = () => {
 
   const [meals, setMeals] = useState([]);
   const [workouts, setWorkouts] = useState([]);
   const [viewMode, setViewMode] = useState("daily");
 
+  // Selected date is stored in localStorage so it stays consistent across pages
   const [selectedDate, setSelectedDate] = useState(() => {
     return localStorage.getItem("selectedDate") || new Date().toISOString().split("T")[0];
 });
@@ -29,6 +31,7 @@ const Dashboard = () => {
     return localStorage.getItem("darkMode") === "true";
   });
 
+    // Load saved nutrition goals used for dashboard progress calculations
     const [nutritionGoals] = useState(() => {
     const savedGoals = localStorage.getItem("nutritionGoals");
 
@@ -50,6 +53,7 @@ const Dashboard = () => {
     localStorage.setItem("darkMode", darkMode);
   }, [darkMode]);
 
+  // Fetch meals and workouts used to calculate dashboard summaries
   useEffect(() => {
     API.get("/meals")
       .then((res) => setMeals(res.data))
@@ -60,12 +64,14 @@ const Dashboard = () => {
       .catch((err) => console.error("Workouts error:", err));
   }, []);
 
+  // Update selected date and persist it for other pages to use
   const handleDateChange = (e) => {
     const newDate = e.target.value;
     setSelectedDate(newDate);
     localStorage.setItem("selectedDate", newDate);
   };
 
+  // Update selected date and persist it for other pages
   const mealsForSelectedDate = meals.filter((meal) => {
     const mealDate = new Date(meal.createdAt).toISOString().split("T")[0];
     return mealDate === selectedDate;
@@ -76,8 +82,10 @@ const Dashboard = () => {
     return workoutDate === selectedDate;
   });
 
+  // Only consumed meals contribute to nutrition totals
   const consumedMeals = mealsForSelectedDate.filter((meal) => meal.consumed);
 
+  // Calculate daily calories and macro totals from consumed meals
   const totals = consumedMeals.reduce(
     (acc, meal) => {
       acc.calories += meal.calories || 0;
@@ -91,6 +99,7 @@ const Dashboard = () => {
 
   const totalCalories = totals.calories;
 
+  // Calculate total calories burned from workouts on the selected date
   const totalCaloriesBurned = workoutsForSelectedDate.reduce(
     (sum, workout) => sum + (workout.caloriesBurned || 0),
     0
@@ -101,6 +110,7 @@ const Dashboard = () => {
   const caloriesRemaining = Math.max(dailyGoal - totalCalories, 0);
   const percentage = Math.min((totalCalories / dailyGoal) * 100, 100).toFixed(0);
 
+  // Generate a simple nutrition score based on calories, protein and macro balance
   const calorieScore = Math.min(
     (totals.calories / nutritionGoals.calories) * 40,
     40
@@ -135,6 +145,7 @@ const Dashboard = () => {
     scoreMessage = "⚡ Try to improve your nutrition goals.";
   }
 
+  // Build the last seven dates for the weekly calorie chart
   const getLast7Days = () => {
     const days = [];
 
@@ -147,6 +158,7 @@ const Dashboard = () => {
     return days;
   };
 
+  // Prepare weekly chart data by grouping meal calories by date
   const weeklyData = getLast7Days().map((day) => {
     const total = meals
       .filter((meal) => {
@@ -161,6 +173,7 @@ const Dashboard = () => {
     };
   });
 
+  // Update selected date and persist it for other pages
   const formatDate = (dateStr) => {
     const date = new Date(dateStr);
     return date.toLocaleDateString(undefined, {
@@ -211,6 +224,7 @@ const Dashboard = () => {
             </button>
           </div>
 
+          {/* Daily progress summary */}
           {viewMode === "daily" && (
             <div className="card">
               <h3 className="progress-title">
@@ -360,6 +374,7 @@ const Dashboard = () => {
             </div>
           )}
 
+          {/* Weekly calorie trend chart */}
           {viewMode === "weekly" && (
             <div className="card">
               <h3>Weekly Calorie Trend</h3>
@@ -377,6 +392,7 @@ const Dashboard = () => {
             </div>
           )}
 
+          {/* Shared dashboard date selector */}
           <div className="card date-card">
             <h3>Dashboard Date</h3>
             <div className="date-selector">
@@ -389,6 +405,7 @@ const Dashboard = () => {
             </div>
           </div>
 
+          {/* Meal summary preview with link to full Meals page */}
           <div className="card">
             <h3>Meal Summary</h3>
             <p>
@@ -419,6 +436,7 @@ const Dashboard = () => {
             </Link>
           </div>
 
+          {/* Workout summary preview with link to full Workouts page */}
           <div className="card">
             <h3>Workout Summary</h3>
             <p>
@@ -450,6 +468,8 @@ const Dashboard = () => {
         </div>
 
         <div className="side-column">
+
+          {/* Nutrition goals summary with link to Goals page */}
           <div className="card goals-card dashboard-goals-card">
   <div className="card-header-row">
     <h3>Your Goals</h3>
@@ -483,6 +503,7 @@ const Dashboard = () => {
   </Link>
 </div>
 
+          {/* AI feature shortcut cards */}
           <div className="card recommendations-card">
             <h3>AI Recommendations</h3>
             <p>

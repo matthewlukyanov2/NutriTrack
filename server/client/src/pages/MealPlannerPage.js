@@ -4,18 +4,23 @@ import TopNav from "../components/TopNav";
 import { Link } from "react-router-dom";
 import "../dashboard.css";
 
+// AI-powered meal planner page that generates a weekly plan using backend LLM service
 const MealPlannerPage = () => {
+  // Stores generated weekly meal plan and UI state for expanded days/loading
   const [mealPlan, setMealPlan] = useState(null);
   const [openDays, setOpenDays] = useState([]);
   const [loadingPlan, setLoadingPlan] = useState(false);
 
+  // Used to highlight the current day in the generated meal plan
   const today = new Date().toLocaleDateString("en-US", {
     weekday: "long",
   });
 
+  // Calls backend AI endpoint to generate a 7-day meal plan based on user data and preferences
   const getMealPlan = () => {
     setLoadingPlan(true);
 
+    // Fetch AI-generated meal plan from OpenAI-backed endpoint
     API.get("/llm/meal-plan")
       .then((res) => {
         setMealPlan(res.data.days);
@@ -26,7 +31,9 @@ const MealPlannerPage = () => {
       .finally(() => setLoadingPlan(false));
   };
 
+  // Adds a suggested meal from the plan into the user's meal list for the current day
   const addMealFromPlan = (mealName) => {
+    // Save selected AI meal into database with default nutrition values
     API.post("/meals", {
       name: mealName,
       calories: 0,
@@ -47,6 +54,7 @@ const MealPlannerPage = () => {
     <div className="container">
       <TopNav />
 
+      {/* Page header with navigation back to dashboard */}
       <header className="dashboard-header">
         <div>
           <h1>Smart Meal Planner</h1>
@@ -61,6 +69,7 @@ const MealPlannerPage = () => {
 
       <div className="dashboard-grid">
         <div className="main-column">
+          {/* Main card for generating and displaying AI meal plan */}
           <div className="card">
             <h3>Smart Meal Planner</h3>
 
@@ -68,12 +77,14 @@ const MealPlannerPage = () => {
               {loadingPlan ? "Generating..." : "Generate Weekly Plan"}
             </button>
 
+            {/* Display generated meal plan when available */}
             {mealPlan && (
               <>
                 <button onClick={getMealPlan} className="regen-btn">
                   🔄 Regenerate Plan
                 </button>
 
+                {/* Weekly meal plan layout */}
                 <div className="meal-plan-grid">
                   {mealPlan.map((day, index) => {
                     const labels = ["🍳 Breakfast", "🥗 Lunch", "🍽️ Dinner"];
@@ -104,6 +115,7 @@ const MealPlannerPage = () => {
                               <span className="meal-label">{labels[i]}</span>
                               <span className="meal-text">{meal}</span>
 
+                              {/* Add AI-suggested meal directly to user's tracked meals */}
                               <button
                                 onClick={() => addMealFromPlan(meal)}
                                 style={{ marginTop: "5px", fontSize: "12px" }}

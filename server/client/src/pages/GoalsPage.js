@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 import TopNav from "../components/TopNav";
 import "../dashboard.css";
 
+// Goals page allows users to view and update daily nutrition targets
 const GoalsPage = () => {
+  // Load nutrition goals from localStorage to persist user preferences
   const [nutritionGoals, setNutritionGoals] = useState(() => {
     const savedGoals = localStorage.getItem("nutritionGoals");
 
@@ -17,8 +19,10 @@ const GoalsPage = () => {
         };
   });
 
+  // Toggle between view mode and edit mode for goals
   const [editingGoals, setEditingGoals] = useState(false);
 
+  // Save updated goals to localStorage whenever they change
   useEffect(() => {
     localStorage.setItem("nutritionGoals", JSON.stringify(nutritionGoals));
   }, [nutritionGoals]);
@@ -26,7 +30,8 @@ const GoalsPage = () => {
   return (
     <div className="container">
       <TopNav />
-
+      
+      {/* Page header with navigation back to dashboard */}
       <header className="dashboard-header">
         <div>
           <h1>Goals</h1>
@@ -41,14 +46,17 @@ const GoalsPage = () => {
 
       <div className="dashboard-grid">
         <div className="main-column">
+          {/* Main goals card displaying current targets or edit form */}
           <div className="card goals-card dashboard-goals-card">
             <div className="card-header-row">
     <h3>Daily Nutrition Goals</h3>
     <span className="goal-badge">Daily</span>
   </div>
 
+  {/* Display current goals when not editing */}
   {!editingGoals ? (
     <>
+      {/* Summary view of all nutrition goal values */}
       <div className="goals-summary-grid">
         <div className="goal-mini-box">
           <span>Calories</span>
@@ -71,6 +79,7 @@ const GoalsPage = () => {
         </div>
       </div>
 
+      {/* Action buttons for editing or resetting goals */}
       <div className="goal-actions">
         <button className="edit-goals-btn" onClick={() => setEditingGoals(true)}>
           Edit Goals
@@ -93,6 +102,7 @@ const GoalsPage = () => {
     </>
   ) : (
     <>
+      {/* Input fields for each nutrition goal */}
       <div className="goals-form-grid">
         <label>
           Calories
@@ -150,7 +160,8 @@ const GoalsPage = () => {
           />
         </label>
       </div>
-
+      
+      {/* Save updated goals and exit edit mode */}
       <button className="edit-goals-btn" onClick={() => setEditingGoals(false)}>
                   Save Goals
                 </button>

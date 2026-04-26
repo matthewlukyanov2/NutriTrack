@@ -5,6 +5,7 @@ import Dashboard from "./Dashboard";
 const mockGet = jest.fn();
 const mockPost = jest.fn();
 
+// Mock the API module to control responses during testing
 jest.mock("../services/api", () => ({
   __esModule: true,
   default: {
@@ -47,7 +48,7 @@ test("switches to weekly view when button clicked", async () => {
 
   render(<Dashboard />);
 
-  // ✅ EXACT FIX: target the toggle section more precisely
+  // Wait for the button to be rendered before clicking
   const weeklyButton = await screen.findByRole("button", {
     name: /^weekly$/i,
   });

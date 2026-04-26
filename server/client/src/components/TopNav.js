@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 
+// Shared navigation bar used across the main application pages
 const TopNav = () => {
   return (
     <nav className="top-nav">

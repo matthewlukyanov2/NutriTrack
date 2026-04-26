@@ -2,25 +2,30 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import API from "../services/api";
 
+// Login page handles user authentication and stores session data
 function Login() {
+  // Form state for user credentials and error handling
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  // Sends login request to backend and stores token/user data on success
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
+      // Call backend authentication endpoint with email and password
       const res = await API.post("/auth/login", { email, password });
 
-      // Store token
+      // Persist JWT token for authenticated requests
       localStorage.setItem("token", res.data.token);
 
-      // Store user object
+      // Store user details for use across the application
       localStorage.setItem("user", JSON.stringify(res.data));
       console.log("LOGIN RESPONSE:", res.data);
 
+      // Redirect user to dashboard after successful login
       navigate("/");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
@@ -35,7 +40,7 @@ function Login() {
     
           {error && <p className="error">{error}</p>}
 
-    
+          {/* Login form for user credentials */}
           <form onSubmit={handleLogin}>
             <input
               type="email"
@@ -57,6 +62,7 @@ function Login() {
     
       <button type="submit" className="primary-btn">Login</button>
     </form>
+    {/* Navigation link to registration page */}
     <p className="auth-footer">
           Don’t have an account? <Link to="/register">Register</Link>
         </p>

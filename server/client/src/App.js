@@ -9,6 +9,7 @@ import MealPlannerPage from "./pages/MealPlannerPage";
 import GoalsPage from "./pages/GoalsPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 
+// Main application component that sets up routing and protected routes for the NutriTrack app
 function App() {
   return (
     <BrowserRouter>
