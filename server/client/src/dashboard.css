@@ -320,6 +320,17 @@ form {
   background: #eee;
   cursor: pointer;
   color: black;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.view-toggle .active-toggle {
+  background: #d1d5db;   
+  color: #111827;
+}
+
+.view-toggle button:hover {
+  background: #e5e7eb;
 }
 
 .active-toggle {
@@ -440,6 +451,16 @@ body.dark .progress-bar {
 
 body.dark .progress-fill {
   background-color: #4CAF50;
+}
+
+body.dark .stat-box span,
+body.dark .stat-box p {
+  color: #111827 !important;
+}
+
+/* Also fix section titles */
+body.dark .mini-section-title {
+  color: #111827 !important;
 }
 
 .meal-date {
