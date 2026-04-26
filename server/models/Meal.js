@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// Meal schema to track user's meals and nutritional information
 const mealSchema = new mongoose.Schema(
   {
     user: {

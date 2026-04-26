@@ -6,24 +6,27 @@ const recommendationService = require('../services/recommendationService');
 // @access  Private
 exports.getMealRecommendations = async (req, res) => {
   try {
-    // Fetch meals associated with the logged-in user
+    // Fetch all meals belonging to the authenticated user
     const meals = await Meal.find({ user: req.user.id });
 
     console.log("Meals found:", meals);
 
+    // If no meals exists return empty recommendations
     if (!meals || meals.length === 0) {
-      return res.status(200).json([]); // Return empty array if no meals are found
+      return res.status(200).json([]); 
     }
 
+    // Generate recommendations using TF-IDF service
     const recommendations = recommendationService.getRecommendations(meals);
 
     console.log("Recommendations:", recommendations);
 
+    // Ensure returned data is valid
     if (!Array.isArray(recommendations)) {
       throw new Error("RecommendationService did not return an array");
     }
 
-    // Return the recommended meals as JSON
+    // Return recommendations as JSON response
     res.status(200).json(recommendations);
   } catch (error) {
     console.error("Recommendation error:", error.message);

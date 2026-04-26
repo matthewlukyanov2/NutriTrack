@@ -1,4 +1,4 @@
-
+// Middleware to validate request bodies using Joi schemas
 const validate = (schema) => (req, res, next) => {
     const { error } = schema.validate(req.body, {
       abortEarly: true,

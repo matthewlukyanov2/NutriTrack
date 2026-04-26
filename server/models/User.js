@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
+// User schema to store user information and credentials
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -20,7 +21,7 @@ const userSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 
-// Hash password before saving
+// Hash password before saving user
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
   const salt = await bcrypt.genSalt(10);

@@ -4,7 +4,6 @@ import API from "../services/api";
 import TopNav from "../components/TopNav";
 import { logout } from "../utils/auth";
 import "../dashboard.css";
-import { FaEdit, FaTrash } from "react-icons/fa";
 import {
   BarChart,
   Bar,

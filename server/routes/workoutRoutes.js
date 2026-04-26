@@ -3,6 +3,7 @@ const router = express.Router();
 const validate = require('../middleware/validateMiddleware');
 const { workoutSchema } = require('../validation/workoutValidation');
 
+// Import workout controller functions
 const {
   addWorkout,
   getWorkouts,

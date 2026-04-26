@@ -1,14 +1,18 @@
 const OpenAI = require("openai");
 
+// Initialize OpenAI client using API key from environment variables
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+// Generates AI-based meal recommendations using OpenAI
+// Takes user meals and an optional goal, then sends a prompt to the LLM
 async function getLLMMealRecommendations(meals, goal) {
   const mealSummary = meals.map(m =>
     `${m.name} (${m.calories} kcal, P:${m.protein}g C:${m.carbs}g F:${m.fats}g)`
   ).join("\n");
 
+  // Prompt instructs AI on task and forces structured JSON output
   const prompt = `
 You are a nutrition assistant.
 
@@ -31,6 +35,7 @@ Task:
 }
 `;
 
+  // Send request to OpenAI model with the constructed prompt
   const response = await openai.chat.completions.create({
     model: "gpt-4o-mini",
     messages: [{ role: "user", content: prompt }],
@@ -38,12 +43,15 @@ Task:
   });
 
   const text = response.choices[0].message.content;
-  console.log("OPENAI SERVICE FILE LOADED");
 
+  // Parse AI response into JSON format
   return JSON.parse(text);
 }
 
+// Generates a full weekly meal plan using AI
+// Returns structured data for 7 days with 3 meals each
 async function getWeeklyMealPlan(meals) {
+  // Simplified summary of meals for context in the prompt
   const mealSummary = meals.map(m =>
     `${m.name} (${m.calories} kcal)`
   ).join("\n");
@@ -82,6 +90,7 @@ Return ONLY JSON:
 
   const text = response.choices[0].message.content;
 
+// Clean response in case AI wraps JSON in markdown formatting
 const cleaned = text
   .replace(/```json/g, "")
   .replace(/```/g, "")

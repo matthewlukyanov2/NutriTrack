@@ -5,7 +5,6 @@ const authMiddleware = require("../middleware/authMiddleware");
 const { getLLMMealRecommendations,
   getWeeklyMealPlan } = require("../services/openaiService");
 
-  console.log("✅ LLM routes loaded");
 
   /**
  * @swagger
@@ -41,6 +40,7 @@ const { getLLMMealRecommendations,
  *         description: Failed to generate recommendations
  */
 
+// Route to get meal recommendations based on user's meal history
 router.get("/meals", authMiddleware, async (req, res) => {
   try {
     const meals = await Meal.find({ user: req.user.id })
@@ -106,6 +106,7 @@ router.get("/meals", authMiddleware, async (req, res) => {
  *         description: Failed to generate meal plan
  */
 
+// Route to generate a weekly meal plan based on user's meal history
 router.get("/meal-plan", authMiddleware, async (req, res) => {
   try {
     const meals = await Meal.find({ user: req.user.id })

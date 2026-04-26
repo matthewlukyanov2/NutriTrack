@@ -9,9 +9,7 @@ exports.addMeal = async (req, res) => {
   try {
     const { name, calories, protein, carbs, fats } = req.body;
 
-
-
-
+    // Create meal and associate it with the logged-in user
     const meal = await Meal.create({
       user: req.user.id,
       name,
@@ -33,6 +31,7 @@ exports.addMeal = async (req, res) => {
 // @access  Private
 exports.getMeals = async (req, res) => {
   try {
+    // Fetch only meals belonging to the current user, newest first
     const meals = await Meal.find({ user: req.user.id }).sort({ createdAt: -1 });
     res.status(200).json(meals);
   } catch (error) {
@@ -45,6 +44,7 @@ exports.getMeals = async (req, res) => {
 // @access  Private
 exports.getMealById = async (req, res) => {
   try {
+    // Ensure users can only access their own meals
     const meal = await Meal.findOne({ _id: req.params.id, user: req.user.id });
 
     if (!meal) return res.status(404).json({ message: 'Meal not found' });
@@ -60,6 +60,7 @@ exports.getMealById = async (req, res) => {
 // @access  Private
 exports.updateMeal = async (req, res) => {
   try {
+    // Find meal by ID and confirm it belongs to the authenticated user
     const meal = await Meal.findOne({
       _id: req.params.id,
       user: req.user.id,
@@ -69,6 +70,7 @@ exports.updateMeal = async (req, res) => {
       return res.status(404).json({ message: 'Meal not found' });
     }
 
+    // Update only the fields included in the request body
     if (req.body.name !== undefined) meal.name = req.body.name;
     if (req.body.calories !== undefined) meal.calories = req.body.calories;
     if (req.body.protein !== undefined) meal.protein = req.body.protein;
@@ -89,6 +91,7 @@ exports.updateMeal = async (req, res) => {
 // @access  Private
 exports.deleteMeal = async (req, res) => {
     try {
+      // Ensure the meal exists and belongs to the current user before deletion
       const meal = await Meal.findOne({ _id: req.params.id, user: req.user.id });
   
       if (!meal) {

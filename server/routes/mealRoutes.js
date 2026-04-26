@@ -3,6 +3,7 @@ const router = express.Router();
 const validate = require('../middleware/validateMiddleware');
 const { mealSchema } = require('../validation/mealValidation');
 
+// Import meal controller functions
 const {
   addMeal,
   getMeals,

@@ -2,12 +2,14 @@ const natural = require('natural');
 const TfIdf = natural.TfIdf;
 
 class RecommendationService {
+  // Generates meal recommendations using TF-IDF similarity
+  // This acts as a non-AI fallback recommendation approach
   async getRecommendations(userMeals, limit = 3) {
     if (!userMeals || userMeals.length === 0) return [];
 
     const tfidf = new TfIdf();
 
-    // 1. Add meals as documents
+    // Convert meals into text documents for analysis
     userMeals.forEach(meal => {
       const doc = `
         ${meal.name}
@@ -18,7 +20,7 @@ class RecommendationService {
       tfidf.addDocument(doc);
     });
 
-    // 2. Score meals
+    // Calculate relevance scores for each meal
     const scoredMeals = userMeals.map((meal, index) => {
       let score = 0;
   
@@ -32,7 +34,7 @@ class RecommendationService {
       };
     });
     
-    // 3. Sort & return top meals
+    // Return top meals based on highest relevance score
     return scoredMeals
       .sort((a, b) => b.score - a.score)
       .slice(0, limit)

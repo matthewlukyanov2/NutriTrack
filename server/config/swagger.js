@@ -1,5 +1,7 @@
 const swaggerJsdoc = require('swagger-jsdoc');
 
+// Swagger configuration for API documentation
+// Defines API metadata, server info, authentication, and data schemas
 const options = {
   definition: {
     openapi: '3.0.0',
@@ -8,12 +10,14 @@ const options = {
       version: '1.0.0',
       description: 'Backend API for NutriTrack fitness and nutrition app',
     },
+    // Base server URL for API endpoints
     servers: [
       {
         url: 'http://localhost:5000',
       },
     ],
     components: {
+      // JWT authentication configuration for protected routes
       securitySchemes: {
         bearerAuth: {
           type: 'http',
@@ -21,6 +25,7 @@ const options = {
           bearerFormat: 'JWT',
         },
       },
+      // Data models used in API requests and responses
       schemas: {
         Meal: {
           type: 'object',
@@ -44,6 +49,7 @@ const options = {
     },
   },
 
+  // Request body schema for user registration
   UserRegister: {
     type: 'object',
     required: ['name', 'email', 'password'],
@@ -54,6 +60,7 @@ const options = {
     },
   },
 
+  // Request body schema for user login
   UserLogin: {
     type: 'object',
     required: ['email', 'password'],
@@ -63,6 +70,7 @@ const options = {
     },
   },
 
+  // Standard authentication response structure
   AuthResponse: {
     type: 'object',
     properties: {

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// Workout schema to track user's workouts and calories burned
 const workoutSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
